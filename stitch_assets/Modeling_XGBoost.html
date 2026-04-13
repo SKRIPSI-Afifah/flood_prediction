@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Modeling - XGBoost Flood Risk Prediction</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#370e00",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#601e00",
+                    "inverse-surface": "#2c3134",
+                    "secondary-container": "#82f5c1",
+                    "primary-container": "#1a4b84",
+                    "on-tertiary-fixed-variant": "#7f2b00",
+                    "surface-container": "#eaeef2",
+                    "surface-variant": "#dfe3e7",
+                    "outline": "#737781",
+                    "primary-fixed": "#d5e3ff",
+                    "surface-bright": "#f6fafe",
+                    "on-primary-fixed": "#001c3b",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#862d00",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f6fafe",
+                    "on-secondary-fixed-variant": "#005137",
+                    "on-secondary-fixed": "#002114",
+                    "surface-container-highest": "#dfe3e7",
+                    "surface-tint": "#335f99",
+                    "surface-dim": "#d6dade",
+                    "on-surface-variant": "#424750",
+                    "primary-fixed-dim": "#a6c8ff",
+                    "on-error-container": "#93000a",
+                    "outline-variant": "#c3c6d1",
+                    "on-surface": "#171c1f",
+                    "tertiary-fixed": "#ffdbce",
+                    "primary": "#003466",
+                    "inverse-on-surface": "#edf1f5",
+                    "error": "#ba1a1a",
+                    "secondary": "#006c4a",
+                    "on-secondary-container": "#00714e",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#93bcfc",
+                    "surface-container-high": "#e4e9ed",
+                    "inverse-primary": "#a6c8ff",
+                    "on-background": "#171c1f",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#144780",
+                    "on-tertiary-container": "#ffa481",
+                    "secondary-fixed": "#85f8c4",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f0f4f8",
+                    "tertiary-fixed-dim": "#ffb599",
+                    "background": "#f6fafe",
+                    "secondary-fixed-dim": "#68dba9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .console-scrollbar::-webkit-scrollbar { width: 4px; }
+        .console-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .console-scrollbar::-webkit-scrollbar-thumb { background: rgba(0, 52, 102, 0.2); border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Top Navigation -->
+<nav class="flex justify-between items-center px-6 w-full sticky top-0 z-50 bg-slate-50 dark:bg-slate-900 w-full h-16 border-b border-slate-200/50 dark:border-slate-800/50 font-sans tracking-tight text-sm">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold tracking-tighter text-blue-900 dark:text-blue-50">FloodGuard Aceh</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-1 text-blue-700 dark:text-blue-300 font-semibold cursor-pointer">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+</div>
+<div class="flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors p-2 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined text-[20px]" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</nav>
+<div class="flex min-h-[calc(100vh-4rem)]">
+<!-- Side Navigation -->
+<aside class="flex flex-col h-full py-4 border-r border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950 h-screen w-64 fixed left-0 top-16 z-40">
+<div class="px-6 mb-8">
+<h2 class="text-lg font-black text-blue-900 dark:text-blue-50">GIS Sentinel</h2>
+<p class="text-xs text-slate-500 dark:text-slate-400">Flood Risk Prediction</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-6 py-3 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-3 px-6 py-3 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+                    Data Management
+                </a>
+<a class="flex items-center gap-3 px-6 py-3 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                    Preprocessing
+                </a>
+<a class="flex items-center gap-3 px-6 py-3 text-sm font-medium Inter bg-blue-900/10 dark:bg-blue-400/10 text-blue-900 dark:text-blue-200 border-r-4 border-blue-900 dark:border-blue-400 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="memory">memory</span>
+                    Modeling
+                </a>
+<a class="flex items-center gap-3 px-6 py-3 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="batch_prediction">batch_prediction</span>
+                    Prediction
+                </a>
+<a class="flex items-center gap-3 px-6 py-3 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+                    GIS Map
+                </a>
+<a class="flex items-center gap-3 px-6 py-3 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+                    Evaluation
+                </a>
+<a class="flex items-center gap-3 px-6 py-3 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+                    History
+                </a>
+</nav>
+<div class="mt-auto border-t border-slate-200 dark:border-slate-800 pt-4 space-y-1">
+<a class="flex items-center gap-3 px-6 py-3 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200" href="#">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+                    About
+                </a>
+<a class="flex items-center gap-3 px-6 py-3 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-1 p-8 bg-surface overflow-y-auto">
+<header class="mb-10">
+<h1 class="text-4xl font-extrabold tracking-tight text-primary mb-2">Model Configuration</h1>
+<p class="text-on-surface-variant max-w-2xl">Refine extreme gradient boosting parameters to optimize flood prediction accuracy for the Aceh watershed region.</p>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Hyperparameter Form Card -->
+<section class="col-span-12 lg:col-span-5 bg-surface-container-lowest rounded-xl p-8 shadow-sm border border-transparent">
+<div class="flex items-center gap-2 mb-8">
+<span class="material-symbols-outlined text-primary" data-icon="tune">tune</span>
+<h3 class="text-xl font-bold tracking-tight text-on-surface">Hyperparameters</h3>
+</div>
+<form class="space-y-6">
+<div class="space-y-2">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant" for="learning-rate">Learning Rate</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-0 rounded-lg px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary transition-all" id="learning-rate" step="0.01" type="number" value="0.1"/>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-mono text-outline">eta</div>
+</div>
+<p class="text-[11px] text-on-surface-variant">Step size shrinkage used in update to prevents overfitting.</p>
+</div>
+<div class="space-y-2">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant" for="max-depth">Max Depth</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-0 rounded-lg px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary transition-all" id="max-depth" type="number" value="6"/>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-mono text-outline">depth</div>
+</div>
+<p class="text-[11px] text-on-surface-variant">Maximum depth of a tree. Higher values may lead to overfitting.</p>
+</div>
+<div class="space-y-2">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant" for="n-estimators">n_estimators</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-0 rounded-lg px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary transition-all" id="n-estimators" type="number" value="100"/>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-mono text-outline">trees</div>
+</div>
+<p class="text-[11px] text-on-surface-variant">Number of boosted trees to fit.</p>
+</div>
+<div class="pt-4">
+<button class="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary py-4 rounded-lg font-bold flex items-center justify-center gap-3 shadow-lg shadow-primary/10 hover:brightness-110 transition-all active:scale-95" type="button">
+<span class="material-symbols-outlined" data-icon="play_arrow">play_arrow</span>
+                                Training Model
+                            </button>
+</div>
+</form>
+</section>
+<!-- Console & Output Column -->
+<div class="col-span-12 lg:col-span-7 flex flex-col gap-6">
+<!-- Status & Metrics Card -->
+<div class="grid grid-cols-2 gap-6">
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border-l-4 border-secondary">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Status</p>
+<div class="flex items-center gap-2">
+<div class="h-2 w-2 rounded-full bg-secondary animate-pulse"></div>
+<span class="text-lg font-bold text-on-surface">Training Active...</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border-l-4 border-primary-container">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Training Time</p>
+<div class="flex items-end gap-1">
+<span class="text-2xl font-black text-primary">1.2</span>
+<span class="text-sm font-medium text-on-surface-variant mb-1">seconds</span>
+</div>
+</div>
+</div>
+<!-- Console Output -->
+<section class="flex-1 bg-on-surface rounded-xl p-6 shadow-2xl relative overflow-hidden flex flex-col">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-fixed text-[20px]" data-icon="terminal">terminal</span>
+<h3 class="text-sm font-bold text-surface-container uppercase tracking-widest">Execution Log</h3>
+</div>
+<div class="flex gap-1.5">
+<div class="w-2.5 h-2.5 rounded-full bg-error/40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed-dim/40"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-secondary-fixed/40"></div>
+</div>
+</div>
+<div class="flex-1 font-mono text-xs text-surface-container-low/80 space-y-2 overflow-y-auto console-scrollbar">
+<p class="text-secondary-fixed">[INFO] Initializing XGBoost environment...</p>
+<p>[INFO] Loading GIS spatial dataset: aceh_watershed_v2.csv</p>
+<p>[INFO] Dataset shape: (45290, 24)</p>
+<p>[INFO] Performing 5-fold cross-validation...</p>
+<p class="text-tertiary-fixed-dim">[WARN] Feature 'river_dist' contains 2% missing values. Applying median imputation.</p>
+<p>[INFO] Start Iteration 1: learning_rate=0.1, max_depth=6</p>
+<p>[INFO] Iteration 1 Score: 0.9421</p>
+<p>[INFO] Start Iteration 2: n_estimators=100</p>
+<p class="text-secondary-fixed">[SUCCESS] Training epoch 45/100 complete.</p>
+<p>[INFO] Model convergence reached at 1.2s</p>
+<p class="text-secondary-fixed font-bold">[INFO] Training status: FINISHED</p>
+<div class="h-4 w-2 bg-secondary-fixed inline-block animate-pulse"></div>
+</div>
+<!-- Absolute positioned glassmorphism map background for visual depth -->
+<div class="absolute -bottom-20 -right-20 w-64 h-64 opacity-10 pointer-events-none rotate-12">
+<img alt="abstract topographic map lines showing elevation contours for terrain analysis in a dark aesthetic" class="w-full h-full object-cover rounded-full" data-location="Banda Aceh" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbVLJqQxDULkz8I2zqLGte3aijhT24jYyszLayf6OGAwH3BlvrpEtAFIsyzZB9jJZ9TJt5qpA24vjjZ4bnfZuCCKhaYG_vAefF-JQw6PhbuKjNSKYxF7vkAsnE2z79yKMsMpG8CfdnupIr3kH03MTf0h1o4RaLZTsbu1I6_Y83XngAI0EAF9wzwF3PmbsucmEm78xpFucsQK6w9CT4tSpDl2I_OJQvQKICf_wYocTj9UzlGzsjwzTJvE8kjDA3VCC09U1P2mTgGuI"/>
+</div>
+</section>
+</div>
+<!-- Featured Context Card -->
+<section class="col-span-12 bg-primary text-on-primary rounded-xl overflow-hidden shadow-xl flex flex-col md:flex-row items-center">
+<div class="flex-1 p-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-secondary-fixed" data-icon="auto_awesome">auto_awesome</span>
+<span class="text-xs font-bold uppercase tracking-widest text-primary-fixed-dim">XGBoost Optimized</span>
+</div>
+<h2 class="text-3xl font-bold mb-4 leading-tight">Enhanced Gradient Boosting for Flash Flood Detection</h2>
+<p class="text-primary-fixed-dim max-w-xl mb-6">Our implementation uses the Sentinel-2 spectral indices combined with local hydrological data. The XGBoost model specifically targets precision in high-risk zones around the Aceh river basin.</p>
+<div class="flex gap-4">
+<button class="px-6 py-2 bg-surface-container-lowest text-primary rounded-lg font-bold text-sm hover:bg-primary-fixed transition-colors">Documentation</button>
+<button class="px-6 py-2 border border-primary-container text-on-primary-container rounded-lg font-bold text-sm hover:bg-white/10 transition-colors">Model Metrics</button>
+</div>
+</div>
+<div class="w-full md:w-1/3 h-64 md:h-full relative overflow-hidden">
+<img alt="satellite view of a river winding through dense green tropical forest with flooded banks in Aceh" class="w-full h-full object-cover" data-alt="high resolution satellite imagery of lush tropical landscape in Indonesia featuring a meandering river and dramatic cloud cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAmsmfsl_hcsL4gQfV95jH4vB1d76uIQxKt2qT8SMmvtD-CWrYjuj8CFVeEz7R-OGPIZIW3EoTS4-h5330NEDmHhpCX6AoggwwuWW0rMphcV6BdrRx-atR4GAX8VpIyOJT7S-s6vF5HmRalxy3HH-3AZQbkAgrULdi0ud0YmwvaoJ6_jj4wpPYg2TYD-ud1NJUlROZtbyhjlxRNIwdOXiwXpMB9rKNqW6TZaGrjzidp1LzIRFSdIuS72Jh8tYxPiMJSXPyFLrXL3Y"/>
+<div class="absolute inset-0 bg-gradient-to-l from-transparent to-primary"></div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#370e00",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#601e00",
+                    "inverse-surface": "#2c3134",
+                    "secondary-container": "#82f5c1",
+                    "primary-container": "#1a4b84",
+                    "on-tertiary-fixed-variant": "#7f2b00",
+                    "surface-container": "#eaeef2",
+                    "surface-variant": "#dfe3e7",
+                    "outline": "#737781",
+                    "primary-fixed": "#d5e3ff",
+                    "surface-bright": "#f6fafe",
+                    "on-primary-fixed": "#001c3b",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#862d00",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f6fafe",
+                    "on-secondary-fixed-variant": "#005137",
+                    "on-secondary-fixed": "#002114",
+                    "surface-container-highest": "#dfe3e7",
+                    "surface-tint": "#335f99",
+                    "surface-dim": "#d6dade",
+                    "on-surface-variant": "#424750",
+                    "primary-fixed-dim": "#a6c8ff",
+                    "on-error-container": "#93000a",
+                    "outline-variant": "#c3c6d1",
+                    "on-surface": "#171c1f",
+                    "tertiary-fixed": "#ffdbce",
+                    "primary": "#003466",
+                    "inverse-on-surface": "#edf1f5",
+                    "error": "#ba1a1a",
+                    "secondary": "#006c4a",
+                    "on-secondary-container": "#00714e",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#93bcfc",
+                    "surface-container-high": "#e4e9ed",
+                    "inverse-primary": "#a6c8ff",
+                    "on-background": "#171c1f",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#144780",
+                    "on-tertiary-container": "#ffa481",
+                    "secondary-fixed": "#85f8c4",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f0f4f8",
+                    "tertiary-fixed-dim": "#ffb599",
+                    "background": "#f6fafe",
+                    "secondary-fixed-dim": "#68dba9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar (Execution from JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-950 flex flex-col py-4 border-r border-slate-200 dark:border-slate-800 shadow-sm z-40">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">tsunami</span>
+</div>
+<div>
+<h2 class="text-lg font-black text-blue-900 dark:text-blue-50 leading-tight">GIS Sentinel</h2>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Flood Risk Prediction</p>
+</div>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<!-- Navigation Items Mapping -->
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-medium Inter">Dashboard</span>
+</a>
+<!-- Active State: Data Management -->
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-blue-900/10 dark:bg-blue-400/10 text-blue-900 dark:text-blue-200 border-r-4 border-blue-900 dark:border-blue-400 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+<span class="text-sm font-medium Inter">Data Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-sm font-medium Inter">Preprocessing</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="memory">memory</span>
+<span class="text-sm font-medium Inter">Modeling</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="batch_prediction">batch_prediction</span>
+<span class="text-sm font-medium Inter">Prediction</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="text-sm font-medium Inter">GIS Map</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="text-sm font-medium Inter">Evaluation</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-sm font-medium Inter">History</span>
+</a>
+</nav>
+<div class="px-3 pt-4 border-t border-slate-200 dark:border-slate-800">
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+<span class="text-sm font-medium Inter">About</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-sm font-medium Inter">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen bg-surface">
+<!-- TopNavBar (Execution from JSON) -->
+<header class="w-full h-16 bg-slate-50 dark:bg-slate-900 border-b border-slate-200/50 dark:border-slate-800/50 flex justify-between items-center px-8 sticky top-0 z-30">
+<div class="flex items-center gap-2">
+<h1 class="text-xl font-bold tracking-tighter text-blue-900 dark:text-blue-50">FloodGuard Aceh</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 material-symbols-outlined text-lg">search</span>
+<input class="bg-slate-100 dark:bg-slate-800 border-none rounded-full pl-10 pr-4 py-1.5 text-sm focus:ring-2 focus:ring-primary w-64 transition-all" placeholder="Search dataset..." type="text"/>
+</div>
+<div class="flex items-center gap-4 text-slate-500">
+<button class="hover:bg-slate-200/50 p-2 rounded-full transition-colors material-symbols-outlined">notifications</button>
+<button class="hover:bg-slate-200/50 p-2 rounded-full transition-colors material-symbols-outlined">account_circle</button>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<section class="p-8 max-w-[1400px] mx-auto">
+<!-- Page Header Section -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<span class="text-xs font-bold text-primary tracking-[0.2em] uppercase">Dataset Repository</span>
+<h2 class="text-3xl font-extrabold tracking-tight mt-1">Data Management</h2>
+<p class="text-on-surface-variant mt-2 max-w-xl">Centralized repository for Aceh's historical and real-time flood monitoring parameters. Curate, audit, and prepare data for predictive modeling.</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-high hover:bg-surface-variant text-on-surface font-semibold px-5 py-2.5 rounded-xl transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">upload_file</span>
+                        Import CSV
+                    </button>
+<button class="bg-gradient-to-r from-primary to-primary-container text-white font-semibold px-6 py-2.5 rounded-xl shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+                        Tambah Data
+                    </button>
+</div>
+</div>
+<!-- Dashboard Filters & Stats -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-full shadow-sm flex items-center gap-4 border border-outline-variant/10">
+<div class="w-12 h-12 bg-primary/5 rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">database</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Total Baris</p>
+<p class="text-xl font-black text-on-surface">1,284</p>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-full shadow-sm flex items-center gap-4 border border-outline-variant/10">
+<div class="w-12 h-12 bg-secondary/5 rounded-full flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Terverifikasi</p>
+<p class="text-xl font-black text-on-surface">94%</p>
+</div>
+</div>
+<!-- Search/Filter Area -->
+<div class="md:col-span-2 bg-surface-container-low p-3 rounded-full flex items-center gap-3">
+<div class="flex-1 relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-outline material-symbols-outlined">filter_list</span>
+<input class="w-full bg-transparent border-none pl-12 pr-4 py-2 focus:ring-0 text-sm" placeholder="Filter berdasarkan Kabupaten..." type="text"/>
+</div>
+<div class="h-8 w-px bg-outline-variant/30"></div>
+<select class="bg-transparent border-none text-sm font-semibold pr-10 focus:ring-0">
+<option>Semua Status</option>
+<option>Rawan</option>
+<option>Tidak Rawan</option>
+</select>
+</div>
+</div>
+<!-- Main Data Table Container -->
+<div class="bg-surface-container-lowest rounded-full overflow-hidden shadow-sm border border-outline-variant/10">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high">
+<th class="px-8 py-5 text-xs font-black text-on-surface uppercase tracking-widest">Kabupaten</th>
+<th class="px-6 py-5 text-xs font-black text-on-surface uppercase tracking-widest text-center">Curah Hujan (mm)</th>
+<th class="px-6 py-5 text-xs font-black text-on-surface uppercase tracking-widest text-center">Elevasi (m)</th>
+<th class="px-6 py-5 text-xs font-black text-on-surface uppercase tracking-widest text-center">Slope (%)</th>
+<th class="px-6 py-5 text-xs font-black text-on-surface uppercase tracking-widest text-center">Lahan Terbangun (%)</th>
+<th class="px-6 py-5 text-xs font-black text-on-surface uppercase tracking-widest text-center">Label</th>
+<th class="px-8 py-5 text-xs font-black text-on-surface uppercase tracking-widest text-right">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container/30 transition-colors">
+<td class="px-8 py-5 font-bold text-primary">Aceh Besar</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">2,450.5</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">12.0</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">3.5</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">65.2</td>
+<td class="px-6 py-5 text-center">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-error-container text-on-error-container">
+                                        Rawan
+                                    </span>
+</td>
+<td class="px-8 py-5 text-right space-x-2">
+<button class="p-2 text-outline hover:text-primary hover:bg-primary/5 rounded-lg transition-all material-symbols-outlined">edit</button>
+<button class="p-2 text-outline hover:text-error hover:bg-error/5 rounded-lg transition-all material-symbols-outlined">delete</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-surface-container-low/50 hover:bg-surface-container/30 transition-colors">
+<td class="px-8 py-5 font-bold text-primary">Banda Aceh</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">1,820.0</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">5.2</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">1.2</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">88.4</td>
+<td class="px-6 py-5 text-center">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-error-container text-on-error-container">
+                                        Rawan
+                                    </span>
+</td>
+<td class="px-8 py-5 text-right space-x-2">
+<button class="p-2 text-outline hover:text-primary hover:bg-primary/5 rounded-lg transition-all material-symbols-outlined">edit</button>
+<button class="p-2 text-outline hover:text-error hover:bg-error/5 rounded-lg transition-all material-symbols-outlined">delete</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container/30 transition-colors">
+<td class="px-8 py-5 font-bold text-primary">Pidie Jaya</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">1,250.2</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">45.0</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">12.8</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">12.5</td>
+<td class="px-6 py-5 text-center">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-secondary-container text-on-secondary-container">
+                                        Tidak
+                                    </span>
+</td>
+<td class="px-8 py-5 text-right space-x-2">
+<button class="p-2 text-outline hover:text-primary hover:bg-primary/5 rounded-lg transition-all material-symbols-outlined">edit</button>
+<button class="p-2 text-outline hover:text-error hover:bg-error/5 rounded-lg transition-all material-symbols-outlined">delete</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="bg-surface-container-low/50 hover:bg-surface-container/30 transition-colors">
+<td class="px-8 py-5 font-bold text-primary">Aceh Jaya</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">2,100.8</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">8.5</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">4.2</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">25.3</td>
+<td class="px-6 py-5 text-center">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-error-container text-on-error-container">
+                                        Rawan
+                                    </span>
+</td>
+<td class="px-8 py-5 text-right space-x-2">
+<button class="p-2 text-outline hover:text-primary hover:bg-primary/5 rounded-lg transition-all material-symbols-outlined">edit</button>
+<button class="p-2 text-outline hover:text-error hover:bg-error/5 rounded-lg transition-all material-symbols-outlined">delete</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container/30 transition-colors">
+<td class="px-8 py-5 font-bold text-primary">Gayo Lues</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">1,150.0</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">115.0</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">28.5</td>
+<td class="px-6 py-5 text-center font-medium tabular-nums">4.8</td>
+<td class="px-6 py-5 text-center">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-secondary-container text-on-secondary-container">
+                                        Tidak
+                                    </span>
+</td>
+<td class="px-8 py-5 text-right space-x-2">
+<button class="p-2 text-outline hover:text-primary hover:bg-primary/5 rounded-lg transition-all material-symbols-outlined">edit</button>
+<button class="p-2 text-outline hover:text-error hover:bg-error/5 rounded-lg transition-all material-symbols-outlined">delete</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-8 py-4 bg-surface-container-low flex justify-between items-center border-t border-outline-variant/20">
+<p class="text-xs font-medium text-on-surface-variant">Showing 1 to 5 of 1,284 entries</p>
+<div class="flex gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white text-xs font-bold shadow-md shadow-primary/20">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-variant text-xs font-bold transition-colors">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-variant text-xs font-bold transition-colors">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+</div>
+<!-- Auxiliary Information Cards (Asymmetric Layout) -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="md:col-span-2 bg-gradient-to-br from-primary-container to-primary p-8 rounded-full text-white relative overflow-hidden group">
+<div class="relative z-10">
+<h3 class="text-xl font-bold mb-2">Automated Quality Audit</h3>
+<p class="text-on-primary-container/80 text-sm max-w-md leading-relaxed">The system has identified 12 rows with potential outliers in the 'Elevasi' parameter. It is recommended to perform a verification check before running the prediction model.</p>
+<button class="mt-6 bg-white text-primary px-6 py-2 rounded-xl text-xs font-extrabold uppercase tracking-widest hover:bg-opacity-90 transition-all">Review Outliers</button>
+</div>
+<span class="absolute -bottom-10 -right-10 text-[180px] text-white/5 font-black group-hover:scale-110 transition-transform duration-700 material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+</div>
+<div class="bg-surface-container-high p-8 rounded-full flex flex-col justify-between">
+<div>
+<h3 class="text-lg font-black tracking-tight mb-2">Sync Status</h3>
+<div class="flex items-center gap-2 mb-4">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-xs font-bold text-secondary uppercase tracking-widest">Real-time Connected</span>
+</div>
+<p class="text-on-surface-variant text-sm">Last synchronized with Aceh BMKG database: <br/><strong>2 minutes ago</strong></p>
+</div>
+<button class="w-full mt-4 border border-outline/30 text-on-surface px-4 py-2 rounded-xl text-xs font-bold hover:bg-surface-variant transition-all">Manual Sync</button>
+</div>
+</div>
+</section>
+</main>
+</body></html>

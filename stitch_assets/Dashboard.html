@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FloodGuard Aceh Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#370e00",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#601e00",
+                        "inverse-surface": "#2c3134",
+                        "secondary-container": "#82f5c1",
+                        "primary-container": "#1a4b84",
+                        "on-tertiary-fixed-variant": "#7f2b00",
+                        "surface-container": "#eaeef2",
+                        "surface-variant": "#dfe3e7",
+                        "outline": "#737781",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-bright": "#f6fafe",
+                        "on-primary-fixed": "#001c3b",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#862d00",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f6fafe",
+                        "on-secondary-fixed-variant": "#005137",
+                        "on-secondary-fixed": "#002114",
+                        "surface-container-highest": "#dfe3e7",
+                        "surface-tint": "#335f99",
+                        "surface-dim":  "#d6dade",
+                        "on-surface-variant": "#424750",
+                        "primary-fixed-dim": "#a6c8ff",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c3c6d1",
+                        "on-surface": "#171c1f",
+                        "tertiary-fixed": "#ffdbce",
+                        "primary": "#003466",
+                        "inverse-on-surface": "#edf1f5",
+                        "error": "#ba1a1a",
+                        "secondary": "#006c4a",
+                        "on-secondary-container": "#00714e",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#93bcfc",
+                        "surface-container-high": "#e4e9ed",
+                        "inverse-primary": "#a6c8ff",
+                        "on-background": "#171c1f",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#144780",
+                        "on-tertiary-container": "#ffa481",
+                        "secondary-fixed": "#85f8c4",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f0f4f8",
+                        "tertiary-fixed-dim": "#ffb599",
+                        "background": "#f6fafe",
+                        "secondary-fixed-dim": "#68dba9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(246, 250, 254, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar Component -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-950 flex flex-col py-4 border-r border-slate-200 dark:border-slate-800 z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="tsunami">tsunami</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-blue-900 dark:text-blue-50 leading-tight">GIS Sentinel</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Flood Risk Prediction</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<!-- Dashboard Active -->
+<a class="flex items-center gap-3 px-3 py-3 bg-blue-900/10 dark:bg-blue-400/10 text-blue-900 dark:text-blue-200 border-r-4 border-blue-900 dark:border-blue-400 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-medium Inter">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+<span class="text-sm font-medium Inter">Data Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-sm font-medium Inter">Preprocessing</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="memory">memory</span>
+<span class="text-sm font-medium Inter">Modeling</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="batch_prediction">batch_prediction</span>
+<span class="text-sm font-medium Inter">Prediction</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="text-sm font-medium Inter">GIS Map</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="text-sm font-medium Inter">Evaluation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-sm font-medium Inter">History</span>
+</a>
+</nav>
+<div class="px-3 mt-auto space-y-1">
+<a class="flex items-center gap-3 px-3 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+<span class="text-sm font-medium Inter">About</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-sm font-medium Inter">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="pl-64 min-h-screen">
+<!-- TopAppBar Component -->
+<header class="flex justify-between items-center px-6 w-full sticky top-0 z-40 bg-slate-50 dark:bg-slate-900 h-16 border-b border-slate-200/50 dark:border-slate-800/50">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold tracking-tighter text-blue-900 dark:text-blue-50">FloodGuard Aceh</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 material-symbols-outlined text-sm">search</span>
+<input class="bg-slate-100 dark:bg-slate-800 border-none rounded-full py-2 pl-10 pr-4 text-xs w-64 focus:ring-1 focus:ring-primary transition-all" placeholder="Search spatial data..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-slate-500 hover:bg-slate-200/50 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-slate-500 hover:bg-slate-200/50 transition-colors">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<div class="p-8 space-y-8">
+<!-- Hero Header Section -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-3xl font-black tracking-tight text-primary">Aceh Province Monitoring</h2>
+<p class="text-on-surface-variant font-medium mt-1">Real-time risk assessment and Sentinel-2 satellite data analysis.</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-high text-primary px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-all hover:bg-surface-variant">
+<span class="material-symbols-outlined text-sm">download</span> Export Report
+                    </button>
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary px-5 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-sm">bolt</span> Run Prediction
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Metric Cards (4 columns each) -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-6 rounded-full flex flex-col justify-between group cursor-default">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-primary-fixed rounded-xl text-on-primary-fixed">
+<span class="material-symbols-outlined" data-icon="folder_zip">folder_zip</span>
+</div>
+<span class="text-xs font-bold text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> +12%
+                        </span>
+</div>
+<div class="mt-8">
+<p class="text-on-surface-variant text-xs font-bold tracking-widest uppercase">Total Data</p>
+<h3 class="text-4xl font-black text-primary mt-1">12,482</h3>
+</div>
+</div>
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-6 rounded-full flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-secondary-container rounded-xl text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="model_training">model_training</span>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">80/20 Split</span>
+</div>
+<div class="mt-8">
+<p class="text-on-surface-variant text-xs font-bold tracking-widest uppercase">Training Data</p>
+<h3 class="text-4xl font-black text-primary mt-1">9,985</h3>
+</div>
+</div>
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-6 rounded-full flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-tertiary-fixed rounded-xl text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined" data-icon="rule">rule</span>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">Validating...</span>
+</div>
+<div class="mt-8">
+<p class="text-on-surface-variant text-xs font-bold tracking-widest uppercase">Testing Data</p>
+<h3 class="text-4xl font-black text-primary mt-1">2,497</h3>
+</div>
+</div>
+<!-- GIS Map Preview (8 columns) -->
+<div class="col-span-12 md:col-span-8 bg-surface-container rounded-xl overflow-hidden relative min-h-[450px]">
+<div class="absolute inset-0 z-0">
+<img alt="Aceh Map" class="w-full h-full object-cover grayscale-[0.2] contrast-[1.1]" data-alt="topographic satellite map of Aceh province with highlighted river basins and low-lying coastal areas in blue and red tints" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6g1zxUFvGXXrbfHcZVfLC9pmRvmbyJWYCuQ9E2rKtV-VgWuHXRNuRvoY4MOgXxf3u6Y5avj_7uRpWUrrj7ph45tldicPQCS8F1sNQ-mN7dwLIX6r8Dpisx_vOG_k5XezhNS5AwGpTzf88_BpPoypy3of--GPZ1Pi26ZVpKyB29ipzNFI_alOSdOXTTW-atLActooAuH5FSJStL3NLyAcGkd9krWr1BkXB1f4TA__EnrVVkHf15vKcSwWg5sdfyaC_5gRZq6j6Qlo"/>
+<div class="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
+</div>
+<!-- Glassmorphism Map Controls -->
+<div class="absolute top-6 left-6 flex flex-col gap-2 z-10">
+<div class="glass-panel p-2 rounded-lg flex flex-col gap-1 border border-white/20">
+<button class="w-8 h-8 flex items-center justify-center rounded bg-white/50 hover:bg-white text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-white/50 hover:bg-white text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+</div>
+<div class="glass-panel p-2 rounded-lg border border-white/20">
+<button class="w-8 h-8 flex items-center justify-center rounded bg-white/50 hover:bg-white text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">layers</span>
+</button>
+</div>
+</div>
+<!-- Risk Overlay Legend -->
+<div class="absolute bottom-6 right-6 glass-panel p-4 rounded-xl border border-white/20 z-10 max-w-[200px]">
+<h4 class="text-xs font-bold text-primary mb-3">Risk Distribution</h4>
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-error"></span>
+<span class="text-[10px] font-bold text-on-surface">Extreme (Rawan)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary-fixed-dim"></span>
+<span class="text-[10px] font-bold text-on-surface">Moderate Warning</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="text-[10px] font-bold text-on-surface">Safe (Tidak Rawan)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Distribution Chart (4 columns) -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-6 rounded-xl flex flex-col">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-sm font-black text-primary">Class Distribution</h3>
+<span class="material-symbols-outlined text-on-surface-variant text-lg">pie_chart</span>
+</div>
+<div class="flex-1 flex flex-col justify-center items-center">
+<!-- Custom Visual Chart (CSS Based) -->
+<div class="relative w-48 h-48">
+<div class="absolute inset-0 rounded-full border-[18px] border-secondary" style="clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);"></div>
+<div class="absolute inset-0 rounded-full border-[18px] border-error" style="clip-path: polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%);"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-3xl font-black text-primary">64%</span>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Safe Zones</span>
+</div>
+</div>
+<div class="w-full mt-8 space-y-3">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="text-xs font-medium text-on-surface-variant">Rawan (Risk)</span>
+</div>
+<span class="text-xs font-black text-primary">36%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-error rounded-full" style="width: 36%"></div>
+</div>
+<div class="flex justify-between items-center mt-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-xs font-medium text-on-surface-variant">Tidak Rawan (Safe)</span>
+</div>
+<span class="text-xs font-black text-primary">64%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 64%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Predictions Table (12 columns) -->
+<div class="col-span-12 bg-surface-container-lowest rounded-xl overflow-hidden">
+<div class="px-6 py-4 border-b border-surface-container flex justify-between items-center">
+<h3 class="text-sm font-black text-primary uppercase tracking-wider">Latest Predictive Assessments</h3>
+<button class="text-xs font-bold text-primary hover:underline">View All History</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-6 py-4 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Region Name</th>
+<th class="px-6 py-4 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Coordinates</th>
+<th class="px-6 py-4 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Confidence Score</th>
+<th class="px-6 py-4 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Flood Status</th>
+<th class="px-6 py-4 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Timestamp</th>
+<th class="px-6 py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 text-sm font-bold text-on-surface">Meulaboh Basin A-2</td>
+<td class="px-6 py-4 text-xs font-medium font-mono text-on-surface-variant">4.1481° N, 96.1283° E</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-primary">98.2%</span>
+<div class="w-16 h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 98.2%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full text-[10px] font-black bg-error-container text-on-error-container uppercase">Rawan</span>
+</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">10 mins ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-lg">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 text-sm font-bold text-on-surface">Banda Aceh Coastal Zone</td>
+<td class="px-6 py-4 text-xs font-medium font-mono text-on-surface-variant">5.5483° N, 95.3238° E</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-primary">94.5%</span>
+<div class="w-16 h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 94.5%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full text-[10px] font-black bg-secondary-container text-on-secondary-container uppercase">Tidak Rawan</span>
+</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">24 mins ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-lg">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 text-sm font-bold text-on-surface">Lhokseumawe North District</td>
+<td class="px-6 py-4 text-xs font-medium font-mono text-on-surface-variant">5.1801° N, 97.1507° E</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-primary">89.1%</span>
+<div class="w-16 h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 89.1%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full text-[10px] font-black bg-secondary-container text-on-secondary-container uppercase">Tidak Rawan</span>
+</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">1 hr ago</td>
+<td class="px-6 py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-lg">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB for Dashboard Specific Action -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-tertiary text-on-tertiary rounded-full shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined" data-icon="add_alert">add_alert</span>
+</button>
+</body></html>
