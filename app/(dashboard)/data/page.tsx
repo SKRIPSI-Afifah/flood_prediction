@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { 
@@ -13,6 +14,35 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { StatusBadge } from "@/components/sentinel/StatusBadge";
 import { useState, useEffect } from "react";
 
@@ -36,42 +66,64 @@ export default function DataManagementPage() {
     fetchData();
   }, []);
 
-  const handleDelete = async (id: number) => {
-    if (!confirm("Yakin ingin menghapus data ini?")) return;
+  const confirmDelete = (id: number) => {
+    setDeleteId(id);
+    setIsDeleteOpen(true);
+  };
+
+  const handleDelete = async () => {
+    if (!deleteId) return;
     try {
-      const res = await fetch(`/api/data/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/data/${deleteId}`, { method: 'DELETE' });
       if (res.ok) {
-        setDataRows(dataRows.filter(row => row.id !== id));
+        setDataRows(dataRows.filter(row => row.id !== deleteId));
+        setIsDeleteOpen(false);
+        setDeleteId(null);
       }
     } catch (error) {
       console.error("Failed to delete", error);
     }
   };
 
-  const handleAddData = async () => {
-    const newKabupaten = prompt("Nama Kabupaten:");
-    if (!newKabupaten) return;
 
-    const curahHujan = parseFloat(prompt("Curah Hujan (mm):") || "0");
-    const elevasi = parseFloat(prompt("Elevasi (m):") || "0");
-    const slope = parseFloat(prompt("Slope (%):") || "0");
-    const lahan = parseFloat(prompt("Lahan (%):") || "0");
-    const status = prompt("Status (rawan/tidak-rawan):") || "tidak-rawan";
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [formData, setFormData] = useState({
+    kabupaten: '',
+    curahHujan: '',
+    elevasi: '',
+    slope: '',
+    lahan: '',
+    status: 'tidak-rawan'
+  });
 
+  const handleAddSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       const res = await fetch('/api/data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ kabupaten: newKabupaten, curahHujan, elevasi, slope, lahan, status })
+        body: JSON.stringify({
+            kabupaten: formData.kabupaten,
+            curahHujan: parseFloat(formData.curahHujan || "0"),
+            elevasi: parseFloat(formData.elevasi || "0"),
+            slope: parseFloat(formData.slope || "0"),
+            lahan: parseFloat(formData.lahan || "0"),
+            status: formData.status
+        })
       });
       if (res.ok) {
         const newData = await res.json();
         setDataRows([...dataRows, newData]);
+        setIsAddOpen(false);
+        setFormData({ kabupaten: '', curahHujan: '', elevasi: '', slope: '', lahan: '', status: 'tidak-rawan' });
       }
     } catch (error) {
       console.error("Failed to add data", error);
     }
   };
+
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
@@ -81,16 +133,69 @@ export default function DataManagementPage() {
           <span className="text-xs font-bold text-primary tracking-[0.2em] uppercase">Dataset Repository</span>
           <h2 className="text-3xl font-black tracking-tight text-primary mt-1">Data Management</h2>
           <p className="text-muted-foreground font-medium mt-2 max-w-xl">
-            Centralized repository for Aceh's historical and real-time flood monitoring parameters. Curate, audit, and prepare data for predictive modeling.
+            Centralized repository for Aceh&apos;s historical and real-time flood monitoring parameters. Curate, audit, and prepare data for predictive modeling.
           </p>
         </div>
         <div className="flex gap-3">
           <Button variant="outline" className="font-bold border-border bg-surface-container-high">
             <FileUp className="w-4 h-4 mr-2" /> Import CSV
           </Button>
-          <Button onClick={handleAddData} className="font-bold bg-gradient-to-r from-primary to-primary/80 shadow-lg">
-            <PlusCircle className="w-4 h-4 mr-2" /> Tambah Data
-          </Button>
+          <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
+            <DialogTrigger asChild>
+              <Button className="font-bold bg-gradient-to-r from-primary to-primary/80 shadow-lg">
+                <PlusCircle className="w-4 h-4 mr-2" /> Tambah Data
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Tambah Data Baru</DialogTitle>
+                <DialogDescription>
+                  Masukkan parameter data historis wilayah baru.
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleAddSubmit}>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="kabupaten" className="text-right">Kabupaten</Label>
+                    <Input id="kabupaten" value={formData.kabupaten} onChange={(e) => setFormData({...formData, kabupaten: e.target.value})} className="col-span-3" required />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="curahHujan" className="text-right">Curah Hujan</Label>
+                    <Input id="curahHujan" type="number" step="any" value={formData.curahHujan} onChange={(e) => setFormData({...formData, curahHujan: e.target.value})} className="col-span-3" required />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="elevasi" className="text-right">Elevasi (m)</Label>
+                    <Input id="elevasi" type="number" step="any" value={formData.elevasi} onChange={(e) => setFormData({...formData, elevasi: e.target.value})} className="col-span-3" required />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="slope" className="text-right">Slope (%)</Label>
+                    <Input id="slope" type="number" step="any" value={formData.slope} onChange={(e) => setFormData({...formData, slope: e.target.value})} className="col-span-3" required />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="lahan" className="text-right">Lahan (%)</Label>
+                    <Input id="lahan" type="number" step="any" value={formData.lahan} onChange={(e) => setFormData({...formData, lahan: e.target.value})} className="col-span-3" required />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="status" className="text-right">Status</Label>
+                    <div className="col-span-3">
+                        <Select value={formData.status} onValueChange={(v) => setFormData({...formData, status: v})}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Pilih status" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="rawan">Rawan</SelectItem>
+                            <SelectItem value="tidak-rawan">Tidak Rawan</SelectItem>
+                          </SelectContent>
+                        </Select>
+                    </div>
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button type="submit">Simpan Data</Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
@@ -130,43 +235,45 @@ export default function DataManagementPage() {
 
       {/* Table Container */}
       <div className="bg-card rounded-[2rem] overflow-hidden border border-border/50 shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-muted">
-                <th className="px-8 py-5 text-[10px] font-black text-primary uppercase tracking-widest">Kabupaten</th>
-                <th className="px-6 py-5 text-[10px] font-black text-primary uppercase tracking-widest text-center">Curah Hujan (mm)</th>
-                <th className="px-6 py-5 text-[10px] font-black text-primary uppercase tracking-widest text-center">Elevasi (m)</th>
-                <th className="px-6 py-5 text-[10px] font-black text-primary uppercase tracking-widest text-center">Slope (%)</th>
-                <th className="px-6 py-5 text-[10px] font-black text-primary uppercase tracking-widest text-center">Lahan (%)</th>
-                <th className="px-6 py-5 text-[10px] font-black text-primary uppercase tracking-widest text-center">Label</th>
-                <th className="px-8 py-5 text-[10px] font-black text-primary uppercase tracking-widest text-right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border/20">
-              {dataRows.map((row) => (
-                <tr key={row.id} className="hover:bg-muted/30 transition-colors group">
-                  <td className="px-8 py-5 font-bold text-primary">{row.kabupaten}</td>
-                  <td className="px-6 py-5 text-center font-medium tabular-nums text-sm">{row.curahHujan.toLocaleString()}</td>
-                  <td className="px-6 py-5 text-center font-medium tabular-nums text-sm">{row.elevasi.toFixed(1)}</td>
-                  <td className="px-6 py-5 text-center font-medium tabular-nums text-sm">{row.slope.toFixed(1)}</td>
-                  <td className="px-6 py-5 text-center font-medium tabular-nums text-sm">{row.lahan.toFixed(1)}</td>
-                  <td className="px-6 py-5 text-center">
-                    <StatusBadge status={row.status as any} />
-                  </td>
-                  <td className="px-8 py-5 text-right space-x-2">
-                    <button className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-lg transition-all">
-                      <Pencil className="w-4 h-4" />
-                    </button>
-                    <button onClick={() => handleDelete(row.id)} className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/5 rounded-lg transition-all">
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="px-8">Kabupaten</TableHead>
+              <TableHead className="text-center">Curah Hujan (mm)</TableHead>
+              <TableHead className="text-center">Elevasi (m)</TableHead>
+              <TableHead className="text-center">Slope (%)</TableHead>
+              <TableHead className="text-center">Lahan (%)</TableHead>
+              <TableHead className="text-center">Label</TableHead>
+              <TableHead className="px-8 text-right">Aksi</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {dataRows.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell className="px-8 font-bold">{row.kabupaten}</TableCell>
+                <TableCell className="text-center font-medium tabular-nums text-sm">{row.curahHujan.toLocaleString()}</TableCell>
+                <TableCell className="text-center font-medium tabular-nums text-sm">{row.elevasi.toFixed(1)}</TableCell>
+                <TableCell className="text-center font-medium tabular-nums text-sm">{row.slope.toFixed(1)}</TableCell>
+                <TableCell className="text-center font-medium tabular-nums text-sm">{row.lahan.toFixed(1)}</TableCell>
+                <TableCell className="text-center">
+                  <Badge variant={row.status === 'rawan' || row.status === 'error' ? 'destructive' : row.status === 'secondary' ? 'secondary' : 'outline'}>
+                    {row.status === 'rawan' || row.status === 'error' ? 'Rawan' : row.status === 'secondary' ? 'Safe' : 'Tidak Rawan'}
+                  </Badge>
+                </TableCell>
+                <TableCell className="px-8 text-right space-x-2">
+                  <Button variant="ghost" size="icon" className="hover:text-primary">
+                    <Pencil className="w-4 h-4" />
+                  </Button>
+                  <Button variant="ghost" size="icon" onClick={() => confirmDelete(row.id)} className="hover:text-destructive">
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+
         
         {/* Pagination */}
         <div className="px-8 py-4 bg-muted/30 flex justify-between items-center border-t border-border/20">
@@ -191,7 +298,7 @@ export default function DataManagementPage() {
           <div className="relative z-10">
             <h3 className="text-2xl font-black mb-3 italic">Automated Quality Audit</h3>
             <p className="text-white/80 text-sm max-w-md font-medium leading-relaxed">
-              The system has identified 12 rows with potential outliers in the 'Elevasi' parameter. It is recommended to perform a verification check before running the prediction model.
+              The system has identified 12 rows with potential outliers in the &apos;Elevasi&apos; parameter. It is recommended to perform a verification check before running the prediction model.
             </p>
             <Button className="mt-8 bg-white text-primary font-black uppercase text-[10px] tracking-widest px-8 rounded-xl hover:bg-white/90">
               Review Outliers
@@ -217,6 +324,36 @@ export default function DataManagementPage() {
           </Button>
         </div>
       </div>
+
+      <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Konfirmasi Hapus</DialogTitle>
+            <DialogDescription>
+              Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDeleteOpen(false)}>Batal</Button>
+            <Button variant="destructive" onClick={handleDelete}>Hapus</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Konfirmasi Hapus</DialogTitle>
+            <DialogDescription>
+              Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDeleteOpen(false)}>Batal</Button>
+            <Button variant="destructive" onClick={handleDelete}>Hapus</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -3,13 +3,13 @@
 import { 
   ChevronRight, 
   Download, 
-  Play, 
+
   Sparkles, 
   CheckCircle2, 
   BarChart2, 
   Activity,
   Zap,
-  Cpu,
+
   RefreshCw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -51,7 +51,7 @@ export default function PreprocessingPage() {
               <strong className="text-white">Synthetic Minority Over-sampling Technique</strong> is a statistical methodology for balancing imbalanced datasets by synthesizing new minority class samples.
             </p>
             <p className="mt-6 text-white/80 leading-relaxed text-sm font-medium">
-              Instead of simple duplication, SMOTE selects similar records and performs interpolation, preventing "overfitting via memorization" and improving model generalization in high-risk zones.
+              Instead of simple duplication, SMOTE selects similar records and performs interpolation, preventing &quot;overfitting via memorization&quot; and improving model generalization in high-risk zones.
             </p>
             <div className="mt-10 p-5 bg-white/10 rounded-2xl flex items-start gap-4 border border-white/10 backdrop-blur-sm">
                 <CheckCircle2 className="w-6 h-6 text-secondary" />
@@ -166,7 +166,7 @@ export default function PreprocessingPage() {
             </div>
             
             <p className="mt-12 text-center text-xs text-muted-foreground font-medium max-w-lg mx-auto italic">
-              "Resampling operation confirmed. The minority class (Rawan) has been synthetically augmented to eliminate predictive bias during the XGBoost modeling phase."
+              &quot;Resampling operation confirmed. The minority class (Rawan) has been synthetically augmented to eliminate predictive bias during the XGBoost modeling phase.&quot;
             </p>
           </div>
         </div>

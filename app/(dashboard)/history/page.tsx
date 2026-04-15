@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+
 
 import {
   FileText,
-  Table,
-  TrendingUp,
+  Table as TableIcon,
   Filter,
+  TrendingUp,
+
   MoreVertical,
   Eye,
   ArrowRight,
@@ -14,6 +17,18 @@ import {
   Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+
+
 import { useState, useEffect } from "react";
 
 const MOCK_RECORDS = [
@@ -57,7 +72,7 @@ const MOCK_RECORDS = [
 
 export default function HistoryPage() {
   const [records, setRecords] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); console.log(loading);
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -121,7 +136,7 @@ export default function HistoryPage() {
           <h3 className="text-sm font-black text-primary uppercase tracking-widest italic">Historical Log</h3>
           <div className="flex gap-3">
             <Button variant="ghost" size="icon" className="w-10 h-10 rounded-xl hover:bg-white/40">
-              <Filter className="w-5 h-5 text-primary" />
+
             </Button>
             <Button variant="ghost" size="icon" className="w-10 h-10 rounded-xl hover:bg-white/40">
               <MoreVertical className="w-5 h-5 text-primary" />
@@ -129,63 +144,58 @@ export default function HistoryPage() {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-muted/30 border-b border-border/5">
-                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Date / Time</th>
-                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Input Parameters</th>
-                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Result / Status</th>
-                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Authority</th>
-                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border/5">
-              {records.map((record, idx) => (
-                <tr key={idx} className="hover:bg-muted/20 transition-colors group">
-                  <td className="px-10 py-6">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-sm font-black text-primary italic lowercase tracking-tight">{record.date}</span>
-                      <span className="text-[10px] font-bold text-muted-foreground uppercase">{record.time}</span>
+
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="px-10">Date / Time</TableHead>
+              <TableHead className="px-10">Input Parameters</TableHead>
+              <TableHead className="px-10">Result / Status</TableHead>
+              <TableHead className="px-10">Authority</TableHead>
+              <TableHead className="px-10">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {records.map((record, idx) => (
+              <TableRow key={idx}>
+                <TableCell className="px-10">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-sm font-black text-primary italic lowercase tracking-tight">{record.date}</span>
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase">{record.time}</span>
+                  </div>
+                </TableCell>
+                <TableCell className="px-10">
+                  <div className="flex flex-wrap gap-2">
+                    {Object.entries(record.params).map(([k, v]) => (
+                      <Badge key={k} variant="outline" className="text-[9px] font-black uppercase">
+                        {k}: {String(v)}
+                      </Badge>
+                    ))}
+                  </div>
+                </TableCell>
+                <TableCell className="px-10">
+                  <Badge variant={record.statusVariant === 'error' ? 'destructive' : record.statusVariant === 'secondary' ? 'secondary' : 'default'} className="uppercase">
+                    {record.status}
+                  </Badge>
+                </TableCell>
+                <TableCell className="px-10">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-[10px] font-black text-primary border border-primary/10">
+                      {record.authority}
                     </div>
-                  </td>
-                  <td className="px-10 py-6">
-                    <div className="flex flex-wrap gap-2">
-                      {Object.entries(record.params).map(([k, v]) => (
-                        <span key={k} className="px-3 py-1 bg-primary/5 rounded-full text-[9px] font-black text-primary border border-primary/5 uppercase">
-                          {k}: {String(v)}
-                        </span>
-                      ))}
-                    </div>
-                  </td>
-                  <td className="px-10 py-6">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-2.5 h-2.5 rounded-full ${record.statusVariant === 'error' ? 'bg-destructive' :
-                          record.statusVariant === 'secondary' ? 'bg-secondary' : 'bg-tertiary'
-                        } animate-pulse shadow-sm`}></div>
-                      <span className={`text-xs font-black uppercase tracking-widest italic animate-in fade-in duration-1000 ${record.statusVariant === 'error' ? 'text-destructive' :
-                          record.statusVariant === 'secondary' ? 'text-secondary' : 'text-tertiary'
-                        }`}>{record.status}</span>
-                    </div>
-                  </td>
-                  <td className="px-10 py-6">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-[10px] font-black text-primary border border-primary/10">
-                        {record.authority}
-                      </div>
-                      <span className="text-xs font-bold text-muted-foreground whitespace-nowrap">{record.authorityName}</span>
-                    </div>
-                  </td>
-                  <td className="px-10 py-6">
-                    <Button variant="ghost" size="icon" className="w-10 h-10 rounded-xl text-primary opacity-40 group-hover:opacity-100 transition-opacity hover:bg-white/40">
-                      <Eye className="w-5 h-5" />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                    <span className="text-xs font-bold text-muted-foreground whitespace-nowrap">{record.authorityName}</span>
+                  </div>
+                </TableCell>
+                <TableCell className="px-10">
+                  <Button variant="ghost" size="icon">
+                    <Eye className="w-5 h-5" />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+
 
         <div className="px-10 py-6 bg-muted/30 border-t border-border/10 flex items-center justify-between">
           <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Showing 4 of 1,284 records</p>
