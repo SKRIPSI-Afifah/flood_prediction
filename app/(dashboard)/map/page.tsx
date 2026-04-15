@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
@@ -9,13 +10,9 @@ import {
   Send,
   Plus,
   Minus,
-  ShieldCheck,
-  Globe,
+    Globe,
   Waves,
-  MapPin,
-  AlertTriangle,
-  Maximize2,
-} from "lucide-react";
+      } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GlassPanel } from "@/components/sentinel/GlassPanel";
 import { useState, useEffect } from "react";

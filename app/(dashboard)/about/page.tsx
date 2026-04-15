@@ -36,7 +36,7 @@ export default function AboutPage() {
           </Badge>
           <h2 className="text-5xl md:text-7xl font-black text-white leading-tight tracking-tighter mb-8 uppercase italic transition-all duration-700">
             Securing the Future of <br />
-            <span className="text-secondary drop-shadow-lg">Aceh's Ecosystem.</span>
+            <span className="text-secondary drop-shadow-lg">Aceh&apos;s Ecosystem.</span>
           </h2>
           <p className="text-xl text-white/80 font-medium leading-relaxed max-w-2xl">
             Sentinel Hydro is a state-of-the-art predictive intelligence system designed to anticipate and mitigate seasonal flood risks across the Aceh province using satellite telemetry and advanced machine learning.

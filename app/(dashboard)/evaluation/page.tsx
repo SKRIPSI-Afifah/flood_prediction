@@ -1,18 +1,14 @@
 "use client";
 
 import {
-  CheckCircle2,
-  Target,
+    Target,
   History as HistoryIcon,
   Scale,
-  Search,
-  TrendingUp,
+    TrendingUp,
   Download,
   RefreshCw,
-  Zap,
-  ShieldCheck,
-  AlertTriangle,
-  Lightbulb,
+    ShieldCheck,
+    Lightbulb,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GlassPanel } from "@/components/sentinel/GlassPanel";

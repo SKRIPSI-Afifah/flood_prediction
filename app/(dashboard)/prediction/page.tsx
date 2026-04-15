@@ -2,31 +2,35 @@
 
 import { 
   Database, 
-  TrendingUp, 
+
   Target, 
   MapPin, 
   Maximize2, 
   History, 
-  BookOpen, 
+
   RefreshCw,
   Droplets,
   Mountain,
   LandPlot,
   Home,
-  CheckCircle2,
+
   AlertTriangle,
   ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { GlassPanel } from "@/components/sentinel/GlassPanel";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+
+import { GlassPanel } from "@/components/sentinel/GlassPanel";
 import { useState } from "react";
 
 export default function PredictionPage() {
-  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({ rain: '', tide: '', soil: '', region: 'Banda Aceh' });
-  const [result, setResult] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<Record<string, string> | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,9 +70,10 @@ export default function PredictionPage() {
               <Database className="w-5 h-5 text-primary" />
               <span className="font-black text-primary uppercase tracking-[0.2em] text-[10px]">Parameter Input</span>
             </div>
-            <span className="text-[10px] font-black text-primary px-3 py-1 rounded-full bg-primary/10 tracking-widest">DATA AKTUAL</span>
+            <Badge variant="secondary" className="text-[10px] font-black tracking-widest">DATA AKTUAL</Badge>
           </div>
           
+
           <form className="p-10 space-y-8" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-3">
@@ -137,7 +142,7 @@ export default function PredictionPage() {
         <div className="lg:col-span-5 space-y-8">
           {/* Result Display Card */}
           <div className="bg-card rounded-[3rem] shadow-sm border border-border/10 overflow-hidden group">
-            <div className="bg-muted px-8 py-5 border-b border-border/10">
+          <div className="bg-muted px-8 py-5 flex items-center justify-between border-b border-border/10">
               <div className="flex items-center gap-3">
                 <Target className="w-5 h-5 text-primary" />
                 <span className="font-black text-primary uppercase tracking-[0.2em] text-[10px]">Hasil Prediksi</span>
@@ -166,7 +171,7 @@ export default function PredictionPage() {
                   <div className="h-full bg-primary rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(var(--primary),0.3)]" style={{ width: '89.4%' }}></div>
                 </div>
                 <p className="text-[11px] text-muted-foreground font-medium leading-relaxed italic mt-4">
-                  "Analisis dilakukan berdasarkan data historis curah hujan dan kemiringan lereng spesifik regional Aceh."
+                  &quot;Analisis dilakukan berdasarkan data historis curah hujan dan kemiringan lereng spesifik regional Aceh.&quot;
                 </p>
               </div>
             </div>

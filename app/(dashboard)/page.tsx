@@ -15,6 +15,18 @@ import { StatusBadge } from "@/components/sentinel/StatusBadge";
 import { GlassPanel } from "@/components/sentinel/GlassPanel";
 import { Button } from "@/components/ui/button";
 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+
+
+
 const latestAssessments = [
   {
     region: "Meulaboh Basin A-2",
@@ -38,6 +50,9 @@ const latestAssessments = [
     time: "1 hr ago",
   },
 ];
+
+
+
 
 export default function DashboardPage() {
   return (
@@ -189,45 +204,47 @@ export default function DashboardPage() {
             View All History
           </Button>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-muted/50">
-                <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Region Name</th>
-                <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Coordinates</th>
-                <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Confidence</th>
-                <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Status</th>
-                <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Timestamp</th>
-                <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest"></th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border/50">
-              {latestAssessments.map((row, idx) => (
-                <tr key={idx} className="hover:bg-muted/30 transition-colors group">
-                  <td className="px-6 py-4 text-sm font-bold text-foreground">{row.region}</td>
-                  <td className="px-6 py-4 text-xs font-mono text-muted-foreground">{row.coordinates}</td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-primary">{row.confidence}</span>
-                      <div className="w-16 h-1 bg-muted rounded-full overflow-hidden">
-                        <div className="h-full bg-primary" style={{ width: row.confidence }}></div>
-                      </div>
+
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Region Name</TableHead>
+              <TableHead>Coordinates</TableHead>
+              <TableHead>Confidence</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Timestamp</TableHead>
+              <TableHead className="text-right"></TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {latestAssessments.map((row, idx) => (
+              <TableRow key={idx}>
+                <TableCell className="font-bold">{row.region}</TableCell>
+                <TableCell className="font-mono text-xs">{row.coordinates}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold">{row.confidence}</span>
+                    <div className="w-16 h-1 bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-primary" style={{ width: row.confidence }}></div>
                     </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <StatusBadge status={row.status as any} />
-                  </td>
-                  <td className="px-6 py-4 text-xs font-medium text-muted-foreground">{row.time}</td>
-                  <td className="px-6 py-4 text-right">
-                    <button className="text-muted-foreground hover:text-primary transition-colors">
-                      <MoreVertical className="w-5 h-5" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Badge variant={row.status === 'error' ? 'destructive' : row.status === 'secondary' ? 'secondary' : 'default'}>
+                    {row.status === 'error' ? 'Risk' : row.status === 'secondary' ? 'Safe' : 'Warning'}
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-xs text-muted-foreground">{row.time}</TableCell>
+                <TableCell className="text-right">
+                  <Button variant="ghost" size="icon">
+                    <MoreVertical className="w-4 h-4" />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+
       </div>
 
     </div>

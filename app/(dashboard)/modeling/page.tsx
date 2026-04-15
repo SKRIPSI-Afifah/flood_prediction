@@ -4,13 +4,13 @@ import {
   Settings2, 
   Play, 
   Terminal, 
-  Clock, 
-  CheckCircle2, 
+
+
   Sparkles, 
   BookOpen, 
   BarChart4,
-  Cpu,
-  RefreshCw,
+
+
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -128,7 +128,7 @@ export default function ModelingPage() {
               <p className="text-white/60">[INFO] Loading GIS spatial dataset: aceh_watershed_v2.csv</p>
               <p className="text-white/60">[INFO] Dataset shape: (45290, 24)</p>
               <p className="text-white/60">[INFO] Performing 5-fold cross-validation...</p>
-              <p className="text-tertiary italic">[WARN] Feature 'river_dist' contains 2% missing values. Applying median imputation.</p>
+              <p className="text-tertiary italic">[WARN] Feature &apos;river_dist&apos; contains 2% missing values. Applying median imputation.</p>
               <p className="text-white/60">[INFO] Start Iteration 1: learning_rate=0.1, max_depth=6</p>
               <p className="text-white/60">[INFO] Iteration 1 Score: 0.9421</p>
               <p className="text-white/60">[INFO] Start Iteration 2: n_estimators=100</p>
