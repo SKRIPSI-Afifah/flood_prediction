@@ -14,6 +14,7 @@ import {
   Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 
 const MOCK_RECORDS = [
   {
@@ -55,6 +56,24 @@ const MOCK_RECORDS = [
 ];
 
 export default function HistoryPage() {
+  const [records, setRecords] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const res = await fetch('/api/history');
+        const data = await res.json();
+        setRecords(data);
+      } catch (error) {
+        console.error("Failed to fetch history", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchHistory();
+  }, []);
+
   return (
     <div className="space-y-12 animate-in fade-in duration-700 pb-12">
       {/* Header */}
@@ -122,7 +141,7 @@ export default function HistoryPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border/5">
-              {MOCK_RECORDS.map((record, idx) => (
+              {records.map((record, idx) => (
                 <tr key={idx} className="hover:bg-muted/20 transition-colors group">
                   <td className="px-10 py-6">
                     <div className="flex flex-col gap-1">
@@ -134,7 +153,7 @@ export default function HistoryPage() {
                     <div className="flex flex-wrap gap-2">
                       {Object.entries(record.params).map(([k, v]) => (
                         <span key={k} className="px-3 py-1 bg-primary/5 rounded-full text-[9px] font-black text-primary border border-primary/5 uppercase">
-                          {k}: {v}
+                          {k}: {String(v)}
                         </span>
                       ))}
                     </div>

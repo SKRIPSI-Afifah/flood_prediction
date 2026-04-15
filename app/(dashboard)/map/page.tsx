@@ -18,9 +18,25 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GlassPanel } from "@/components/sentinel/GlassPanel";
+import { useState, useEffect } from "react";
 
 
 export default function GISMapPage() {
+  const [alerts, setAlerts] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchAlerts = async () => {
+      try {
+        const res = await fetch('/api/alerts');
+        const data = await res.json();
+        setAlerts(data);
+      } catch (error) {
+        console.error("Failed to fetch alerts", error);
+      }
+    };
+    fetchAlerts();
+  }, []);
+
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-muted">
       {/* Top Search & Info Bar (Floating) */}
@@ -38,7 +54,7 @@ export default function GISMapPage() {
           <div className="flex items-center gap-8">
             <div className="flex items-center gap-3">
               <div className="w-2.5 h-2.5 rounded-full bg-destructive animate-pulse shadow-[0_0_10px_rgba(var(--destructive),0.5)]"></div>
-              <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">3 Live Alerts</span>
+              <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">{alerts.length} Live Alerts</span>
             </div>
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="icon" className="w-10 h-10 rounded-xl text-primary hover:bg-white/40">

@@ -14,16 +14,65 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/sentinel/StatusBadge";
-
-const dataRows = [
-  { id: 1, kabupaten: "Aceh Besar", curahHujan: 2450.5, elevasi: 12.0, slope: 3.5, lahan: 65.2, status: "rawan" },
-  { id: 2, kabupaten: "Banda Aceh", curahHujan: 1820.0, elevasi: 5.2, slope: 1.2, lahan: 88.4, status: "rawan" },
-  { id: 3, kabupaten: "Pidie Jaya", curahHujan: 1250.2, elevasi: 45.0, slope: 12.8, lahan: 12.5, status: "tidak-rawan" },
-  { id: 4, kabupaten: "Aceh Jaya", curahHujan: 2100.8, elevasi: 8.5, slope: 4.2, lahan: 25.3, status: "rawan" },
-  { id: 5, kabupaten: "Gayo Lues", curahHujan: 1150.0, elevasi: 115.0, slope: 28.5, lahan: 4.8, status: "tidak-rawan" },
-];
+import { useState, useEffect } from "react";
 
 export default function DataManagementPage() {
+  const [dataRows, setDataRows] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    try {
+      const res = await fetch('/api/data');
+      const data = await res.json();
+      setDataRows(data);
+    } catch (error) {
+      console.error("Failed to fetch data", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleDelete = async (id: number) => {
+    if (!confirm("Yakin ingin menghapus data ini?")) return;
+    try {
+      const res = await fetch(`/api/data/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        setDataRows(dataRows.filter(row => row.id !== id));
+      }
+    } catch (error) {
+      console.error("Failed to delete", error);
+    }
+  };
+
+  const handleAddData = async () => {
+    const newKabupaten = prompt("Nama Kabupaten:");
+    if (!newKabupaten) return;
+
+    const curahHujan = parseFloat(prompt("Curah Hujan (mm):") || "0");
+    const elevasi = parseFloat(prompt("Elevasi (m):") || "0");
+    const slope = parseFloat(prompt("Slope (%):") || "0");
+    const lahan = parseFloat(prompt("Lahan (%):") || "0");
+    const status = prompt("Status (rawan/tidak-rawan):") || "tidak-rawan";
+
+    try {
+      const res = await fetch('/api/data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kabupaten: newKabupaten, curahHujan, elevasi, slope, lahan, status })
+      });
+      if (res.ok) {
+        const newData = await res.json();
+        setDataRows([...dataRows, newData]);
+      }
+    } catch (error) {
+      console.error("Failed to add data", error);
+    }
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
       {/* Page Header */}
@@ -39,7 +88,7 @@ export default function DataManagementPage() {
           <Button variant="outline" className="font-bold border-border bg-surface-container-high">
             <FileUp className="w-4 h-4 mr-2" /> Import CSV
           </Button>
-          <Button className="font-bold bg-gradient-to-r from-primary to-primary/80 shadow-lg">
+          <Button onClick={handleAddData} className="font-bold bg-gradient-to-r from-primary to-primary/80 shadow-lg">
             <PlusCircle className="w-4 h-4 mr-2" /> Tambah Data
           </Button>
         </div>
@@ -109,7 +158,7 @@ export default function DataManagementPage() {
                     <button className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/5 rounded-lg transition-all">
                       <Pencil className="w-4 h-4" />
                     </button>
-                    <button className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/5 rounded-lg transition-all">
+                    <button onClick={() => handleDelete(row.id)} className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/5 rounded-lg transition-all">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </td>

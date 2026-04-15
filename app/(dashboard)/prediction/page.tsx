@@ -21,8 +21,32 @@ import { Button } from "@/components/ui/button";
 import { GlassPanel } from "@/components/sentinel/GlassPanel";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
 
 export default function PredictionPage() {
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({ rain: '', tide: '', soil: '', region: 'Banda Aceh' });
+  const [result, setResult] = useState<any>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const data = await res.json();
+      setResult(data);
+    } catch (error) {
+      console.error("Prediction failed", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in duration-700 pb-12">
       {/* Header */}
@@ -45,7 +69,7 @@ export default function PredictionPage() {
             <span className="text-[10px] font-black text-primary px-3 py-1 rounded-full bg-primary/10 tracking-widest">DATA AKTUAL</span>
           </div>
           
-          <form className="p-10 space-y-8" onSubmit={(e) => e.preventDefault()}>
+          <form className="p-10 space-y-8" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-3">
                 <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground ml-1 flex items-center gap-2">
@@ -96,6 +120,17 @@ export default function PredictionPage() {
               </Button>
             </div>
           </form>
+          {result && (
+            <div className="p-8 bg-muted border-t border-border/10">
+              <h3 className="text-xl font-bold mb-4">Hasil Prediksi Terbaru</h3>
+              <div className="flex gap-4 items-center">
+                 <div className={`w-4 h-4 rounded-full ${result.statusVariant === 'error' ? 'bg-destructive' : result.statusVariant === 'secondary' ? 'bg-secondary' : result.statusVariant === 'tertiary' ? 'bg-tertiary' : 'bg-primary'} animate-pulse`}></div>
+                 <span className="text-lg font-black uppercase">{result.status}</span>
+              </div>
+              <p className="mt-2 text-sm text-muted-foreground">Log ID: {result.id} | Timestamp: {result.date} {result.time}</p>
+            </div>
+          )}
+
         </div>
 
         {/* Result & Visualization */}
