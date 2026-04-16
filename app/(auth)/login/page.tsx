@@ -159,6 +159,13 @@ export default function LoginPage() {
               {loading ? "AUTHORIZING..." : "AUTHORIZE ACCESS"}{" "}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
+
+            <p className="mt-6 text-center text-xs font-semibold text-muted-foreground">
+              New Analyst?{" "}
+              <Link href="/register" className="text-primary hover:underline">
+                Request Access Credentials
+              </Link>
+            </p>
           </form>
         </GlassPanel>
 
