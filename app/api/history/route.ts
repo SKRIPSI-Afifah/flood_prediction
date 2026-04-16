@@ -1,23 +1,27 @@
-import { NextResponse } from 'next/server';
-import { readDB, writeDB } from '@/lib/data/db';
+import { NextResponse } from "next/server"
+import { supabase } from "@/lib/supabaseClient"
 
 export async function GET() {
-  const db = await readDB();
-  return NextResponse.json(db.history);
+  const { data, error } = await supabase
+    .from("history")
+    .select("*")
+    .order("id", { ascending: false })
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+
+  return NextResponse.json(data)
 }
 
 export async function POST(request: Request) {
-  const db = await readDB();
-  const body = await request.json();
+  const body = await request.json()
 
-  const newRecord = {
-    id: db.history.length > 0 ? Math.max(...db.history.map(r => r.id)) + 1 : 1,
-    ...body
-  };
+  const { data, error } = await supabase.from("history").insert([body]).select()
 
-  // Add to beginning of history
-  db.history.unshift(newRecord);
-  await writeDB(db);
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
 
-  return NextResponse.json(newRecord, { status: 201 });
+  return NextResponse.json(data[0], { status: 201 })
 }
