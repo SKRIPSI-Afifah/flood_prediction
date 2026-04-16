@@ -1,32 +1,40 @@
-import { Search, Bell, UserCircle } from "lucide-react";
-import { Input } from "@/components/ui/input"; // Assuming shadcn input exists
+import { Search, Bell, UserCircle } from "lucide-react"
 
 export function TopAppBar() {
   return (
-    <header className="flex justify-between items-center px-6 w-full sticky top-0 z-40 bg-background/80 backdrop-blur-md h-16 border-b border-border/50">
+    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-border/50 bg-background/80 px-6 backdrop-blur-md">
       <div className="flex items-center gap-4">
         <span className="text-xl font-bold tracking-tighter text-primary">
           FloodGuard Aceh
         </span>
       </div>
       <div className="flex items-center gap-6">
-        <div className="relative group hidden md:block">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
+        <div className="group relative hidden md:block">
+          <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
-            className="bg-muted border-none rounded-full py-2 pl-10 pr-4 text-xs w-64 focus:ring-1 focus:ring-primary transition-all"
+            className="w-64 rounded-full border-none bg-muted py-2 pr-4 pl-10 text-xs transition-all focus:ring-2 focus:ring-primary focus:outline-none"
             placeholder="Search spatial data..."
             type="text"
+            aria-label="Search spatial data"
           />
         </div>
         <div className="flex items-center gap-3">
-          <button className="w-10 h-10 flex items-center justify-center rounded-full text-muted-foreground hover:bg-muted transition-colors">
-            <Bell className="w-5 h-5" />
+          <button
+            className="flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+            aria-label="Notifications"
+            title="Notifications"
+          >
+            <Bell className="h-5 w-5" />
           </button>
-          <button className="w-10 h-10 flex items-center justify-center rounded-full text-muted-foreground hover:bg-muted transition-colors">
-            <UserCircle className="w-6 h-6" />
+          <button
+            className="flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+            aria-label="User Profile"
+            title="User Profile"
+          >
+            <UserCircle className="h-6 w-6" />
           </button>
         </div>
       </div>
     </header>
-  );
+  )
 }
