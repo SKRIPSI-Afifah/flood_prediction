@@ -16,12 +16,15 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
+import { useAuth } from "@/context/AuthContext"
+
 export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const router = useRouter()
+  const { setUser } = useAuth()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -38,9 +41,12 @@ export default function LoginPage() {
       const data = await res.json()
 
       if (!res.ok) {
-        throw new Error(data.error || "Failed to login")
+        throw new Error(data.error || "Gagal masuk")
       }
 
+      // Simpan user dengan role ke context
+      setUser(data.user)
+      
       router.push("/")
     } catch (err: unknown) {
       setError((err as Error).message)
@@ -55,7 +61,7 @@ export default function LoginPage() {
       <div className="absolute inset-0 z-0">
         <img
           className="h-full w-full object-cover object-center"
-          alt="Cinematic aerial view of the lush coastal landscape and river deltas of Aceh"
+          alt="Pemandangan udara pesisir Aceh"
           src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl79upPaxR6KZay69FuulGgx70cV5OQYqWI_BLDHc-pGoQ48olPa6IHSnJquS1HYAzv2cO4Dvp3tgPU6XmceDwVEkyOBGODEh7RO6EsgWjnCpswYVGi72nUYVA4Ygp6X4iSc35GfU7Bk84DQf_gfKXQ45p-ba2DVwM8jUqko_aLp2jaQCkkADQYkTa8mT7ZBzMarIKA0FvxPZnpHI_iXsrSdpE6Oi1S9mufDEh_2THAam3BOIIIt14lRif0AzConis4x39uI60CmA"
         />
         {/* Overlays */}
@@ -75,8 +81,7 @@ export default function LoginPage() {
           </div>
           <div className="h-1 w-12 rounded-full bg-tertiary"></div>
           <p className="mt-6 max-w-sm leading-relaxed font-medium text-muted-foreground">
-            FloodGuard Aceh: High-precision GIS analytical gateway for regional
-            flood risk assessment and real-time monitoring.
+            FloodGuard Aceh: Gerbang analisis GIS presisi tinggi untuk penilaian risiko banjir regional dan pemantauan real-time.
           </p>
         </div>
 
@@ -84,10 +89,10 @@ export default function LoginPage() {
         <GlassPanel className="max-w-md animate-in rounded-2xl border-white/40 p-10 shadow-2xl delay-200 duration-700 zoom-in-95">
           <div className="mb-8">
             <h2 className="text-xl font-bold tracking-tight text-foreground">
-              Secure Access
+              Masuk ke Sistem
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Authorized personnel only.
+              Khusus untuk personel terdaftar.
             </p>
           </div>
           <form className="space-y-6" onSubmit={handleLogin}>
@@ -98,13 +103,13 @@ export default function LoginPage() {
             )}
             <div className="space-y-2">
               <label className="ml-1 block text-xs font-bold tracking-widest text-muted-foreground uppercase">
-                Work Email
+                Email Kerja
               </label>
               <div className="relative">
                 <Mail className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   type="email"
-                  placeholder="analyst@aceh.gov.id"
+                  placeholder="analis@aceh.gov.id"
                   className="rounded-xl border-none bg-white py-6 pl-12"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -115,13 +120,13 @@ export default function LoginPage() {
             <div className="space-y-2">
               <div className="flex items-center justify-between px-1">
                 <label className="text-xs font-bold tracking-widest text-muted-foreground uppercase">
-                  Security Code
+                  Kata Sandi
                 </label>
                 <Link
                   href="#"
                   className="text-xs font-semibold text-primary hover:underline"
                 >
-                  Forgot?
+                  Lupa?
                 </Link>
               </div>
               <div className="relative">
@@ -147,7 +152,7 @@ export default function LoginPage() {
                 htmlFor="remember"
                 className="cursor-pointer text-xs font-medium text-muted-foreground"
               >
-                Remember session for 24 hours
+                Ingat sesi selama 24 jam
               </label>
             </div>
 
@@ -156,18 +161,19 @@ export default function LoginPage() {
               type="submit"
               className="w-full rounded-xl bg-gradient-to-r from-primary to-primary/80 py-7 text-sm font-bold tracking-wide shadow-xl shadow-primary/20 transition-transform hover:scale-[1.02]"
             >
-              {loading ? "AUTHORIZING..." : "AUTHORIZE ACCESS"}{" "}
+              {loading ? "MEMPROSES..." : "MASUK"}{" "}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
 
             <p className="mt-6 text-center text-xs font-semibold text-muted-foreground">
-              New Analyst?{" "}
+              Analis Baru?{" "}
               <Link href="/register" className="text-primary hover:underline">
-                Request Access Credentials
+                Daftar Akun Baru
               </Link>
             </p>
           </form>
         </GlassPanel>
+
 
         {/* Footer Info */}
         <div className="mt-12 flex animate-in flex-wrap items-center gap-6 text-[10px] font-bold tracking-widest text-muted-foreground/80 uppercase delay-500 duration-1000 fade-in">

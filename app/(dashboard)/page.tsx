@@ -56,10 +56,10 @@ export default function DashboardPage() {
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
         <div>
           <h2 className="text-3xl font-black tracking-tight text-primary">
-            Aceh Province Monitoring
+            Pemantauan Provinsi Aceh
           </h2>
           <p className="mt-1 font-medium text-muted-foreground">
-            Real-time risk assessment and Sentinel-2 satellite data analysis.
+            Penilaian risiko real-time dan analisis data satelit Sentinel-2.
           </p>
         </div>
         <div className="flex gap-3">
@@ -67,10 +67,10 @@ export default function DashboardPage() {
             variant="outline"
             className="border-border bg-surface-container-high font-bold hover:bg-surface-variant"
           >
-            <Download className="mr-2 h-4 w-4" /> Export Report
+            <Download className="mr-2 h-4 w-4" /> Ekspor Laporan
           </Button>
           <Button className="bg-gradient-to-r from-primary to-primary/80 font-bold shadow-lg">
-            <Zap className="mr-2 h-4 w-4" /> Run Prediction
+            <Zap className="mr-2 h-4 w-4" /> Jalankan Prediksi
           </Button>
         </div>
       </div>
@@ -79,23 +79,23 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <MetricCard
           title="Total Data"
-          value="12,482"
+          value="12.482"
           icon={FolderDown}
           trend={{ value: "+12%", isUp: true }}
           variant="primary"
         />
         <MetricCard
-          title="Training Data"
-          value="9,985"
+          title="Data Latih"
+          value="9.985"
           icon={BrainCircuit}
-          subtitle="80/20 Split"
+          subtitle="Rasio 80/20"
           variant="secondary"
         />
         <MetricCard
-          title="Testing Data"
-          value="2,497"
+          title="Data Uji"
+          value="2.497"
           icon={ClipboardCheck}
-          subtitle="Validating..."
+          subtitle="Validasi..."
           variant="tertiary"
         />
       </div>
@@ -106,7 +106,7 @@ export default function DashboardPage() {
         <div className="relative col-span-12 min-h-[450px] overflow-hidden rounded-2xl border border-border/50 bg-muted lg:col-span-8">
           <div className="absolute inset-0 z-0">
             <img
-              alt="Aceh Map"
+              alt="Peta Aceh"
               className="h-full w-full object-cover contrast-[1.1] grayscale-[0.2]"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6g1zxUFvGXXrbfHcZVfLC9pmRvmbyJWYCuQ9E2rKtV-VgWuHXRNuRvoY4MOgXxf3u6Y5avj_7uRpWUrrj7ph45tldicPQCS8F1sNQ-mN7dwLIX6r8Dpisx_vOG_k5XezhNS5AwGpTzf88_BpPoypy3of--GPZ1Pi26ZVpKyB29ipzNFI_alOSdOXTTW-atLActooAuH5FSJStL3NLyAcGkd9krWr1BkXB1f4TA__EnrVVkHf15vKcSwWg5sdfyaC_5gRZq6j6Qlo"
             />
@@ -114,6 +114,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Glassmorphism Map Controls */}
+          {/* ... (keep existing controls) ... */}
           <div className="absolute top-6 left-6 z-10 flex flex-col gap-2">
             <GlassPanel className="flex flex-col gap-1 border-white/40 bg-white/50 p-2">
               <button className="rounded bg-white/50 p-2 text-primary transition-colors hover:bg-white">
@@ -129,25 +130,25 @@ export default function DashboardPage() {
           <div className="absolute right-6 bottom-6 z-10">
             <GlassPanel className="max-w-[200px] border-white/40 bg-white/50 p-4">
               <h4 className="mb-3 text-xs font-bold text-primary">
-                Risk Distribution
+                Distribusi Risiko
               </h4>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <span className="h-3 w-3 rounded-full bg-destructive"></span>
                   <span className="text-[10px] font-bold text-foreground">
-                    Extreme (Rawan)
+                    Ekstrem (Rawan)
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="h-3 w-3 rounded-full bg-tertiary"></span>
                   <span className="text-[10px] font-bold text-foreground">
-                    Moderate Warning
+                    Peringatan Sedang
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="h-3 w-3 rounded-full bg-secondary"></span>
                   <span className="text-[10px] font-bold text-foreground">
-                    Safe (Tidak Rawan)
+                    Aman (Tidak Rawan)
                   </span>
                 </div>
               </div>
@@ -159,7 +160,7 @@ export default function DashboardPage() {
         <div className="bg-card col-span-12 flex flex-col rounded-2xl border border-border/50 p-6 lg:col-span-4">
           <div className="mb-8 flex items-center justify-between">
             <h3 className="text-sm font-black text-primary uppercase">
-              Class Distribution
+              Distribusi Kelas
             </h3>
             <PieChart className="h-5 w-5 text-muted-foreground" />
           </div>
@@ -172,7 +173,7 @@ export default function DashboardPage() {
                   64%
                 </span>
                 <span className="text-[10px] font-bold tracking-tighter text-muted-foreground uppercase">
-                  Safe Zones
+                  Zona Aman
                 </span>
               </div>
             </div>
@@ -182,7 +183,7 @@ export default function DashboardPage() {
                   <div className="flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-destructive"></span>
                     <span className="text-xs font-medium text-muted-foreground">
-                      Rawan (Risk)
+                      Rawan (Risiko)
                     </span>
                   </div>
                   <span className="text-xs font-black text-primary">36%</span>
@@ -199,7 +200,7 @@ export default function DashboardPage() {
                   <div className="flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-secondary"></span>
                     <span className="text-xs font-medium text-muted-foreground">
-                      Tidak Rawan (Safe)
+                      Tidak Rawan (Aman)
                     </span>
                   </div>
                   <span className="text-xs font-black text-primary">64%</span>
@@ -220,27 +221,28 @@ export default function DashboardPage() {
       <div className="bg-card overflow-hidden rounded-2xl border border-border/50 shadow-sm">
         <div className="flex items-center justify-between border-b border-border/50 px-6 py-4">
           <h3 className="text-sm font-black tracking-wider text-primary uppercase">
-            Latest Predictive Assessments
+            Penilaian Prediksi Terbaru
           </h3>
           <Button
             variant="ghost"
             className="px-0 text-xs font-bold text-primary hover:bg-transparent hover:underline"
           >
-            View All History
+            Lihat Semua Riwayat
           </Button>
         </div>
 
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Region Name</TableHead>
-              <TableHead>Coordinates</TableHead>
-              <TableHead>Confidence</TableHead>
+              <TableHead>Nama Wilayah</TableHead>
+              <TableHead>Koordinat</TableHead>
+              <TableHead>Kepercayaan</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Timestamp</TableHead>
+              <TableHead>Waktu</TableHead>
               <TableHead className="text-right"></TableHead>
             </TableRow>
           </TableHeader>
+
           <TableBody>
             {latestAssessments.map((row, idx) => (
               <TableRow key={idx}>

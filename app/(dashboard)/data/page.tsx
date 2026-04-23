@@ -46,9 +46,20 @@ import {
 import { StatusBadge } from "@/components/sentinel/StatusBadge"
 import { useState, useEffect } from "react"
 
+import { useAuth } from "@/context/AuthContext"
+import { useRouter } from "next/navigation"
+
 export default function DataManagementPage() {
+  const { user, loading: authLoading } = useAuth()
+  const router = useRouter()
   const [dataRows, setDataRows] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!authLoading && user?.role !== "admin") {
+      router.push("/")
+    }
+  }, [user, authLoading, router])
 
   const fetchData = async () => {
     try {
@@ -130,21 +141,23 @@ export default function DataManagementPage() {
     }
   }
 
+  if (authLoading || user?.role !== "admin") {
+    return <div className="flex h-96 items-center justify-center font-bold text-muted-foreground uppercase tracking-widest animate-pulse">Memeriksa Otoritas...</div>
+  }
+
   return (
     <div className="animate-in space-y-8 duration-700 fade-in">
       {/* Page Header */}
       <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
         <div>
           <span className="text-xs font-bold tracking-[0.2em] text-primary uppercase">
-            Dataset Repository
+            Repositori Dataset
           </span>
           <h2 className="mt-1 text-3xl font-black tracking-tight text-primary">
-            Data Management
+            Manajemen Data
           </h2>
           <p className="mt-2 max-w-xl font-medium text-muted-foreground">
-            Centralized repository for Aceh&apos;s historical and real-time
-            flood monitoring parameters. Curate, audit, and prepare data for
-            predictive modeling.
+            Repositori terpusat untuk parameter pemantauan banjir historis dan real-time di wilayah Aceh. Kelola, audit, dan siapkan data untuk pemodelan prediktif.
           </p>
         </div>
         <div className="flex gap-3">
@@ -152,7 +165,7 @@ export default function DataManagementPage() {
             variant="outline"
             className="border-border bg-surface-container-high font-bold"
           >
-            <FileUp className="mr-2 h-4 w-4" /> Import CSV
+            <FileUp className="mr-2 h-4 w-4" /> Impor CSV
           </Button>
           <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
             <DialogTrigger asChild>
@@ -280,6 +293,7 @@ export default function DataManagementPage() {
         </div>
       </div>
 
+
       {/* Stats Row */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
         <div className="bg-card flex items-center gap-4 rounded-full border border-border/10 p-6 shadow-sm">
@@ -293,18 +307,8 @@ export default function DataManagementPage() {
             <p className="text-xl font-black text-primary">1,284</p>
           </div>
         </div>
-        <div className="bg-card flex items-center gap-4 rounded-full border border-border/10 p-6 shadow-sm">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary/5 text-secondary">
-            <Shield className="h-6 w-6" />
-          </div>
-          <div>
-            <p className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
-              Terverifikasi
-            </p>
-            <p className="text-xl font-black text-secondary">94%</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 rounded-full bg-muted p-2 md:col-span-2">
+        
+        <div className="flex items-center gap-3 rounded-full bg-muted p-2 md:col-span-3">
           <div className="relative flex-1">
             <Filter className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
@@ -433,52 +437,6 @@ export default function DataManagementPage() {
               <Right className="h-4 w-4" />
             </Button>
           </div>
-        </div>
-      </div>
-
-      {/* Auxiliary Info Section */}
-      <div className="grid grid-cols-1 gap-8 pb-12 md:grid-cols-3">
-        <div className="group relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-primary to-primary/80 p-8 text-white md:col-span-2">
-          <div className="relative z-10">
-            <h3 className="mb-3 text-2xl font-black italic">
-              Automated Quality Audit
-            </h3>
-            <p className="max-w-md text-sm leading-relaxed font-medium text-white/80">
-              The system has identified 12 rows with potential outliers in the
-              &apos;Elevasi&apos; parameter. It is recommended to perform a
-              verification check before running the prediction model.
-            </p>
-            <Button className="mt-8 rounded-xl bg-white px-8 text-[10px] font-black tracking-widest text-primary uppercase hover:bg-white/90">
-              Review Outliers
-            </Button>
-          </div>
-          <Shield className="pointer-events-none absolute -right-8 -bottom-8 h-64 w-64 font-black text-white/5 transition-transform duration-700 group-hover:scale-110" />
-        </div>
-
-        <div className="bg-card/50 flex flex-col justify-between rounded-[3rem] border border-border/50 bg-surface-container p-8 shadow-sm backdrop-blur-sm">
-          <div>
-            <h3 className="mb-2 text-xl font-black tracking-tight text-primary">
-              Sync Status
-            </h3>
-            <div className="mb-6 flex items-center gap-2">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-secondary"></span>
-              <span className="text-[10px] font-black tracking-[0.2em] text-secondary uppercase">
-                Real-time Connected
-              </span>
-            </div>
-            <p className="text-sm font-medium text-muted-foreground">
-              Last synchronized with Aceh BMKG database: <br />
-              <strong className="text-primary opacity-100">
-                2 minutes ago
-              </strong>
-            </p>
-          </div>
-          <Button
-            variant="outline"
-            className="mt-8 w-full rounded-xl border-primary/20 font-bold text-primary transition-all hover:bg-primary/5"
-          >
-            <RefreshCw className="mr-2 h-4 w-4" /> Manual Sync
-          </Button>
         </div>
       </div>
 

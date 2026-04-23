@@ -66,6 +66,7 @@ export default function PredictionPage() {
         </p>
       </div>
 
+
       {/* Bento Layout Grid */}
       <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
         {/* Input Form Card */}
@@ -109,7 +110,7 @@ export default function PredictionPage() {
               </div>
               <div className="space-y-3">
                 <Label className="ml-1 flex items-center gap-2 text-[10px] font-black tracking-widest text-muted-foreground uppercase">
-                  <LandPlot className="h-3 w-3" /> Slope (%)
+                  <LandPlot className="h-3 w-3" /> Kemiringan Lereng (%)
                 </Label>
                 <Input
                   className="w-full rounded-2xl border-none bg-muted px-6 py-7 text-sm font-bold transition-all focus:ring-2 focus:ring-primary/20"
@@ -150,7 +151,7 @@ export default function PredictionPage() {
                 </span>
               </div>
               <p className="mt-2 text-sm text-muted-foreground">
-                Log ID: {result.id} | Timestamp: {result.date} {result.time}
+                Log ID: {result.id} | Waktu: {result.date} {result.time}
               </p>
             </div>
           )}
@@ -189,10 +190,10 @@ export default function PredictionPage() {
               <div className="w-full space-y-4 border-t border-muted pt-10">
                 <div className="flex items-end justify-between">
                   <span className="text-[10px] font-black tracking-widest text-muted-foreground uppercase">
-                    Confidence Probability
+                    Probabilitas Kepercayaan
                   </span>
                   <span className="text-xl font-black tracking-tighter text-primary">
-                    89.4%
+                    89,4%
                   </span>
                 </div>
                 <div className="h-4 w-full overflow-hidden rounded-full border border-border/20 bg-muted p-1">
@@ -209,90 +210,11 @@ export default function PredictionPage() {
             </div>
           </div>
 
-          {/* Geographic Context Card */}
-          <div className="group relative h-72 overflow-hidden rounded-[3.5rem] border-[8px] border-white shadow-2xl">
-            <img
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
-              alt="Aceh Map"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-8g4wykKmGnO6--ilCS5TLBBdjCFlfJdZXkp09o9yfQ357vQmxcGijFDNqXtiDZsRW5CtLtG8EFn-3H1czRpc_7dDRx8NmqX8xPo6FQM503YLRbi8VMUtp3-ULg8mYSXc5GvGms2kVDuiZn5wKafXkwTIEEzJF8nUYrFpigwgsEW0x-rYEn7pKN57Gl4I_jlThoZcGBUYoDJe79HrKt163DLh0AEw-LZKhAU4maT19nhcjebXFShTu-nT5u72kamCN3hP3ya-9pw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent"></div>
-            <div className="absolute right-6 bottom-6 left-6 z-10">
-              <GlassPanel className="flex items-center justify-between rounded-full border-white/40 bg-white/40 p-5 pr-8 shadow-2xl">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-xl">
-                    <MapPin className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <p className="mb-1 text-[8px] leading-none font-black tracking-[0.2em] text-primary uppercase">
-                      Visualisasi Geografis
-                    </p>
-                    <p className="text-sm leading-none font-black text-primary uppercase italic">
-                      Kabupaten Aceh Besar
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-10 w-10 rounded-full text-primary hover:bg-white/20"
-                >
-                  <Maximize2 className="h-5 w-5" />
-                </Button>
-              </GlassPanel>
-            </div>
-          </div>
+
+        
         </div>
       </div>
 
-      {/* Additional Context Grid */}
-      <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-        {[
-          {
-            icon: History,
-            label: "Data Historis",
-            text: "Mencakup 10 tahun data curah hujan ekstrem.",
-            variant: "secondary",
-          },
-          {
-            icon: Target,
-            label: "Akurasi Model",
-            text: "Model Random Forest dengan F1-Score 0.94.",
-            variant: "primary",
-          },
-          {
-            icon: RefreshCw,
-            label: "Pembaruan Real-time",
-            text: "Sinkronisasi setiap 15 menit dengan BMKG.",
-            variant: "tertiary",
-          },
-        ].map((item, idx) => (
-          <div
-            key={idx}
-            className="hover:bg-card group flex items-center gap-6 rounded-[2.5rem] border border-border/10 bg-muted/40 p-8 transition-all"
-          >
-            <div
-              className={`rounded-2xl p-4 transition-transform group-hover:scale-110 ${
-                item.variant === "primary"
-                  ? "bg-primary/10 text-primary"
-                  : item.variant === "secondary"
-                    ? "bg-secondary/10 text-secondary"
-                    : "bg-tertiary/10 text-tertiary"
-              }`}
-            >
-              <item.icon className="h-6 w-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-black tracking-widest text-primary uppercase italic">
-                {item.label}
-              </h4>
-              <p className="mt-1 text-xs leading-relaxed font-medium text-muted-foreground">
-                {item.text}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
     </div>
   )
 }

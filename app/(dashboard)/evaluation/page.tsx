@@ -19,12 +19,10 @@ export default function EvaluationPage() {
       {/* Header Section */}
       <div className="max-w-7xl">
         <h2 className="mb-4 text-5xl leading-tight font-black tracking-tighter text-primary uppercase italic">
-          Model Performance Analysis
+          Analisis Kinerja Model
         </h2>
         <p className="max-w-2xl text-lg font-medium text-muted-foreground">
-          Detailed statistical breakdown of the flood risk predictive engine.
-          Validated against historical rainfall and elevation data from the Aceh
-          regional GIS repository.
+          Rincian statistik model prediksi banjir. Divalidasi terhadap data historis curah hujan dan elevasi dari repositori GIS regional Aceh.
         </p>
       </div>
 
@@ -33,35 +31,35 @@ export default function EvaluationPage() {
         {[
           {
             label: "Accuracy",
-            value: "94.2%",
+            value: "94,2%",
             icon: ShieldCheck,
-            trend: "+2.4%",
+            trend: "+2,4%",
             color: "border-primary",
-            subText: "from last epoch",
+            subText: "dari epoch terakhir",
           },
           {
             label: "Precision",
-            value: "91.8%",
+            value: "91,8%",
             icon: Target,
             trend: null,
             color: "border-secondary",
-            subText: "True Positive consistency",
+            subText: "Konsistensi True Positive",
           },
           {
             label: "Recall",
-            value: "89.5%",
+            value: "89,5%",
             icon: HistoryIcon,
             trend: null,
             color: "border-tertiary",
-            subText: "False Negative mitigation",
+            subText: "Mitigasi False Negative",
           },
           {
             label: "F1-Score",
-            value: "90.6%",
+            value: "90,6%",
             icon: Scale,
             trend: null,
             color: "border-primary",
-            subText: "Harmonic mean balance",
+            subText: "Keseimbangan Harmonic Mean",
           },
         ].map((item, idx) => (
           <div
@@ -111,7 +109,7 @@ export default function EvaluationPage() {
               variant="link"
               className="text-[10px] font-black tracking-widest text-primary uppercase hover:text-secondary hover:no-underline"
             >
-              Download CSV
+              Unduh CSV
             </Button>
           </div>
 
@@ -119,20 +117,20 @@ export default function EvaluationPage() {
             {/* Labels */}
             <div></div>
             <div className="text-center text-[9px] font-black tracking-widest text-muted-foreground uppercase">
-              Predicted: Flood
+              Prediksi: Banjir
             </div>
             <div className="text-center text-[9px] font-black tracking-widest text-muted-foreground uppercase">
-              Predicted: Safe
+              Prediksi: Aman
             </div>
 
             <div className="flex rotate-180 items-center justify-center text-[9px] font-black tracking-widest text-muted-foreground uppercase [writing-mode:vertical-lr]">
-              Actual: Flood
+              Aktual: Banjir
             </div>
 
             {/* TP */}
             <div className="group relative flex flex-col items-center justify-center overflow-hidden rounded-3xl bg-primary p-8 text-white shadow-xl shadow-primary/20">
               <span className="z-10 text-4xl font-black tracking-tighter">
-                4,821
+                4.821
               </span>
               <span className="z-10 mt-2 text-[9px] font-black tracking-widest uppercase opacity-60">
                 True Positives
@@ -149,7 +147,7 @@ export default function EvaluationPage() {
             </div>
 
             <div className="flex rotate-180 items-center justify-center text-[9px] font-black tracking-widest text-muted-foreground uppercase [writing-mode:vertical-lr]">
-              Actual: Safe
+              Aktual: Aman
             </div>
 
             {/* FP */}
@@ -163,7 +161,7 @@ export default function EvaluationPage() {
             {/* TN */}
             <div className="group relative flex flex-col items-center justify-center overflow-hidden rounded-3xl bg-secondary p-8 text-white shadow-xl shadow-secondary/20">
               <span className="z-10 text-4xl font-black tracking-tighter">
-                8,942
+                8.942
               </span>
               <span className="z-10 mt-2 text-[9px] font-black tracking-widest uppercase opacity-60">
                 True Negatives
@@ -176,13 +174,12 @@ export default function EvaluationPage() {
             <div className="flex items-start gap-4 rounded-2xl border border-white/60 bg-white/40 p-5 shadow-sm">
               <Lightbulb className="h-5 w-5 text-primary" />
               <p className="text-xs leading-relaxed font-medium text-muted-foreground italic">
-                <strong>Insight:</strong> The model shows exceptional
-                specificity (Safe areas) but has a slight tendency for type-2
-                errors in mountainous flash-flood scenarios.
+                <strong>Wawasan:</strong> Model menunjukkan spesifisitas yang luar biasa (area aman) tetapi memiliki sedikit kecenderungan untuk kesalahan tipe-2 dalam skenario banjir bandang pegunungan.
               </p>
             </div>
           </div>
         </div>
+
 
         {/* ROC-AUC Curve */}
         <div className="bg-card rounded-[3rem] border border-border/10 p-10 shadow-sm lg:col-span-7">
@@ -270,48 +267,6 @@ export default function EvaluationPage() {
               True Positive Rate (Sensitivity)
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Bottom Action Row */}
-      <div className="flex flex-col items-center justify-between gap-8 rounded-[3rem] border border-border/10 bg-muted/30 p-10 md:flex-row">
-        <div className="flex items-center gap-8">
-          <div className="flex -space-x-4">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border-4 border-muted bg-primary/20 shadow-sm"
-              >
-                <img
-                  src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i + i * 100}`}
-                  alt="Scientist"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-            ))}
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border-4 border-muted bg-primary text-xs font-black text-white shadow-sm">
-              +4
-            </div>
-          </div>
-          <div>
-            <p className="text-sm font-black tracking-tight text-primary uppercase italic">
-              Peer Review Completed
-            </p>
-            <p className="mt-1 text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
-              Reviewed by regional hydrological team 2 hours ago
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-wrap gap-4">
-          <Button
-            variant="outline"
-            className="rounded-2xl border-primary/20 px-10 py-7 text-[10px] font-black tracking-widest text-primary uppercase hover:bg-primary/5"
-          >
-            <Download className="mr-3 h-4 w-4" /> Export Technical Report
-          </Button>
-          <Button className="rounded-2xl bg-gradient-to-r from-primary to-primary/80 px-10 py-7 text-[10px] font-black tracking-widest text-white uppercase shadow-xl shadow-primary/20">
-            <RefreshCw className="mr-3 h-4 w-4" /> Initiate Re-training
-          </Button>
         </div>
       </div>
     </div>

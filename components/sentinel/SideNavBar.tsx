@@ -6,30 +6,39 @@ import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
   Database,
-  ChartBarIcon,
-  Cpu,
   Zap,
   Map as MapIcon,
   ShieldCheck,
   History,
   Info,
-  Settings,
   Waves,
+  LogOut,
+  Users,
 } from "lucide-react";
-
-const navItems = [
-  { icon: LayoutDashboard, label: "Dashboard", href: "/" },
-  { icon: Database, label: "Data Management", href: "/data" },
-  { icon: ChartBarIcon, label: "Preprocessing", href: "/preprocessing" },
-  { icon: Cpu, label: "Modeling", href: "/modeling" },
-  { icon: Zap, label: "Prediction", href: "/prediction" },
-  { icon: MapIcon, label: "GIS Map", href: "/map" },
-  { icon: ShieldCheck, label: "Evaluation", href: "/evaluation" },
-  { icon: History, label: "History", href: "/history" },
-];
+import { useAuth } from "@/context/AuthContext";
+import { logout as authLogout } from "@/lib/auth";
 
 export function SideNavBar() {
   const pathname = usePathname();
+  const { user } = useAuth();
+  const role = user?.role || "user";
+
+  const commonNav = [
+    { icon: LayoutDashboard, label: "Beranda", href: "/" },
+    { icon: Zap, label: "Prediksi", href: "/prediction" },
+    { icon: MapIcon, label: "Peta GIS", href: "/map" },
+    { icon: ShieldCheck, label: "Evaluasi Model", href: "/evaluation" },
+    { icon: History, label: "Riwayat", href: "/history" },
+  ];
+
+  const adminNav = [
+    { icon: Database, label: "Manajemen Data", href: "/data" },
+    { icon: Users, label: "Manajemen Pengguna", href: "/users" },
+  ];
+
+  const navItems = role === "admin" 
+    ? [commonNav[0], ...adminNav, ...commonNav.slice(1)]
+    : commonNav;
 
   return (
     <aside className="h-screen w-64 fixed left-0 top-0 bg-background border-r flex flex-col py-4 z-50">
@@ -43,7 +52,7 @@ export function SideNavBar() {
               GIS Sentinel
             </h1>
             <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">
-              Flood Risk Prediction
+              Prediksi Risiko Banjir
             </p>
           </div>
         </div>
@@ -74,16 +83,17 @@ export function SideNavBar() {
           className="flex items-center gap-3 px-3 py-3 text-muted-foreground hover:text-primary transition-all"
         >
           <Info className="w-5 h-5" />
-          <span className="text-sm font-medium">About</span>
+          <span className="text-sm font-medium">Tentang</span>
         </Link>
-        <Link
-          href="/settings"
-          className="flex items-center gap-3 px-3 py-3 text-muted-foreground hover:text-primary transition-all"
+        <button
+          onClick={() => authLogout()}
+          className="w-full flex items-center gap-3 px-3 py-3 text-muted-foreground hover:text-destructive transition-all"
         >
-          <Settings className="w-5 h-5" />
-          <span className="text-sm font-medium">Settings</span>
-        </Link>
+          <LogOut className="w-5 h-5" />
+          <span className="text-sm font-medium">Keluar</span>
+        </button>
       </div>
     </aside>
   );
 }
+

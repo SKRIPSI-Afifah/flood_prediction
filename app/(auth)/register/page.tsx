@@ -85,7 +85,7 @@ export default function RegisterPage() {
             className="group mb-6 flex items-center gap-2 text-xs font-bold tracking-widest text-primary uppercase transition-colors hover:text-primary/70"
           >
             <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            Back to Portal
+            Kembali ke Portal
           </Link>
           <div className="mb-2 flex items-center gap-3">
             <Waves className="h-10 w-10 text-primary" />
@@ -95,7 +95,7 @@ export default function RegisterPage() {
           </div>
           <div className="h-1 w-12 rounded-full bg-tertiary"></div>
           <p className="mt-6 max-w-sm leading-relaxed font-medium text-muted-foreground">
-            Request an operational account for the FloodGuard Aceh GIS analytical gateway.
+            Ajukan akun operasional untuk gerbang analisis GIS FloodGuard Aceh.
           </p>
         </div>
 
@@ -106,19 +106,19 @@ export default function RegisterPage() {
               <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100 text-green-600">
                 <ShieldCheck className="h-10 w-10" />
               </div>
-              <h2 className="text-2xl font-bold text-foreground">Registration Successful</h2>
+              <h2 className="text-2xl font-bold text-foreground">Registrasi Berhasil</h2>
               <p className="mt-4 text-muted-foreground">
-                Your request has been processed. Redirecting to the secure gateway...
+                Permintaan Anda telah diproses. Mengalihkan ke gerbang masuk...
               </p>
             </div>
           ) : (
             <>
               <div className="mb-8">
                 <h2 className="text-xl font-bold tracking-tight text-foreground">
-                  Credentials Request
+                  Permohonan Kredensial
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Identify yourself within the Aceh regional network.
+                  Identifikasi diri Anda dalam jaringan regional Aceh.
                 </p>
               </div>
               <form className="space-y-5" onSubmit={handleRegister}>
@@ -130,7 +130,7 @@ export default function RegisterPage() {
                 
                 <div className="space-y-1.5">
                   <label className="ml-1 block text-[10px] font-black tracking-widest text-muted-foreground uppercase">
-                    Full Designation Name
+                    Nama Lengkap
                   </label>
                   <div className="relative">
                     <User className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -147,13 +147,13 @@ export default function RegisterPage() {
 
                 <div className="space-y-1.5">
                   <label className="ml-1 block text-[10px] font-black tracking-widest text-muted-foreground uppercase">
-                    Official Email
+                    Email Resmi
                   </label>
                   <div className="relative">
                     <Mail className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
                       type="email"
-                      placeholder="analyst@aceh.gov.id"
+                      placeholder="analis@aceh.gov.id"
                       className="rounded-xl border-none bg-white py-6 pl-12 text-sm"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -165,7 +165,7 @@ export default function RegisterPage() {
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                   <div className="space-y-1.5">
                     <label className="ml-1 block text-[10px] font-black tracking-widest text-muted-foreground uppercase">
-                      Access Key
+                      Kata Sandi
                     </label>
                     <div className="relative">
                       <Lock className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -181,7 +181,7 @@ export default function RegisterPage() {
                   </div>
                   <div className="space-y-1.5">
                     <label className="ml-1 block text-[10px] font-black tracking-widest text-muted-foreground uppercase">
-                      Verify Key
+                      Verifikasi Sandi
                     </label>
                     <div className="relative">
                       <ShieldCheck className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -202,14 +202,14 @@ export default function RegisterPage() {
                   type="submit"
                   className="mt-4 w-full rounded-xl bg-gradient-to-r from-primary to-primary/80 py-7 text-sm font-bold tracking-wide shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  {loading ? "PROCESSING..." : "REGISTER NEW ANALYST"}{" "}
+                  {loading ? "MEMPROSES..." : "DAFTAR ANALIS BARU"}{" "}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
 
                 <p className="mt-6 text-center text-xs font-semibold text-muted-foreground">
-                  Already have access?{" "}
+                  Sudah punya akses?{" "}
                   <Link href="/login" className="text-primary hover:underline">
-                    Authenticate Session
+                    Masuk ke Sesi
                   </Link>
                 </p>
               </form>
@@ -221,11 +221,11 @@ export default function RegisterPage() {
         <div className="mt-12 flex animate-in flex-wrap items-center gap-6 text-[10px] font-bold tracking-widest text-muted-foreground/80 uppercase delay-500 duration-1000 fade-in">
           <div className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-secondary"></span>
-            NETWORK SECURED
+            JARINGAN TERAMANKAN
           </div>
           <div className="flex items-center gap-2">
             <MapPin className="h-3 w-3" />
-            ACEH REGION (GIS-1)
+            WILAYAH ACEH (GIS-1)
           </div>
         </div>
       </div>
