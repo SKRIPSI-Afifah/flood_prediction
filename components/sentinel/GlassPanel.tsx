@@ -8,7 +8,7 @@ export function GlassPanel({ children, className, ...props }: GlassPanelProps) {
   return (
     <div
       className={cn(
-        "glass p-4 rounded-xl border border-white/20 shadow-xl",
+        "glass p-6 rounded-2xl border border-border/20 shadow-lg",
         className
       )}
       {...props}
@@ -17,3 +17,4 @@ export function GlassPanel({ children, className, ...props }: GlassPanelProps) {
     </div>
   );
 }
+

@@ -44,9 +44,7 @@ export default function LoginPage() {
         throw new Error(data.error || "Gagal masuk")
       }
 
-      // Simpan user dengan role ke context
       setUser(data.user)
-      
       router.push("/")
     } catch (err: unknown) {
       setError((err as Error).message)
@@ -56,85 +54,75 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="relative flex min-h-screen w-full items-center justify-start overflow-hidden bg-[#f6fafe]">
-      {/* Background Hero Section */}
+    <main className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-black">
+      {/* Cinematic Background */}
       <div className="absolute inset-0 z-0">
         <img
-          className="h-full w-full object-cover object-center"
-          alt="Pemandangan udara pesisir Aceh"
+          className="h-full w-full object-cover object-center opacity-40 grayscale"
+          alt="Aceh Aerial View"
           src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl79upPaxR6KZay69FuulGgx70cV5OQYqWI_BLDHc-pGoQ48olPa6IHSnJquS1HYAzv2cO4Dvp3tgPU6XmceDwVEkyOBGODEh7RO6EsgWjnCpswYVGi72nUYVA4Ygp6X4iSc35GfU7Bk84DQf_gfKXQ45p-ba2DVwM8jUqko_aLp2jaQCkkADQYkTa8mT7ZBzMarIKA0FvxPZnpHI_iXsrSdpE6Oi1S9mufDEh_2THAam3BOIIIt14lRif0AzConis4x39uI60CmA"
         />
-        {/* Overlays */}
-        <div className="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90"></div>
       </div>
 
-      {/* Login Container */}
-      <div className="relative z-10 flex w-full max-w-2xl flex-col justify-center px-8 py-12 md:px-24">
-        {/* Branding Header */}
-        <div className="mb-12 animate-in duration-700 slide-in-from-left">
-          <div className="mb-2 flex items-center gap-3">
-            <Waves className="h-10 w-10 text-primary" />
-            <h1 className="text-3xl font-black tracking-tighter text-primary uppercase">
-              Sentinel Hydro
-            </h1>
+      <div className="relative z-10 w-full max-w-lg px-6">
+        {/* Branding */}
+        <div className="text-center mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <div className="inline-flex items-center justify-center h-16 w-16 rounded-[20px] bg-primary mb-6 shadow-2xl shadow-primary/40">
+            <Waves className="h-9 w-9 text-white" />
           </div>
-          <div className="h-1 w-12 rounded-full bg-tertiary"></div>
-          <p className="mt-6 max-w-sm leading-relaxed font-medium text-muted-foreground">
-            FloodGuard Aceh: Gerbang analisis GIS presisi tinggi untuk penilaian risiko banjir regional dan pemantauan real-time.
+          <h1 className="text-4xl font-semibold tracking-tight text-white font-heading">
+            Sentinel Hydro
+          </h1>
+          <p className="mt-4 text-[17px] text-gray-400 font-medium max-w-sm mx-auto leading-relaxed">
+            Advanced GIS Analysis for high-precision flood risk assessment and real-time regional monitoring.
           </p>
         </div>
 
-        {/* Login Card */}
-        <GlassPanel className="max-w-md animate-in rounded-2xl border-white/40 p-10 shadow-2xl delay-200 duration-700 zoom-in-95">
-          <div className="mb-8">
-            <h2 className="text-xl font-bold tracking-tight text-foreground">
-              Masuk ke Sistem
-            </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Khusus untuk personel terdaftar.
-            </p>
-          </div>
-          <form className="space-y-6" onSubmit={handleLogin}>
+        {/* Login Form */}
+        <div className="bg-[#1c1c1e]/80 backdrop-blur-2xl border border-white/10 rounded-[28px] p-10 shadow-3xl animate-in fade-in zoom-in-95 delay-300 duration-1000">
+           <form className="space-y-8" onSubmit={handleLogin}>
             {error && (
-              <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-500">
+              <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-[13px] font-medium text-red-400">
                 {error}
               </div>
             )}
-            <div className="space-y-2">
-              <label className="ml-1 block text-xs font-bold tracking-widest text-muted-foreground uppercase">
-                Email Kerja
+            
+            <div className="space-y-3">
+              <label className="text-[12px] font-semibold tracking-wide text-gray-400 uppercase px-1">
+                Email Address
               </label>
-              <div className="relative">
-                <Mail className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <div className="relative group">
+                <Mail className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-gray-500 group-focus-within:text-primary transition-colors" />
                 <Input
                   type="email"
-                  placeholder="analis@aceh.gov.id"
-                  className="rounded-xl border-none bg-white py-6 pl-12"
+                  placeholder="analyst@aceh.gov.id"
+                  className="h-14 rounded-2xl border-white/10 bg-white/5 pl-12 text-[15px] text-white focus:bg-white/10 focus:border-primary/50"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
             </div>
-            <div className="space-y-2">
+
+            <div className="space-y-3">
               <div className="flex items-center justify-between px-1">
-                <label className="text-xs font-bold tracking-widest text-muted-foreground uppercase">
-                  Kata Sandi
+                <label className="text-[12px] font-semibold tracking-wide text-gray-400 uppercase">
+                  Password
                 </label>
                 <Link
                   href="#"
-                  className="text-xs font-semibold text-primary hover:underline"
+                  className="text-[12px] font-medium text-primary hover:text-primary/80"
                 >
-                  Lupa?
+                  Forgot?
                 </Link>
               </div>
-              <div className="relative">
-                <Lock className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <div className="relative group">
+                <Lock className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-gray-500 group-focus-within:text-primary transition-colors" />
                 <Input
                   type="password"
                   placeholder="••••••••••••"
-                  className="rounded-xl border-none bg-white py-6 pl-12"
+                  className="h-14 rounded-2xl border-white/10 bg-white/5 pl-12 text-[15px] text-white focus:bg-white/10 focus:border-primary/50"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -142,65 +130,43 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 px-1">
-              <input
-                type="checkbox"
-                id="remember"
-                className="rounded border-border text-primary focus:ring-primary"
-              />
-              <label
-                htmlFor="remember"
-                className="cursor-pointer text-xs font-medium text-muted-foreground"
-              >
-                Ingat sesi selama 24 jam
-              </label>
-            </div>
-
             <Button
               disabled={loading}
               type="submit"
-              className="w-full rounded-xl bg-gradient-to-r from-primary to-primary/80 py-7 text-sm font-bold tracking-wide shadow-xl shadow-primary/20 transition-transform hover:scale-[1.02]"
+              size="xl"
+              className="w-full rounded-2xl bg-primary hover:bg-primary/90 text-white font-semibold tracking-wide shadow-2xl shadow-primary/20"
             >
-              {loading ? "MEMPROSES..." : "MASUK"}{" "}
-              <ArrowRight className="ml-2 h-4 w-4" />
+              {loading ? "AUTHENTICATING..." : "SIGN IN"}
             </Button>
 
-            <p className="mt-6 text-center text-xs font-semibold text-muted-foreground">
-              Analis Baru?{" "}
-              <Link href="/register" className="text-primary hover:underline">
-                Daftar Akun Baru
-              </Link>
-            </p>
+            <div className="text-center pt-2">
+               <p className="text-[13px] font-medium text-gray-500">
+                New Analyst?{" "}
+                <Link href="/register" className="text-primary hover:text-primary/80">
+                  Create a new account
+                </Link>
+              </p>
+            </div>
           </form>
-        </GlassPanel>
+        </div>
 
-
-        {/* Footer Info */}
-        <div className="mt-12 flex animate-in flex-wrap items-center gap-6 text-[10px] font-bold tracking-widest text-muted-foreground/80 uppercase delay-500 duration-1000 fade-in">
+        {/* Footer info */}
+        <div className="mt-16 flex justify-center flex-wrap items-center gap-8 text-[11px] font-semibold tracking-[0.2em] text-gray-600 uppercase">
           <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-secondary"></span>
-            SYSTEM ONLINE
+            <span className="h-1.5 w-1.5 rounded-full bg-green-500/80"></span>
+            SECURE ACCESS
           </div>
           <div className="flex items-center gap-2">
-            <MapPin className="h-3 w-3" />
-            ACEH REGION (GIS-1)
+            <Globe className="h-3.5 w-3.5" />
+            ACEH-GIS-NODE-1
           </div>
           <div className="flex items-center gap-2">
-            <ShieldCheck className="h-3 w-3" />
-            SSL SECURED
+            <ShieldCheck className="h-3.5 w-3.5" />
+            TLS 1.3
           </div>
         </div>
-      </div>
-
-      {/* Decorative Coordinates */}
-      <div className="absolute top-12 right-12 z-20 hidden animate-in text-right duration-1000 fade-in slide-in-from-right lg:block">
-        <div className="font-mono text-[10px] leading-tight font-bold tracking-tighter text-primary/60">
-          LAT: 5.5483° N<br />
-          LONG: 95.3238° E<br />
-          ALT: 4.2m MSL
-        </div>
-        <div className="mt-4 ml-auto h-16 w-[1px] bg-primary/20"></div>
       </div>
     </main>
   )
 }
+

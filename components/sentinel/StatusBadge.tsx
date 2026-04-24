@@ -15,15 +15,16 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
   };
 
   const labels = {
-    "rawan": "RAWAN",
-    "tidak-rawan": "TIDAK RAWAN",
-    "warning": "MODERATE",
+    "rawan": "High Risk",
+    "tidak-rawan": "Safe Zone",
+    "warning": "Moderate",
   };
+
 
   return (
     <span
       className={cn(
-        "px-3 py-1 rounded-full text-[10px] font-black uppercase border tracking-widest",
+        "px-3 py-1 rounded-full text-[11px] font-semibold uppercase border tracking-wide",
         styles[status],
         className
       )}
@@ -31,4 +32,5 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
       {labels[status]}
     </span>
   );
+
 }

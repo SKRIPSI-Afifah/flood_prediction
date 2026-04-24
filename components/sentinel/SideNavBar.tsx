@@ -41,23 +41,23 @@ export function SideNavBar() {
     : commonNav;
 
   return (
-    <aside className="h-screen w-64 fixed left-0 top-0 bg-background border-r flex flex-col py-4 z-50">
-      <div className="px-6 mb-8">
+    <aside className="h-screen w-64 fixed left-0 top-0 bg-background/80 backdrop-blur-xl border-r border-border/40 flex flex-col py-6 z-50">
+      <div className="px-7 mb-10">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground">
-            <Waves className="w-6 h-6" />
+          <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-sm">
+            <Waves className="w-5 h-5" />
           </div>
           <div>
-            <h1 className="text-lg font-black text-primary leading-tight">
-              GIS Sentinel
+            <h1 className="text-lg font-semibold tracking-tight text-foreground leading-tight font-heading">
+              Sentinel
             </h1>
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">
-              Prediksi Risiko Banjir
+            <p className="text-[10px] font-medium text-muted-foreground/80 tracking-wide uppercase">
+              Flood Prediction Engine
             </p>
           </div>
         </div>
       </div>
-      <nav className="flex-1 px-3 space-y-1">
+      <nav className="flex-1 px-4 space-y-1.5">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -65,35 +65,39 @@ export function SideNavBar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 ease-in-out group",
+                "flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200 ease-in-out group relative",
                 isActive
-                  ? "bg-primary/10 text-primary border-r-4 border-primary rounded-r-none"
-                  : "text-muted-foreground hover:text-primary hover:bg-muted"
+                  ? "bg-secondary/5 text-primary font-medium"
+                  : "text-secondary hover:text-foreground hover:bg-muted/50"
               )}
             >
-              <item.icon className={cn("w-5 h-5", isActive && "text-primary")} />
-              <span className="text-sm font-medium">{item.label}</span>
+              <item.icon className={cn("w-[18px] h-[18px]", isActive ? "text-primary" : "text-secondary group-hover:text-foreground transition-colors")} />
+              <span className="text-[14px]">{item.label}</span>
+              {isActive && (
+                <div className="absolute left-0 w-1 h-4 bg-primary rounded-r-full" />
+              )}
             </Link>
           );
         })}
       </nav>
-      <div className="px-3 mt-auto space-y-1">
+      <div className="px-4 mt-auto space-y-1">
         <Link
           href="/about"
-          className="flex items-center gap-3 px-3 py-3 text-muted-foreground hover:text-primary transition-all"
+          className="flex items-center gap-3 px-3 py-2 text-secondary hover:text-foreground transition-all rounded-md hover:bg-muted/50"
         >
-          <Info className="w-5 h-5" />
-          <span className="text-sm font-medium">Tentang</span>
+          <Info className="w-[18px] h-[18px]" />
+          <span className="text-[14px]">Tentang</span>
         </Link>
         <button
           onClick={() => authLogout()}
-          className="w-full flex items-center gap-3 px-3 py-3 text-muted-foreground hover:text-destructive transition-all"
+          className="w-full flex items-center gap-3 px-3 py-2 text-secondary hover:text-destructive transition-all rounded-md hover:bg-destructive/5"
         >
-          <LogOut className="w-5 h-5" />
-          <span className="text-sm font-medium">Keluar</span>
+          <LogOut className="w-[18px] h-[18px]" />
+          <span className="text-[14px]">Keluar</span>
         </button>
       </div>
     </aside>
   );
 }
+
 
