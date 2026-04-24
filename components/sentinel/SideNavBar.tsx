@@ -18,7 +18,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { logout as authLogout } from "@/lib/auth";
 
-export function SideNavBar() {
+export function SideNavBar({ className }: { className?: string }) {
   const pathname = usePathname();
   const { user } = useAuth();
   const role = user?.role || "user";
@@ -41,7 +41,7 @@ export function SideNavBar() {
     : commonNav;
 
   return (
-    <aside className="h-[calc(100vh-32px)] w-60 fixed left-4 top-4 bg-background/60 backdrop-blur-2xl border border-border/20 flex flex-col py-8 z-50 rounded-[32px] shadow-[0_8px_32px_rgba(0,0,0,0.08)]">
+    <aside className={cn("h-full w-64 bg-background/60 backdrop-blur-2xl border-r border-border/10 flex flex-col py-8", className)}>
       <div className="px-8 mb-12">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl bg-primary flex items-center justify-center text-primary-foreground shadow-[0_4px_12px_rgba(0,113,227,0.3)]">

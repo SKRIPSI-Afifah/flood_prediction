@@ -57,10 +57,10 @@ export default function DashboardPage() {
       {/* Hero Header Section */}
       <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
         <div className="space-y-2">
-          <h2 className="text-4xl font-semibold tracking-tight text-foreground font-heading">
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground font-heading">
             Sistem Pemantauan Asoe Pidie
           </h2>
-          <p className="text-[17px] font-medium text-secondary/70 leading-relaxed max-w-2xl">
+          <p className="text-[15px] md:text-[17px] font-medium text-secondary/70 leading-relaxed max-w-2xl">
             Sistem Informasi Geografis & Analisis Risiko Banjir Terintegrasi Data Satelit Sentinel-2.
           </p>
         </div>
@@ -111,7 +111,7 @@ export default function DashboardPage() {
       {/* Main Content Grid */}
       <div className="grid grid-cols-12 gap-8 items-start">
         {/* Map Preview */}
-        <div className="relative col-span-12 group overflow-hidden rounded-[32px] border border-border/20 bg-muted/10 shadow-[0_4px_24px_rgba(0,0,0,0.04)] lg:col-span-8 h-[540px]">
+        <div className="relative col-span-12 group overflow-hidden rounded-[24px] md:rounded-[32px] border border-border/20 bg-muted/10 shadow-[0_4px_24px_rgba(0,0,0,0.04)] lg:col-span-8 h-[360px] md:h-[540px]">
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img
               alt="Peta Aceh"
@@ -159,7 +159,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Distribution Chart Card */}
-        <div className="bg-card col-span-12 flex flex-col rounded-[32px] border border-border/20 p-10 shadow-[0_4px_24px_rgba(0,0,0,0.04)] lg:col-span-4 h-[540px] relative overflow-hidden group">
+        <div className="bg-card col-span-12 flex flex-col rounded-[24px] md:rounded-[32px] border border-border/20 p-6 md:p-10 shadow-[0_4px_24px_rgba(0,0,0,0.04)] lg:col-span-4 h-auto lg:h-[540px] relative overflow-hidden group">
           <div className="absolute top-0 right-0 -translate-y-12 translate-x-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors duration-700"></div>
           
           <div className="mb-12 flex items-center justify-between relative z-10">
@@ -240,16 +240,16 @@ export default function DashboardPage() {
       <div className="bg-card overflow-hidden rounded-[40px] border border-border/20 shadow-[0_8px_48px_rgba(0,0,0,0.06)] relative">
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
         
-        <div className="flex items-center justify-between px-10 py-8 border-b border-border/10">
+        <div className="flex flex-col md:flex-row md:items-center justify-between px-6 md:px-10 py-6 md:py-8 border-b border-border/10 gap-4">
           <div>
-            <h3 className="text-[14px] font-bold tracking-[0.1em] text-secondary/60 uppercase">
+            <h3 className="text-[12px] md:text-[14px] font-bold tracking-[0.1em] text-secondary/60 uppercase">
               Riwayat Analisis Terakhir
             </h3>
-            <p className="text-[13px] text-muted-foreground mt-1">Hasil klasifikasi wilayah provinsi Aceh</p>
+            <p className="text-[12px] md:text-[13px] text-muted-foreground mt-1">Hasil klasifikasi wilayah provinsi Aceh</p>
           </div>
           <Button
             variant="ghost"
-            className="text-[14px] font-bold text-primary px-4 py-2 hover:bg-primary/5 rounded-xl transition-all"
+            className="text-[13px] md:text-[14px] font-bold text-primary px-4 py-2 hover:bg-primary/5 rounded-xl transition-all self-start md:self-auto"
           >
             Lihat Semua Riwayat →
           </Button>

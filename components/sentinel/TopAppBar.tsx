@@ -1,15 +1,39 @@
 "use client";
-
-import { Search, Bell, UserCircle } from "lucide-react"
+import { Search, Bell, Menu, UserCircle } from "lucide-react"
 import { useAuth } from "@/context/AuthContext"
+import { SideNavBar } from "./SideNavBar"
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet"
 
 export function TopAppBar() {
   const { user } = useAuth()
   
   return (
-    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-border/10 bg-background/60 px-10 backdrop-blur-2xl">
+    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-border/10 bg-background/60 px-6 md:px-10 backdrop-blur-2xl">
       <div className="flex items-center gap-4">
-        <span className="text-[21px] font-semibold tracking-tight text-foreground font-heading">
+        <Sheet>
+          <SheetTrigger asChild>
+            <button className="lg:hidden p-2 -ml-2 text-secondary/60 hover:text-primary transition-colors">
+              <Menu className="h-6 w-6" />
+            </button>
+          </SheetTrigger>
+          <SheetContent side="left" className="p-0 border-none w-64">
+            <SheetHeader className="sr-only">
+              <SheetTitle>Navigation Menu</SheetTitle>
+              <SheetDescription>
+                Akses navigasi utama sistem Sentinel Flood AI
+              </SheetDescription>
+            </SheetHeader>
+            <SideNavBar className="border-none" />
+          </SheetContent>
+        </Sheet>
+        <span className="text-[18px] md:text-[21px] font-semibold tracking-tight text-foreground font-heading">
           Sentinel <span className="text-primary/80 font-bold">PRO</span>
         </span>
       </div>

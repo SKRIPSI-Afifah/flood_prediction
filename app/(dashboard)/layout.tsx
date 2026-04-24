@@ -8,10 +8,10 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="flex min-h-screen bg-[#fbfbfd]">
-      <SideNavBar />
-      <div className="flex flex-1 flex-col pl-[272px]">
+      <SideNavBar className="hidden lg:flex fixed left-0 top-0 z-50" />
+      <div className="flex flex-1 flex-col lg:pl-64">
         <TopAppBar />
-        <main className="flex-1 p-10 max-w-[1440px] mx-auto w-full">{children}</main>
+        <main className="flex-1 p-6 md:p-10 max-w-[1440px] mx-auto w-full">{children}</main>
       </div>
     </div>
   )
