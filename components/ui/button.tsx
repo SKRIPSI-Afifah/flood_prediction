@@ -19,7 +19,8 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         link: "text-primary underline-offset-4 hover:underline",
-        apple: "bg-[#1d1d1f] text-white hover:bg-[#1d1d1f]/90 shadow-sm",
+        apple: "bg-[#1d1d1f] text-white hover:bg-[#1d1d1f]/90 shadow-sm rounded-full",
+        shiny: "relative overflow-hidden bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-[1.02] active:scale-[0.98] before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent",
       },
       size: {
         default: "h-8 px-4 py-2",

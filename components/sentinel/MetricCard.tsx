@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
+import { MagicCard } from "@/components/magicui/magic-card";
+import { BorderBeam } from "@/components/magicui/border-beam";
 
 interface MetricCardProps {
   title: string;
@@ -12,6 +14,7 @@ interface MetricCardProps {
   subtitle?: string;
   variant?: "primary" | "secondary" | "tertiary";
   className?: string;
+  showBeam?: boolean;
 }
 
 export function MetricCard({
@@ -22,6 +25,7 @@ export function MetricCard({
   subtitle,
   variant = "primary",
   className,
+  showBeam = false,
 }: MetricCardProps) {
   const iconVariants = {
     primary: "bg-primary/10 text-primary",
@@ -30,12 +34,15 @@ export function MetricCard({
   };
 
   return (
-    <div
+    <MagicCard
       className={cn(
-        "bg-card p-6 rounded-[24px] border border-border/30 shadow-[0_4px_24px_rgba(0,0,0,0.04)] flex flex-col justify-between group transition-all duration-300 hover:shadow-[0_8px_36px_rgba(0,0,0,0.08)]",
+        "relative p-6 rounded-[24px] border border-border/30 shadow-[0_4px_24px_rgba(0,0,0,0.04)] flex flex-col justify-between group transition-all duration-300",
         className
       )}
+      gradientColor={variant === "primary" ? "rgba(0, 113, 227, 0.1)" : "rgba(110, 110, 115, 0.1)"}
     >
+      {showBeam && <BorderBeam size={200} duration={12} delay={9} />}
+      
       <div className="flex justify-between items-start">
         <div className={cn("p-2.5 rounded-xl transition-all group-hover:scale-110", iconVariants[variant])}>
           <Icon className="w-5 h-5" />
@@ -64,7 +71,7 @@ export function MetricCard({
           {value}
         </h3>
       </div>
-    </div>
+    </MagicCard>
   );
 }
 

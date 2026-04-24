@@ -34,6 +34,18 @@
 
     /* Apple Specific Spacing Unit */
     --spacing-apple: 8px;
+
+    @keyframes border-beam {
+        100% {
+            offset-distance: 100%;
+        }
+    }
+
+    @keyframes shimmer {
+        100% {
+            transform: translateX(100%);
+        }
+    }
 }
 
 @utility glass {
