@@ -52,9 +52,10 @@ export function ClassDistributionChart() {
               outerRadius={95}
               strokeWidth={0}
               paddingAngle={4}
+              cornerRadius={10}
             >
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} cornerRadius={10} />
+                <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
               <Label
                 content={({ viewBox }) => {
