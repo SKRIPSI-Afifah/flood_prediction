@@ -1,63 +1,65 @@
 "use client"
 
-import { Badge } from "@/components/ui/badge"
-import {
-  Card,
-  CardAction,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { TrendingUpIcon, DatabaseIcon, CpuIcon, LayersIcon } from "lucide-react"
+import { Database, Cpu, ClipboardCheck, TrendingUp } from "lucide-react"
+import { cn } from "@/lib/utils"
+
+const stats = [
+  {
+    title: "Total Data",
+    value: "12,482",
+    change: "+12%",
+    icon: Database,
+    containerClass: "bg-surface-container-lowest",
+    iconBg: "bg-primary-fixed text-on-primary-fixed",
+    changeClass: "text-secondary",
+  },
+  {
+    title: "Training Data",
+    value: "9,985",
+    change: "80/20 Split",
+    icon: Cpu,
+    containerClass: "bg-surface-container-lowest",
+    iconBg: "bg-secondary-container text-on-secondary-container",
+    changeClass: "text-on-surface-variant",
+  },
+  {
+    title: "Testing Data",
+    value: "2,497",
+    change: "Validating...",
+    icon: ClipboardCheck,
+    containerClass: "bg-surface-container-lowest",
+    iconBg: "bg-tertiary-fixed text-on-tertiary-fixed",
+    changeClass: "text-on-surface-variant",
+  }
+]
 
 export function SectionCards() {
   return (
-    <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-card *:data-[slot=card]:shadow-xs lg:px-6 md:grid-cols-3">
-      <Card className="@container/card relative overflow-hidden">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="rounded-lg bg-primary/10 p-2 text-primary">
-              <DatabaseIcon className="size-5" />
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-6 lg:px-8">
+      {stats.map((stat, i) => (
+        <div 
+          key={i} 
+          className={cn(
+            "p-8 rounded-[40px] flex flex-col justify-between group cursor-default transition-all duration-300 hover:shadow-xl hover:shadow-primary/5",
+            stat.containerClass
+          )}
+        >
+          <div className="flex justify-between items-start">
+            <div className={cn("p-4 rounded-2xl transition-transform group-hover:scale-110 duration-500", stat.iconBg)}>
+              <stat.icon className="size-6" />
             </div>
-            <Badge variant="outline" className="border-green-500/20 text-green-600 bg-green-50">
-              <TrendingUpIcon className="size-3 mr-1" />
-              +12%
-            </Badge>
+            <span className={cn("text-[10px] font-black flex items-center gap-1 uppercase tracking-widest", stat.changeClass)}>
+              {stat.change === "+12%" && <TrendingUp className="size-3" />}
+              {stat.change}
+            </span>
           </div>
-          <CardDescription className="mt-4 uppercase text-[10px] font-bold tracking-wider text-muted-foreground">Total Data</CardDescription>
-          <CardTitle className="text-3xl font-bold tabular-nums">
-            12,482
-          </CardTitle>
-        </CardHeader>
-      </Card>
-      <Card className="@container/card relative overflow-hidden">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="rounded-lg bg-green-500/10 p-2 text-green-600">
-              <LayersIcon className="size-5" />
-            </div>
-            <span className="text-[10px] text-muted-foreground font-medium">80/20 Split</span>
+          <div className="mt-10">
+            <p className="text-on-surface-variant text-[10px] font-black tracking-[0.2em] uppercase opacity-60">{stat.title}</p>
+            <h3 className="text-5xl font-black text-primary mt-2 tracking-tighter">{stat.value}</h3>
           </div>
-          <CardDescription className="mt-4 uppercase text-[10px] font-bold tracking-wider text-muted-foreground">Training Data</CardDescription>
-          <CardTitle className="text-3xl font-bold tabular-nums">
-            9,985
-          </CardTitle>
-        </CardHeader>
-      </Card>
-      <Card className="@container/card relative overflow-hidden">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="rounded-lg bg-orange-500/10 p-2 text-orange-600">
-              <CpuIcon className="size-5" />
-            </div>
-            <span className="text-[10px] text-muted-foreground font-medium animate-pulse">Validating...</span>
-          </div>
-          <CardDescription className="mt-4 uppercase text-[10px] font-bold tracking-wider text-muted-foreground">Testing Data</CardDescription>
-          <CardTitle className="text-3xl font-bold tabular-nums">
-            2,497
-          </CardTitle>
-        </CardHeader>
-      </Card>
+        </div>
+      ))}
     </div>
   )
 }
+

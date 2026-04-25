@@ -3,48 +3,33 @@ import { SectionCards } from "@/components/section-cards"
 import { RiskDistributionMap } from "@/components/risk-distribution-map"
 import { ClassDistributionChart } from "@/components/class-distribution-chart"
 import { Button } from "@/components/ui/button"
-import { DownloadIcon, PlayIcon, BellIcon, UserIcon, SearchIcon } from "lucide-react"
+import { LucideDownload, LucideZap, LucideBell } from "lucide-react"
+import { DashboardHeader } from "@/components/dashboard-header"
 
 export default function Page() {
   return (
     <>
-      <header className="flex h-16 shrink-0 items-center justify-between px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 border-none">
-        <div className="flex flex-col">
-          <h1 className="text-lg font-black text-primary tracking-tight">FloodGuard Aceh</h1>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="relative hidden md:block">
-            <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground/50" />
-            <input 
-              type="search" 
-              placeholder="Search spatial data..." 
-              className="h-9 w-[280px] rounded-lg bg-muted/50 pl-9 pr-4 text-xs focus:outline-none focus:ring-1 focus:ring-primary/20 border-none transition-all"
-            />
-          </div>
-          <button className="relative p-2 text-muted-foreground hover:bg-muted rounded-full transition-colors">
-            <BellIcon className="size-5" />
-            <span className="absolute top-2 right-2 size-2 bg-red-600 rounded-full border-2 border-white"></span>
-          </button>
-          <button className="p-2 text-muted-foreground hover:bg-muted rounded-full transition-colors">
-            <UserIcon className="size-5" />
-          </button>
-        </div>
-      </header>
+      <DashboardHeader 
+        breadcrumbs={[
+          { label: "Main", href: "/dashboard" },
+          { label: "Dashboard" }
+        ]} 
+      />
       
-      <main className="flex flex-1 flex-col gap-8 py-6">
+      <main className="flex flex-1 flex-col gap-10 py-10">
         {/* Hero Section */}
-        <section className="px-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="space-y-1">
-            <h2 className="text-4xl font-black text-primary tracking-tighter">Aceh Province Monitoring</h2>
-            <p className="text-sm text-muted-foreground font-medium">Real-time risk assessment and Sentinel-2 satellite data analysis.</p>
+        <section className="px-6 lg:px-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-2">
+            <h2 className="text-4xl font-black text-primary tracking-tighter uppercase">Aceh Province Monitoring</h2>
+            <p className="text-sm text-on-surface-variant font-bold opacity-60 uppercase tracking-widest">Real-time risk assessment and Sentinel-2 satellite data analysis.</p>
           </div>
-          <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm" className="bg-white border-muted-foreground/10 text-[11px] font-bold h-9 px-4 uppercase tracking-wider">
-              <DownloadIcon className="size-3.5 mr-2" />
+          <div className="flex items-center gap-4">
+            <Button className="bg-surface-container-high hover:bg-surface-variant text-primary border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-2xl transition-all">
+              <LucideDownload className="size-4 mr-2" />
               Export Report
             </Button>
-            <Button size="sm" className="bg-primary hover:bg-primary/90 text-white border-none text-[11px] font-bold h-9 px-4 uppercase tracking-wider shadow-md">
-              <PlayIcon className="size-3.5 mr-2 fill-current" />
+            <Button className="bg-gradient-to-r from-primary to-primary-container hover:shadow-xl hover:shadow-primary/20 text-white border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-2xl shadow-lg transition-all">
+              <LucideZap className="size-4 mr-2 fill-current" />
               Run Prediction
             </Button>
           </div>
@@ -54,20 +39,26 @@ export default function Page() {
         <SectionCards />
 
         {/* Visualization Section */}
-        <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 px-6">
-          <div className="lg:col-span-2 h-[450px]">
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 px-6 lg:px-8">
+          <div className="lg:col-span-8 h-[500px]">
             <RiskDistributionMap />
           </div>
-          <div className="bg-white/50 backdrop-blur rounded-2xl p-2 border border-white/40 shadow-sm flex flex-col justify-center">
+          <div className="lg:col-span-4 bg-surface-container-lowest rounded-[40px] p-8 shadow-sm flex flex-col justify-center border border-surface-container/50">
             <ClassDistributionChart />
           </div>
         </section>
 
         {/* Table Section */}
-        <section className="pb-8">
+        <section className="pb-12">
           <PredictiveAssessmentsTable />
         </section>
       </main>
+
+      {/* Floating Action Button */}
+      <button className="fixed bottom-10 right-10 size-16 bg-tertiary text-on-tertiary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 hover:shadow-tertiary/20">
+        <LucideBell className="size-7" />
+      </button>
     </>
   )
 }
+

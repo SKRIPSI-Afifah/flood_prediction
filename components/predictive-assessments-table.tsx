@@ -10,26 +10,26 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { MoreVerticalIcon } from "lucide-react"
+import { MoreVertical, Info } from "lucide-react"
 
 const assessmentData = [
   {
     region: "Meulaboh Basin A-2",
-    coordinates: "4.1481° N, 96.1292° E",
-    confidence: 93.2,
+    coordinates: "4.1481° N, 96.1283° E",
+    confidence: 98.2,
     status: "RAWAN",
     timestamp: "10 mins ago",
   },
   {
     region: "Banda Aceh Coastal Zone",
-    coordinates: "5.5483° N, 95.3237° E",
+    coordinates: "5.5483° N, 95.3238° E",
     confidence: 94.5,
     status: "TIDAK RAWAN",
     timestamp: "24 mins ago",
   },
   {
     region: "Lhokseumawe North District",
-    coordinates: "5.1881° N, 97.1507° E",
+    coordinates: "5.1801° N, 97.1507° E",
     confidence: 89.1,
     status: "TIDAK RAWAN",
     timestamp: "1 hr ago",
@@ -38,52 +38,57 @@ const assessmentData = [
 
 export function PredictiveAssessmentsTable() {
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between px-6">
-        <h3 className="text-[12px] font-bold uppercase tracking-widest text-primary">Latest Predictive Assessments</h3>
-        <button className="text-[11px] font-bold text-primary hover:underline">View All History</button>
+    <div className="bg-surface-container-lowest rounded-3xl overflow-hidden mx-6 lg:mx-8 shadow-sm">
+      <div className="px-8 py-6 border-b border-surface-container/50 flex justify-between items-center">
+        <div className="flex items-center gap-3">
+            <h3 className="text-sm font-black text-primary uppercase tracking-[0.15em]">Latest Predictive Assessments</h3>
+            <Info className="size-4 text-on-surface-variant/40" />
+        </div>
+        <button className="text-[11px] font-black text-primary hover:underline uppercase tracking-widest">View All History</button>
       </div>
-      <div className="rounded-lg border bg-card/50 overflow-hidden mx-4 lg:mx-6">
-        <Table>
-          <TableHeader className="bg-muted/50 border-b">
-            <TableRow className="hover:bg-transparent">
-              <TableHead className="h-10 text-[10px] font-black uppercase tracking-wider">Region Name</TableHead>
-              <TableHead className="h-10 text-[10px] font-black uppercase tracking-wider text-center">Coordinates</TableHead>
-              <TableHead className="h-10 text-[10px] font-black uppercase tracking-wider text-center">Confidence Score</TableHead>
-              <TableHead className="h-10 text-[10px] font-black uppercase tracking-wider text-center">Flood Status</TableHead>
-              <TableHead className="h-10 text-[10px] font-black uppercase tracking-wider text-center">Timestamp</TableHead>
-              <TableHead className="h-10 w-[50px]"></TableHead>
+      <div className="overflow-x-auto">
+        <Table className="border-collapse">
+          <TableHeader>
+            <TableRow className="bg-surface-container-low border-none hover:bg-surface-container-low">
+              <TableHead className="px-8 py-5 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Region Name</TableHead>
+              <TableHead className="px-8 py-5 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Coordinates</TableHead>
+              <TableHead className="px-8 py-5 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Confidence Score</TableHead>
+              <TableHead className="px-8 py-5 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Flood Status</TableHead>
+              <TableHead className="px-8 py-5 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Timestamp</TableHead>
+              <TableHead className="px-8 py-5 w-[50px]"></TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody className="divide-y divide-surface-container-low">
             {assessmentData.map((item, index) => (
-              <TableRow key={index} className="group hover:bg-muted/30">
-                <TableCell className="py-4 font-bold text-sm text-primary">{item.region}</TableCell>
-                <TableCell className="py-4 text-xs text-muted-foreground font-mono text-center">{item.coordinates}</TableCell>
-                <TableCell className="py-4 text-center">
-                    <div className="flex flex-col items-center gap-1.5 min-w-[120px]">
-                        <span className="text-[11px] font-bold">{item.confidence}%</span>
-                        <div className="h-1 w-full bg-muted rounded-full overflow-hidden">
-                            <div className="h-full bg-primary" style={{ width: `${item.confidence}%` }} />
+              <TableRow 
+                key={index} 
+                className="hover:bg-surface-container-low/30 transition-colors border-none group"
+              >
+                <TableCell className="px-8 py-5 text-sm font-bold text-on-surface">{item.region}</TableCell>
+                <TableCell className="px-8 py-5 text-xs font-medium font-mono text-on-surface-variant/70">{item.coordinates}</TableCell>
+                <TableCell className="px-8 py-5">
+                    <div className="flex items-center gap-3 min-w-[120px]">
+                        <span className="text-xs font-black text-primary">{item.confidence}%</span>
+                        <div className="h-1.5 flex-1 bg-surface-container rounded-full overflow-hidden">
+                            <div className="h-full bg-primary rounded-full" style={{ width: `${item.confidence}%` }} />
                         </div>
                     </div>
                 </TableCell>
-                <TableCell className="py-4 text-center">
+                <TableCell className="px-8 py-5">
                   <Badge 
-                    variant="outline" 
-                    className={`rounded-sm px-2 py-0.5 text-[9px] font-black border-none ${
+                    className={`rounded-full px-4 py-1 text-[9px] font-black uppercase tracking-wider border-none shadow-none ${
                       item.status === 'RAWAN' 
-                      ? 'bg-red-100 text-red-600' 
-                      : 'bg-green-100 text-green-600'
+                      ? 'bg-error-container text-on-error-container' 
+                      : 'bg-secondary-container text-on-secondary-container'
                     }`}
                   >
                     {item.status}
                   </Badge>
                 </TableCell>
-                <TableCell className="py-4 text-[11px] text-muted-foreground text-center font-medium">{item.timestamp}</TableCell>
-                <TableCell className="py-4 text-center">
-                    <button className="p-1 hover:bg-muted rounded text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-                        <MoreVerticalIcon className="size-4" />
+                <TableCell className="px-8 py-5 text-xs font-medium text-on-surface-variant opacity-60">{item.timestamp}</TableCell>
+                <TableCell className="px-8 py-5 text-right">
+                    <button className="text-on-surface-variant/40 hover:text-primary transition-colors">
+                        <MoreVertical className="size-5" />
                     </button>
                 </TableCell>
               </TableRow>
@@ -94,3 +99,4 @@ export function PredictiveAssessmentsTable() {
     </div>
   )
 }
+

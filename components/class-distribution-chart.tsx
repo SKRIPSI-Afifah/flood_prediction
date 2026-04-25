@@ -1,15 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { Pie, PieChart, Cell, Label, ResponsiveContainer } from "recharts"
+import { Pie, PieChart, Cell, Label } from "recharts"
+import { PieChart as PieIcon } from "lucide-react"
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import {
   ChartContainer,
   ChartTooltip,
@@ -18,38 +12,32 @@ import {
 } from "@/components/ui/chart"
 
 const data = [
-  { name: "Safe", value: 64, color: "#006c4a" },
-  { name: "Risk", value: 36, color: "#ba1a1a" },
+  { name: "Safe", value: 64, color: "var(--secondary)" },
+  { name: "Risk", value: 36, color: "var(--error)" },
 ]
 
 const chartConfig = {
   safe: {
-    label: "Tidak Rawan (Safe)",
-    color: "#006c4a",
+    label: "Safe Zones",
+    color: "var(--secondary)",
   },
   risk: {
-    label: "Rawan (Risk)",
-    color: "#ba1a1a",
+    label: "Risk Zones",
+    color: "var(--error)",
   },
 } satisfies ChartConfig
 
 export function ClassDistributionChart() {
-  const totalValue = React.useMemo(() => {
-    return data.reduce((acc, curr) => acc + curr.value, 0)
-  }, [])
-
   return (
-    <Card className="flex flex-col border-none shadow-none bg-transparent">
-      <CardHeader className="items-start pb-0">
-        <CardTitle className="text-sm font-bold text-primary flex items-center gap-2">
-            CLASS DISTRIBUTION
-            <div className="size-4 rounded-full border border-muted-foreground/30 flex items-center justify-center text-[10px] font-normal italic">i</div>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex-1 pb-0">
+    <div className="flex flex-col h-full">
+      <div className="flex justify-between items-center mb-10 px-4">
+        <h3 className="text-sm font-black text-primary uppercase tracking-[0.15em]">Class Distribution</h3>
+        <PieIcon className="size-5 text-on-surface-variant/40" />
+      </div>
+      <div className="flex-1 flex flex-col justify-center">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[300px]"
+          className="mx-auto aspect-square max-h-[220px] w-full"
         >
           <PieChart>
             <ChartTooltip
@@ -60,12 +48,13 @@ export function ClassDistributionChart() {
               data={data}
               dataKey="value"
               nameKey="name"
-              innerRadius={80}
-              strokeWidth={5}
-              paddingAngle={2}
+              innerRadius={75}
+              outerRadius={95}
+              strokeWidth={0}
+              paddingAngle={4}
             >
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
+                <Cell key={`cell-${index}`} fill={entry.color} cornerRadius={10} />
               ))}
               <Label
                 content={({ viewBox }) => {
@@ -80,14 +69,14 @@ export function ClassDistributionChart() {
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-4xl font-bold"
+                          className="fill-primary text-4xl font-black tracking-tighter"
                         >
                           64%
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground text-xs uppercase"
+                          className="fill-on-surface-variant text-[10px] uppercase font-black tracking-widest opacity-40"
                         >
                           Safe Zones
                         </tspan>
@@ -99,26 +88,27 @@ export function ClassDistributionChart() {
             </Pie>
           </PieChart>
         </ChartContainer>
-        <div className="mt-4 space-y-3">
+        <div className="mt-10 space-y-5 px-4 pb-4">
             {[
-                { name: "Rawan (Risk)", value: "36%", color: "bg-[#ba1a1a]", width: "w-[36%]" },
-                { name: "Tidak Rawan (Safe)", value: "64%", color: "bg-[#006c4a]", width: "w-[64%]" },
+                { name: "Rawan (Risk)", value: "36%", color: "bg-error", width: "36%" },
+                { name: "Tidak Rawan (Safe)", value: "64%", color: "bg-secondary", width: "64%" },
             ].map((item) => (
-                <div key={item.name} className="space-y-1">
-                    <div className="flex items-center justify-between text-[11px]">
-                        <div className="flex items-center gap-2">
-                            <div className={`size-2 rounded-full ${item.color}`} />
-                            <span className="font-medium text-muted-foreground uppercase tracking-tight">{item.name}</span>
+                <div key={item.name} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <div className={`size-2.5 rounded-full ${item.color} ring-4 ${item.color}/10`} />
+                            <span className="text-xs font-bold text-on-surface-variant uppercase tracking-tight">{item.name}</span>
                         </div>
-                        <span className="font-bold text-foreground">{item.value}</span>
+                        <span className="text-xs font-black text-primary">{item.value}</span>
                     </div>
-                    <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
-                        <div className={`h-full ${item.color} ${item.width}`} />
+                    <div className="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+                        <div className={`h-full ${item.color} rounded-full`} style={{ width: item.width }} />
                     </div>
                 </div>
             ))}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
+
