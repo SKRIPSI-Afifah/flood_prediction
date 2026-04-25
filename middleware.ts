@@ -1,19 +1,24 @@
-import { NextResponse, type NextRequest } from 'next/server';
-// Note: We cannot easily use the full supabase client in edge middleware without specific helpers.
-// For this project, we'll keep it simple: client-side redirection is already handled in pages.
-// But we'll add a placeholder middleware to demonstrate structure.
+import { NextResponse, type NextRequest } from 'next/server'
+import { updateSession } from '@/lib/supabase/middleware'
 
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-
-  // Example: Basic redirection for root if no session cookie exists
-  // if (pathname === '/' && !request.cookies.get('sb-access-token')) {
-  //   return NextResponse.redirect(new URL('/login', request.url));
-  // }
-
-  return NextResponse.next();
+export async function middleware(request: NextRequest) {
+  const response = await updateSession(request)
+  
+  // Set x-url header to access pathname in server components
+  response.headers.set('x-url', request.nextUrl.pathname)
+  
+  return response
 }
 
 export const config = {
-  matcher: ['/data', '/users', '/prediction', '/history', '/evaluation', '/map'],
-};
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * Feel free to modify this pattern to include more paths.
+     */
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
+}

@@ -5,31 +5,33 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center rounded-md text-[13px] font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] select-none",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_1px_2px_rgba(0,0,0,0.05)]",
+        default: "bg-primary text-primary-foreground hover:opacity-70 [a]:hover:opacity-70",
         outline:
-          "border border-border bg-background hover:bg-muted hover:text-foreground",
+          "border-border bg-background hover:bg-muted hover:text-foreground shadow-ring",
         secondary:
-          "bg-secondary/10 text-foreground hover:bg-secondary/20",
-        ghost: "hover:bg-muted hover:text-foreground",
+          "bg-muted text-foreground hover:bg-muted/80",
+        ghost:
+          "bg-background text-foreground shadow-ring hover:bg-muted transition-colors",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        link: "text-primary underline-offset-4 hover:underline",
-        apple: "bg-[#1d1d1f] text-white hover:bg-[#1d1d1f]/90 shadow-sm rounded-full",
-        shiny: "relative overflow-hidden bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-[1.02] active:scale-[0.98] before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent",
+          "bg-destructive/10 text-destructive hover:bg-destructive/20",
+        link: "text-primary underline-offset-4 hover:underline font-normal",
       },
       size: {
-        default: "h-8 px-4 py-2",
-        sm: "h-7 rounded-md px-3 text-[12px]",
-        lg: "h-10 rounded-lg px-8 text-[15px]",
-        xl: "h-12 rounded-xl px-10 text-[17px] font-semibold",
-        pill: "h-9 rounded-full px-6",
-        icon: "h-8 w-8",
-        "icon-sm": "h-7 w-7",
+        default:
+          "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+        xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
+        sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
+        lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
+        icon: "size-8",
+        "icon-xs":
+          "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
+        "icon-sm":
+          "size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
+        "icon-lg": "size-9",
       },
     },
     defaultVariants: {
@@ -38,7 +40,6 @@ const buttonVariants = cva(
     },
   }
 )
-
 
 function Button({
   className,

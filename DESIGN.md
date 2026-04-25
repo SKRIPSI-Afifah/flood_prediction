@@ -1,247 +1,259 @@
-# Design System Inspired by Apple
+# Design System Inspired by Cal.com
 
 ## 1. Visual Theme & Atmosphere
 
-Apple's web language is a precision editorial system that alternates between gallery-like calm and retail-density information blocks. The visual tone stays restrained: broad neutral canvases, quiet chrome, and product imagery given almost all of the expressive weight. The interface is engineered to disappear so hardware, materials, and finish options become the narrative foreground.
+Cal.com's website is a masterclass in monochromatic restraint — a grayscale world where boldness comes not from color but from the sheer confidence of black text on white space. Inspired by Uber's minimal aesthetic, the palette is deliberately stripped of hue: near-black headings (`#242424`), mid-gray secondary text (`#898989`), and pure white surfaces. Color is treated as a foreign substance — when it appears (a rare blue link, a green trust badge), it feels like a controlled accent in an otherwise black-and-white photograph.
 
-Across the five analyzed pages, the rhythm is consistent but not monolithic. Marketing surfaces (homepage and Environment) use cinematic black-and-light chaptering, while commerce surfaces (Store and Shop flows) introduce tighter spacing, more utility controls, and denser card stacks without breaking the core brand grammar. The result is one system with two gears: showcase mode and transaction mode.
+Cal Sans, the brand's custom geometric display typeface designed by Mark Davis, is the visual centerpiece. Letters are intentionally spaced extremely close at large sizes, creating dense, architectural headlines that feel like they're carved into the page. At 64px and 48px, Cal Sans headings sit at weight 600 with a tight 1.10 line-height — confident, compressed, and immediately recognizable. For body text, the system switches to Inter, providing "rock-solid" readability that complements Cal Sans's display personality. The typography pairing creates a clear division: Cal Sans speaks, Inter explains.
 
-Typography is the stabilizer. SF Pro Display carries hero and merchandising hierarchy with compact line heights and controlled tracking, while SF Pro Text handles product metadata, navigation, filters, and dense selection UI. The typography stays understated, but the scale range is wide enough to support both billboard hero messaging and micro utility labels.
+The elevation system is notably sophisticated for a minimal site — 11 shadow definitions create a nuanced depth hierarchy using multi-layered shadows that combine ring borders (`0px 0px 0px 1px`), soft diffused shadows, and inset highlights. This shadow-first approach to depth (rather than border-first) gives surfaces a subtle three-dimensionality that feels modern and polished. Built on Framer with a border-radius scale from 2px to 9999px (pill), Cal.com balances geometric precision with soft, rounded interactive elements.
 
 **Key Characteristics:**
-- Binary section rhythm: deep black scenes (`#000000`) alternating with pale neutral fields (`#f5f5f7`)
-- Single blue accent family for action and link semantics (`#0071e3`, `#0066cc`, `#2997ff`)
-- Dual operating modes in one system: cinematic showcase modules and dense commerce configurators
-- Heavy reliance on imagery and material finishes; UI chrome remains visually thin
-- Tight headline metrics (SF Pro Display, semibold) paired with compact body/link typography (SF Pro Text)
-- Pill and capsule geometry as signature action language (`18px` to `980px` and circular controls)
-- Depth used sparingly; contrast and surface separation do most of the layering work
-- Multi-page color-block rhythm: black hero chapters -> pale neutral merchandising fields -> utility white retail surfaces -> dark micro-surfaces for controls
+- Purely grayscale brand palette — no brand colors, boldness through monochrome
+- Cal Sans custom geometric display font with extremely tight default letter-spacing
+- Multi-layered shadow system (11 definitions) with ring borders + diffused shadows + inset highlights
+- Cal Sans for headings, Inter for body — clean typographic division
+- Wide border-radius scale from 2px to 9999px (pill) — versatile rounding
+- White canvas with near-black (#242424) text — maximum contrast, zero decoration
+- Product screenshots as primary visual content — the scheduling UI sells itself
+- Built on Framer platform
 
 ## 2. Color Palette & Roles
 
-> **Source Pages:** `https://www.apple.com/`, `https://www.apple.com/environment/`, `https://www.apple.com/store`, `https://www.apple.com/shop/buy-iphone/iphone-17-pro`, `https://www.apple.com/shop/accessories/all`
-
 ### Primary
-- **Absolute Black** (`#000000`): Immersive hero canvases, high-drama product chapters, deep UI anchors.
-- **Pale Apple Gray** (`#f5f5f7`): Main light surface for feature bands, comparison blocks, and editorial transitions.
-- **Near-Black Ink** (`#1d1d1f`): Primary text and dark-fill control color on light canvases.
+- **Charcoal** (`#242424`): Primary heading and button text — Cal.com's signature near-black, warmer than pure black
+- **Midnight** (`#111111`): Deepest text/overlay color — used at 50% opacity for subtle overlays
+- **White** (`#ffffff`): Primary background and surface — the dominant canvas
 
 ### Secondary & Accent
-- **Apple Action Blue** (`#0071e3`): Primary action fill and focus-signaling brand accent.
-- **Body Link Blue** (`#0066cc`): Inline link color optimized for long-form readability.
-- **High-Luminance Link Blue** (`#2997ff`): Bright link treatment on darker scenes where stronger contrast is required.
+- **Link Blue** (`#0099ff`): In-text links with underline decoration — the only blue in the system, reserved strictly for hyperlinks
+- **Focus Ring** (`#3b82f6` at 50% opacity): Keyboard focus indicator — accessibility-only, invisible in normal interaction
+- **Default Link** (`#0000ee`): Browser-default link color on some elements — unmodified, signaling openness
 
 ### Surface & Background
-- **Pure White Canvas** (`#ffffff`): Retail/product-list backgrounds and dense transactional sections.
-- **Graphite Surface A** (`#272729`): Dark card and media-control context layer.
-- **Graphite Surface B** (`#262629`): Slightly deeper dark utility layer for control groupings.
-- **Graphite Surface C** (`#28282b`): Elevated dark supporting surfaces.
-- **Graphite Surface D** (`#2a2a2c`): Darkest elevated step used for separation in richer dark scenes.
+- **Pure White** (`#ffffff`): Primary page background and card surfaces
+- **Light Gray** (approx `#f5f5f5`): Subtle section differentiation — barely visible tint
+- **Mid Gray** (`#898989`): Secondary text, descriptions, and muted labels
 
 ### Neutrals & Text
-- **Secondary Neutral Gray** (`#6e6e73`): Body secondary copy, helper descriptions, tertiary metadata.
-- **Soft Border Gray** (`#d2d2d7`): Dividers, subtle outlines, and muted utility containment.
-- **Mid Border Gray** (`#86868b`): Stronger field outlines in product-configuration and filter contexts.
-- **Utility Dark Gray** (`#424245`): Dark-neutral text/surface crossover in store contexts.
+- **Charcoal** (`#242424`): Headlines, buttons, primary UI text
+- **Midnight** (`#111111`): Deep black for high-contrast links and nav text
+- **Mid Gray** (`#898989`): Descriptions, secondary labels, muted content
+- **Pure Black** (`#000000`): Certain link text elements
+- **Border Gray** (approx `rgba(34, 42, 53, 0.08–0.10)`): Shadow-based borders using ring shadows instead of CSS borders
 
 ### Semantic & Accent
-- **Selection/Focus Signal** (`#0071e3`): Shared focus and selected-state signal across marketing and commerce contexts.
-- **Error/Warning/Success**: No distinct semantic palette was consistently visible in the extracted surface set.
+- Cal.com is deliberately colorless for brand elements — "a grayscale brand to emphasise on boldness and professionalism"
+- Product UI screenshots show color (blues, greens in the scheduling interface), but the marketing site itself stays monochrome
+- The philosophy mirrors Uber's approach: let the content carry color, the frame stays neutral
 
 ### Gradient System
-- The extracted pages are overwhelmingly solid-surface driven. Visual richness comes from photography and finish rendering rather than persistent UI gradients.
+- No gradients on the marketing site — the design is fully flat and monochrome
+- Depth is achieved entirely through shadows, not color transitions
 
 ## 3. Typography Rules
 
 ### Font Family
-- **Display Family:** `SF Pro Display`, fallbacks `SF Pro Icons, Helvetica Neue, Helvetica, Arial, sans-serif`
-- **Text Family:** `SF Pro Text`, fallbacks `SF Pro Icons, Helvetica Neue, Helvetica, Arial, sans-serif`
-- **Usage Split:** Display family handles hero/product headlines and merchandising headings; Text family handles navigation, controls, labels, and dense commerce copy.
+- **Display**: `Cal Sans` — custom geometric sans-serif by Mark Davis. Open-source, available on Google Fonts and GitHub. Extremely tight default letter-spacing designed for large headlines. Has 6 character variants (Cc, j, t, u, 0, 1)
+- **Body**: `Inter` — "rock-solid" standard body font. Fallback: `Inter Placeholder`
+- **UI Light**: `Cal Sans UI Variable Light` — light-weight variant (300) for softer UI text with -0.2px letter-spacing
+- **UI Medium**: `Cal Sans UI Medium` — medium-weight variant (500) for emphasized captions
+- **Mono**: `Roboto Mono` — for code blocks and technical content
+- **Tertiary**: `Matter Regular` / `Matter SemiBold` / `Matter Medium` — additional body fonts for specific contexts
 
 ### Hierarchy
-| Role | Size | Weight | Line Height | Letter Spacing | Notes |
-|------|------|--------|-------------|----------------|-------|
-| Hero Display XL | 80px | 600 | 1.00-1.05 | -1.2px | Environment/store hero scale |
-| Hero Display L | 56px | 600 | 1.07 | -0.28px | Homepage hero moments |
-| Section Display | 48px | 500-600 | 1.08 | -0.144px | Major chapter headings |
-| Product Heading | 40px | 600 | 1.10 | normal | Product and campaign section titles |
-| Feature Display | 38px | 600 | 1.21 | 0.152px | Device and merchandising callouts |
-| Promo Display | 32px | 300-600 | 1.09-1.13 | 0.128px to 0.352px | Module-level sub-heroes |
-| Card/Product Title | 28px | 600 | 1.14 | 0.196px | Tile-level naming and key copy |
-| Utility Heading | 24px | 600 | 1.17 | 0.216px / -0.2px | Configurator and grouped content headers |
-| Link/Action Heading | 21px | 600 | 1.14-1.38 | 0.231px | Larger promotional links |
-| Subhead | 19px | 600 | 1.21 | 0.228px | Compact section intros |
-| Body Primary | 17px | 400 | 1.47 | -0.374px | Standard body and retail descriptions |
-| Body Emphasis | 17px | 600 | 1.24 | -0.374px | Emphasized labels and key values |
-| Control Label | 14px | 400-600 | 1.29-1.47 | -0.224px | Buttons, helper labels, compact nav text |
-| Micro UI | 12px | 400-600 | 1.00-1.33 | -0.12px | Fine print, micro labels |
-| Legal/Meta | 10px | 400 | 1.30-1.47 | -0.08px | Dense metadata and legal support text |
+
+| Role | Font | Size | Weight | Line Height | Letter Spacing | Notes |
+|------|------|------|--------|-------------|----------------|-------|
+| Display Hero | Cal Sans | 64px | 600 | 1.10 | 0px | Maximum impact, tight default spacing |
+| Section Heading | Cal Sans | 48px | 600 | 1.10 | 0px | Large section titles |
+| Feature Heading | Cal Sans | 24px | 600 | 1.30 | 0px | Feature block headlines |
+| Sub-heading | Cal Sans | 20px | 600 | 1.20 | +0.2px | Positive spacing for readability at smaller size |
+| Sub-heading Alt | Cal Sans | 20px | 600 | 1.50 | 0px | Relaxed line-height variant |
+| Card Title | Cal Sans | 16px | 600 | 1.10 | 0px | Smallest Cal Sans usage |
+| Caption Label | Cal Sans | 12px | 600 | 1.50 | 0px | Small labels in Cal Sans |
+| Body Light | Cal Sans UI Light | 18px | 300 | 1.30 | -0.2px | Light-weight body intro text |
+| Body Light Standard | Cal Sans UI Light | 16px | 300 | 1.50 | -0.2px | Light-weight body text |
+| Caption Light | Cal Sans UI Light | 14px | 300 | 1.40–1.50 | -0.2 to -0.28px | Light captions and descriptions |
+| UI Label | Inter | 16px | 600 | 1.00 | 0px | UI buttons and nav labels |
+| Caption Inter | Inter | 14px | 500 | 1.14 | 0px | Small UI text |
+| Micro | Inter | 12px | 500 | 1.00 | 0px | Smallest Inter text |
+| Code | Roboto Mono | 14px | 600 | 1.00 | 0px | Code snippets, technical text |
+| Body Matter | Matter Regular | 14px | 400 | 1.14 | 0px | Alternate body text (product UI) |
 
 ### Principles
-- **Continuity across page types:** The same typographic DNA spans cinematic launches and product-purchase flows, preventing a brand split between marketing and commerce.
-- **Compression at scale:** Display tiers use tight leading and controlled tracking to feel machined and product-first.
-- **Readable density at retail depth:** SF Pro Text balances compactness with enough vertical rhythm for long product lists and option matrices.
-- **Measured weight ladder:** 600 is the dominant emphasis weight; 700 appears selectively; 300 is used sparingly for contrast in larger lines.
-
-### Note on Font Substitutes
-- Closest freely available substitutes: `Inter` for text-heavy implementation and `SF Pro Display-like` metrics approximated with `Inter Tight` for headings.
-- When substituting, increase line-height slightly (+0.02 to +0.06) on body sizes and reduce negative tracking intensity to preserve readability.
+- **Cal Sans at large, Inter at small**: Cal Sans is exclusively for headings and display — never for body text. The system enforces this division strictly
+- **Tight by default, space when small**: Cal Sans letters are "intentionally spaced to be extremely close" at large sizes. At 20px and below, positive letter-spacing (+0.2px) must be applied to prevent cramming
+- **Weight 300 body variant**: Cal Sans UI Variable Light at 300 weight creates an elegant, airy body text that contrasts with the dense 600-weight headlines
+- **Weight 600 dominance**: Nearly all Cal Sans usage is at weight 600 (semi-bold) — the font was designed to perform at this weight
+- **Negative tracking on light text**: Cal Sans UI Light uses -0.2px to -0.28px letter-spacing, subtly tightening the already-compact letterforms
 
 ## 4. Component Stylings
 
 ### Buttons
-- **Primary Fill Action:** `#0071e3` background, `#ffffff` text, 8px radius, compact horizontal padding (commonly 8px 15px). Used for decisive purchase/progression actions.
-- **Dark Fill Action:** `#1d1d1f` background, `#ffffff` text, 8px radius. Used when light surfaces need a restrained high-contrast primary.
-- **Pill/Capsule Action Family:** large capsule actions at `18px`-`56px` radii and extreme pill links at `980px`. Establishes Apple’s soft but precise call-to-action silhouette.
-- **Utility Filter/Button Shells:** light shells (`#fafafc` or translucent white) with subtle gray borders (`#d2d2d7` / `#86868b`) for dense configuration contexts.
-- **Pressed Behavior:** active controls commonly reduce scale or shift fill slightly to indicate physical press confirmation.
+- **Dark Primary**: `#242424` (or `#1e1f23`) background, white text, 6–8px radius. Hover: opacity reduction to 0.7. The signature CTA — maximally dark on white
+- **White/Ghost**: White background with shadow-ring border, dark text. Uses the multi-layered shadow system for subtle elevation
+- **Pill**: 9999px radius for rounded pill-shaped actions and badges
+- **Compact**: 4px padding, small text — utility actions within product UI
+- **Inset highlight**: Some buttons feature `rgba(255, 255, 255, 0.15) 0px 2px 0px inset` — a subtle inner-top highlight creating a 3D pressed effect
 
 ### Cards & Containers
-- **Editorial/Product Cards:** light cards on `#f5f5f7` or white fields with minimal framing and image-first composition.
-- **Dark Utility Cards:** graphite steps (`#272729` to `#2a2a2c`) used for overlays, media controls, and dark-context modules.
-- **Configurator Panels:** rounded containers (often 12px-18px) with clear but restrained border definition.
-- **Carousel/Spotlight Modules:** larger rounded shells (`28px`-`36px`) for featured content lanes.
+- **Shadow Card**: White background, multi-layered shadow — `rgba(19, 19, 22, 0.7) 0px 1px 5px -4px, rgba(34, 42, 53, 0.08) 0px 0px 0px 1px, rgba(34, 42, 53, 0.05) 0px 4px 8px 0px`. The ring shadow (0px 0px 0px 1px) acts as a shadow-border
+- **Product UI Cards**: Screenshots of the scheduling interface displayed in card containers with shadow elevation
+- **Radius**: 8px for standard cards, 12px for larger containers, 16px for prominent sections
+- **Hover**: Likely subtle shadow deepening or scale transform
 
 ### Inputs & Forms
-- **Retail Input Fields:** translucent or white backgrounds, dark text (`#1d1d1f`), border-led containment (`#86868b`).
-- **Selection Controls:** circular/toggle-like control geometry appears frequently in product selection interfaces.
-- **Density Strategy:** form fields remain visually quiet to keep device imagery and pricing hierarchy dominant.
+- **Select dropdown**: White background, `#000000` text, 1px solid `rgb(118, 118, 118)` border
+- **Focus**: Uses Framer's focus outline system (`--framer-focus-outline`)
+- **Text input**: 8px radius, standard border treatment
+- **Minimal form presence**: The marketing site prioritizes CTA buttons over complex forms
 
 ### Navigation
-- **Global Marketing Nav:** compact dark translucent bar with small-type links and restrained iconography.
-- **Store/Sub-shop Nav Layers:** additional utility bars, chips, and segmented controls for category and product narrowing.
-- **Link Hierarchy:** link blues remain the primary interactive signal while neutral text supports dense navigation sets.
+- **Top nav**: White/transparent background, Cal Sans links at near-black
+- **Nav text**: `#111111` (Midnight) for primary links, `#000000` for emphasis
+- **CTA button**: Dark Primary in the nav — high contrast call-to-action
+- **Mobile**: Collapses to hamburger with simplified navigation
+- **Sticky**: Fixed on scroll
 
 ### Image Treatment
-- **Object-First Photography:** hardware and accessories are foregrounded on controlled solid surfaces.
-- **High-fidelity finish rendering:** reflective/material details are central to visual persuasion.
-- **Mixed framing:** full-bleed hero scenes coexist with rounded retail cards and tightly cropped merchandising thumbnails.
-
-### Other Distinctive Components
-- **Product Configurator Matrix:** option stacks and selectors combining chips, radio-style controls, and contextual pricing/summary blocks.
-- **Carousel Control Dots/Arrows:** circular control vocabulary in muted overlays for gallery progression.
-- **Environment Story Panels:** narrative chapters that blend editorial typography with cinematic product/environment visuals.
+- **Product screenshots**: Large scheduling UI screenshots — the product is the primary visual
+- **Trust logos**: Grayscale company logos in a horizontal trust bar
+- **Aspect ratios**: Wide landscape for product UI screenshots
+- **No decorative imagery**: No illustrations, photos, or abstract graphics — pure product + typography
 
 ## 5. Layout Principles
 
 ### Spacing System
-- Base unit is effectively `8px`, but the system supports dense micro-steps for precision alignment.
-- Frequently reused spacing values across pages: `2`, `4`, `6`, `7`, `8`, `9`, `10`, `12`, `14`, `17`, `20` px.
-- Universal rhythm constants visible across both marketing and retail flows: `8px` unit scaffolding with `14-20px` utility intervals for component padding and list spacing.
+- **Base unit**: 8px
+- **Scale**: 1px, 2px, 3px, 4px, 6px, 8px, 12px, 16px, 20px, 24px, 28px, 80px, 96px
+- **Section padding**: 80px–96px vertical between major sections (generous)
+- **Card padding**: 12px–24px internal
+- **Component gaps**: 4px–8px between related elements
+- **Notable jump**: From 28px to 80px — a deliberate gap emphasizing the section-level spacing tier
 
 ### Grid & Container
-- **Showcase pages:** large central columns with broad horizontal breathing room and full-width color chapters.
-- **Commerce pages:** tighter multi-column product and control grids with frequent modular stacking.
-- **Container behavior:** constrained readable core with generous outer margins at desktop widths.
+- **Max width**: ~1200px content container, centered
+- **Column patterns**: Full-width hero, centered text blocks, 2-3 column feature grids
+- **Feature showcase**: Product screenshots flanked by description text
+- **Breakpoints**: 98px, 640px, 768px, 810px, 1024px, 1199px — Framer-generated
 
 ### Whitespace Philosophy
-- **Scene pacing:** major visual chapters use broad top/bottom breathing room.
-- **Information compaction where needed:** retail pages deliberately compress spacing to expose more actionable information per viewport.
-- **Contrast-led separation:** section transitions rely more on surface changes than decorative separators.
+- **Lavish section spacing**: 80px–96px between sections creates a breathable, premium feel
+- **Product-first content**: Screenshots dominate the visual space — minimal surrounding decoration
+- **Centered headlines**: Cal Sans headings centered with generous margins above and below
 
 ### Border Radius Scale
-- **5px:** tiny utility links/tags and minor small shells.
-- **8px-12px:** standard controls and compact fields.
-- **16px-18px:** cards, module frames, and commerce panels.
-- **28px-36px:** larger module and spotlight containers.
-- **56px / 100px / 980px:** capsules, large pills, and signature elongated CTA forms.
-- **50%:** circular media and selection controls.
+- **2px**: Subtle rounding on inline elements
+- **4px**: Small UI components
+- **6px–7px**: Buttons, small cards, images
+- **8px**: Standard interactive elements — buttons, inputs, images
+- **12px**: Medium containers — links, larger cards, images
+- **16px**: Large section containers
+- **29px**: Special rounded elements
+- **100px**: Large rounding — nearly circular on small elements
+- **1000px**: Very large rounding
+- **9999px**: Full pill shape — badges, links
 
 ## 6. Depth & Elevation
 
 | Level | Treatment | Use |
-|------|-----------|-----|
-| Level 0 | Flat neutral surfaces (`#ffffff`, `#f5f5f7`, `#000000`) | Main narrative and product stages |
-| Level 1 | Subtle border containment (`#d2d2d7`, `#86868b`) | Filters, input fields, utility cards |
-| Level 2 | Soft shadow (`rgba(0,0,0,0.08)` to `rgba(0,0,0,0.22)` where present) | Highlighted cards and elevated merchandise modules |
-| Level 3 | Dark-surface stepping (`#272729` -> `#2a2a2c`) | Overlays, media controls, dark utility clusters |
-| Accessibility | Blue focus signal (`#0071e3`) | Keyboard and selection emphasis |
+|-------|-----------|-----|
+| Level 0 (Flat) | No shadow | Page canvas, basic text containers |
+| Level 1 (Inset) | `rgba(0,0,0,0.16) 0px 1px 1.9px 0px inset` | Pressed/recessed elements, input wells |
+| Level 2 (Ring + Soft) | `rgba(19,19,22,0.7) 0px 1px 5px -4px, rgba(34,42,53,0.08) 0px 0px 0px 1px, rgba(34,42,53,0.05) 0px 4px 8px` | Cards, containers — the workhorse shadow |
+| Level 3 (Ring + Soft Alt) | `rgba(36,36,36,0.7) 0px 1px 5px -4px, rgba(36,36,36,0.05) 0px 4px 8px` | Alt card elevation without ring border |
+| Level 4 (Inset Highlight) | `rgba(255,255,255,0.15) 0px 2px 0px inset` or `rgb(255,255,255) 0px 2px 0px inset` | Button inner highlight — 3D pressed effect |
+| Level 5 (Soft Only) | `rgba(34,42,53,0.05) 0px 4px 8px` | Subtle ambient shadow |
 
-Depth is intentionally restrained. Apple favors tonal contrast, surface stepping, and compositional hierarchy over heavy shadow stacks.
+### Shadow Philosophy
+Cal.com's shadow system is the most sophisticated element of the design — 11 shadow definitions using a multi-layered compositing technique:
+- **Ring borders**: `0px 0px 0px 1px` shadows act as borders, avoiding CSS `border` entirely. This creates hairline containment without affecting layout
+- **Diffused soft shadows**: `0px 4px 8px` at 5% opacity add gentle ambient depth
+- **Sharp contact shadows**: `0px 1px 5px -4px` at 70% opacity create tight bottom-edge shadows for grounding
+- **Inset highlights**: White inset shadows at the top of buttons create a subtle 3D bevel
+- Shadows are composed in comma-separated stacks — each surface gets 2-3 layered shadow definitions working together
 
 ### Decorative Depth
-- Decorative depth is primarily created by photographic realism and material rendering, not synthetic UI effects.
-- Translucent overlays and glass-like utility bars provide mild atmospheric layering in navigation and controls.
+- No gradients or glow effects
+- All depth comes from the sophisticated shadow compositing system
+- The overall effect is subtle but precise — surfaces feel like physical cards sitting on a table
 
 ## 7. Do's and Don'ts
 
 ### Do
-- Use the neutral triad (`#000000`, `#f5f5f7`, `#ffffff`) as the structural foundation.
-- Reserve blue accents for genuine action and navigation semantics.
-- Keep typography tight and deliberate, especially at display scales.
-- Maintain the capsule/circle geometry language for controls and key actions.
-- Let product imagery carry visual drama; keep chrome understated.
-- Use border-led containment in dense retail contexts instead of heavy card ornamentation.
-- Preserve clear separation between showcase modules and transactional modules while keeping core tokens shared.
+- Use Cal Sans exclusively for headings (24px+) and never for body text — it's a display font with tight default spacing
+- Apply positive letter-spacing (+0.2px) when using Cal Sans below 24px — the font cramps at small sizes without it
+- Maintain the grayscale palette — boldness comes from contrast, not color
+- Use the multi-layered shadow system for card elevation — ring shadow + diffused shadow + contact shadow
+- Keep backgrounds pure white — the monochrome philosophy requires a clean canvas
+- Use Inter for all body text at weight 300–600 — it's the reliable counterpart to Cal Sans's display personality
+- Let product screenshots be the visual content — no illustrations, no decorative graphics
+- Apply generous section spacing (80px–96px) — the breathing room is essential to the premium feel
 
 ### Don't
-- Don’t introduce broad secondary accent palettes that compete with Apple blue.
-- Don’t overuse shadows, glow effects, or decorative gradients in core UI chrome.
-- Don’t mix unrelated font families or loosen tracking indiscriminately.
-- Don’t flatten all corners to a single radius; Apple uses purposeful radius tiers.
-- Don’t overload commerce modules with thick borders or loud visual effects.
-- Don’t remove neutral contrast cadence between dark and light chapters.
-- Don’t treat marketing and purchase flows as separate design systems.
+- Use Cal Sans for body text or text below 16px — it wasn't designed for extended reading
+- Add brand colors — Cal.com is intentionally grayscale, color is reserved for links and UI states only
+- Use CSS borders when shadows can achieve the same containment — the ring-shadow technique is the system's approach
+- Apply negative letter-spacing to Cal Sans at small sizes — it needs positive spacing (+0.2px) below 24px
+- Create heavy, dark shadows — Cal.com's shadows are subtle (5% opacity diffused) with sharp contact edges
+- Use illustrations, abstract graphics, or decorative elements — the visual language is typography + product UI only
+- Mix Cal Sans weights — the font is designed for weight 600, other weights break the intended character
+- Reduce section spacing below 48px — the generous whitespace is core to the premium monochrome aesthetic
 
 ## 8. Responsive Behavior
 
 ### Breakpoints
 | Name | Width | Key Changes |
 |------|-------|-------------|
-| Small Mobile | 374px and below | Tightened retail controls, single-column product stacks |
-| Mobile | 375px-640px | One-column modules, compact action rows, condensed selectors |
-| Tablet | 641px-833px | Expanded cards and mixed 1-2 column transitions |
-| Tablet Wide | 834px-1023px | More stable multi-column merchandising, larger text blocks |
-| Desktop | 1024px-1240px | Full retail layouts and product comparison structures |
-| Desktop Wide | 1241px-1440px | Marketing hero expansion and broader section spacing |
-| Large Desktop | 1441px+ | Maximum chapter breathing room and wide editorial composition |
+| Mobile | <640px | Single column, hero text ~36px, stacked features, hamburger nav |
+| Tablet Small | 640px–768px | 2-column begins for some elements |
+| Tablet | 768px–810px | Layout adjustments, fuller grid |
+| Tablet Large | 810px–1024px | Multi-column feature grids |
+| Desktop | 1024px–1199px | Full layout, expanded navigation |
+| Large Desktop | >1199px | Max-width container, centered content |
 
 ### Touch Targets
-- Primary and secondary actions are generally presented in tap-friendly pill/button geometries.
-- Circular media and selection controls align with minimum touchable intent in mobile contexts.
-- Dense commerce UI uses compact labels but maintains clear hit regions via surrounding shape padding.
+- Buttons: 8px radius with comfortable padding (10px+ vertical)
+- Nav links: Dark text with adequate spacing
+- Mobile CTAs: Full-width dark buttons for easy thumb access
+- Pill badges: 9999px radius creates large, tappable targets
 
 ### Collapsing Strategy
-- Marketing hero typography scales down in discrete tiers while preserving hierarchy contrast.
-- Product and commerce grids collapse from multi-column to stacked cards with persistent selector visibility.
-- Utility navigation compresses into simpler link/control groupings while preserving key actions.
-- Option/configuration clusters become vertically sequenced to keep purchase flow linear on small screens.
+- **Navigation**: Full horizontal nav → hamburger on mobile
+- **Hero**: 64px Cal Sans display → ~36px on mobile
+- **Feature grids**: Multi-column → 2-column → single stacked column
+- **Product screenshots**: Scale within containers, maintaining aspect ratios
+- **Section spacing**: Reduces from 80px–96px to ~48px on mobile
 
 ### Image Behavior
-- Product imagery preserves aspect and centrality through breakpoints.
-- Hero visuals remain dominant on mobile, with text repositioned around media priority.
-- Retail thumbnails stay legible via tighter crop logic and denser card stacking.
-- Image-led modules continue to anchor the rhythm as layout density increases.
+- Product screenshots scale responsively
+- Trust logos reflow to multi-row grid on mobile
+- No art direction changes — same compositions at all sizes
+- Images use 7px–12px border-radius for consistent rounded corners
 
 ## 9. Agent Prompt Guide
 
 ### Quick Color Reference
-- Primary action blue: **Apple Action Blue** (`#0071e3`)
-- Inline link blue: **Body Link Blue** (`#0066cc`)
-- Dark chapter canvas: **Absolute Black** (`#000000`)
-- Light chapter canvas: **Pale Apple Gray** (`#f5f5f7`)
-- Primary text on light: **Near-Black Ink** (`#1d1d1f`)
-- Secondary text: **Secondary Neutral Gray** (`#6e6e73`)
-- Retail border soft: **Soft Border Gray** (`#d2d2d7`)
-- Retail border strong: **Mid Border Gray** (`#86868b`)
+- Primary Text: Charcoal (`#242424`)
+- Deep Text: Midnight (`#111111`)
+- Secondary Text: Mid Gray (`#898989`)
+- Background: Pure White (`#ffffff`)
+- Link: Link Blue (`#0099ff`)
+- CTA Button: Charcoal (`#242424`) bg, white text
+- Shadow Border: `rgba(34, 42, 53, 0.08)` ring
 
 ### Example Component Prompts
-- "Design an Apple-style product hero on a black canvas (`#000000`) with SF Pro Display semibold headline (48-56px), concise supporting copy, and two capsule CTAs using `#0071e3` and `#1d1d1f`."
-- "Create a commerce configuration panel on white (`#ffffff`) with 18px rounded cards, `#86868b` border fields, SF Pro Text 17px body copy, and compact option selectors."
-- "Build a merchandising card grid alternating `#f5f5f7` and white surfaces, with image-first cards, restrained shadows, and 14-17px SF Pro Text metadata."
-- "Generate a carousel control cluster using circular buttons (50% radius), muted gray overlays, and clear active feedback for gallery navigation."
-- "Compose a mixed marketing + retail page rhythm: dark showcase chapter -> light feature chapter -> dense product list module while keeping blue accents only for actions and links."
+- "Create a hero section with white background, 64px Cal Sans heading at weight 600, line-height 1.10, #242424 text, centered layout with a dark CTA button (#242424, 8px radius, white text)"
+- "Design a scheduling card with white background, multi-layered shadow (0px 1px 5px -4px rgba(19,19,22,0.7), 0px 0px 0px 1px rgba(34,42,53,0.08), 0px 4px 8px rgba(34,42,53,0.05)), 12px radius"
+- "Build a navigation bar with white background, Inter links at 14px weight 500 in #111111, a dark CTA button (#242424), sticky positioning"
+- "Create a trust bar with grayscale company logos, horizontally centered, 16px gap between logos, on white background"
+- "Design a feature section with 48px Cal Sans heading (weight 600, #242424), 16px Inter body text (weight 300, #898989, line-height 1.50), and a product screenshot with 12px radius and the card shadow"
 
 ### Iteration Guide
-1. Lock the neutral foundation first (`#000000`, `#f5f5f7`, `#ffffff`) before tuning accents.
-2. Keep blue accents scarce and purposeful; if everything is blue, hierarchy collapses.
-3. Tune typography in this order: display scale, body readability, then micro labels.
-4. Match radius by component class (field, card, capsule, circle) rather than one-size-fits-all rounding.
-5. Increase density gradually when moving from showcase sections to commerce sections.
-6. Validate that product imagery remains the strongest visual layer after each revision.
-
-### Known Gaps
-- Distinct semantic status colors (error/warning/success) were not consistently visible in the extracted page set.
-- Some interaction micro-states vary by module and are not represented as universal system tokens.
-- A few retail modules expose context-specific typography overrides that do not appear across all five pages.
+When refining existing screens generated with this design system:
+1. Verify headings use Cal Sans at weight 600, body uses Inter — never mix them
+2. Check that the palette is purely grayscale — if you see brand colors, remove them
+3. Ensure card elevation uses the multi-layered shadow stack, not CSS borders
+4. Confirm section spacing is generous (80px+) — if sections feel cramped, add more space
+5. The overall tone should feel like a clean, professional scheduling tool — monochrome confidence without any decorative flourishes
