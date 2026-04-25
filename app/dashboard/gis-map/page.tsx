@@ -9,8 +9,8 @@ export default function GISMapPage() {
     <div className="flex flex-col h-screen w-full bg-surface-container overflow-hidden">
       <DashboardHeader 
         breadcrumbs={[
-          { label: "Dashboard", href: "/dashboard" },
-          { label: "GIS Map" }
+          { label: "Beranda", href: "/dashboard" },
+          { label: "Peta GIS" }
         ]} 
       />
       <div className="flex-1 relative overflow-hidden">
@@ -45,21 +45,21 @@ export default function GISMapPage() {
               <LucideX className="size-5" />
             </button>
             <div className="absolute bottom-6 left-8">
-              <p className="text-[10px] text-primary-fixed/60 font-black uppercase tracking-widest mb-1">Regional Report</p>
+              <p className="text-[10px] text-primary-fixed/60 font-black uppercase tracking-widest mb-1">Laporan Regional</p>
               <h2 className="text-3xl font-black text-white leading-tight uppercase tracking-tight">Aceh Besar</h2>
             </div>
           </div>
           <div className="p-10 space-y-10">
             <div className="grid grid-cols-2 gap-8">
               <div className="space-y-1">
-                <p className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em]">Risk Score</p>
+                <p className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em]">Skor Risiko</p>
                 <div className="flex items-baseline gap-1">
                     <p className="text-4xl font-black text-error">92.4</p>
                     <span className="text-lg font-black text-error opacity-60">%</span>
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em]">Water Level</p>
+                <p className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em]">Ketinggian Air</p>
                 <div className="flex items-baseline gap-1">
                     <p className="text-4xl font-black text-primary">1.85</p>
                     <span className="text-sm font-black text-primary opacity-60">m</span>
@@ -69,8 +69,8 @@ export default function GISMapPage() {
             
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-[10px] font-black text-on-surface-variant/60 uppercase tracking-widest">Vulnerability Index</span>
-                <Badge className="bg-error-container text-on-error-container border-none font-black text-[9px] uppercase px-4 py-1 tracking-widest">Critical</Badge>
+                <span className="text-[10px] font-black text-on-surface-variant/60 uppercase tracking-widest">Indeks Kerentanan</span>
+                <Badge className="bg-error-container text-on-error-container border-none font-black text-[9px] uppercase px-4 py-1 tracking-widest">Kritis</Badge>
               </div>
               <div className="h-2.5 w-full bg-surface-container rounded-full overflow-hidden shadow-inner">
                 <div className="h-full bg-error rounded-full shadow-lg" style={{ width: '92%' }}></div>
@@ -82,8 +82,8 @@ export default function GISMapPage() {
                 <LucideCloudRain className="size-5" />
               </div>
               <div>
-                <p className="text-sm font-black text-on-surface uppercase tracking-tight">Heavy Precipitation</p>
-                <p className="text-[11px] font-bold text-on-surface-variant/60 mt-0.5 leading-relaxed">Next 12 hours expected: 45mm cumulative rainfall.</p>
+                <p className="text-sm font-black text-on-surface uppercase tracking-tight">Curah Hujan Tinggi</p>
+                <p className="text-[11px] font-bold text-on-surface-variant/60 mt-0.5 leading-relaxed">Prediksi 12 jam ke depan: 45mm curah hujan kumulatif.</p>
               </div>
             </div>
 

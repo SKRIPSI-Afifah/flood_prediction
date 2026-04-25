@@ -11,8 +11,8 @@ export default function Page() {
     <>
       <DashboardHeader 
         breadcrumbs={[
-          { label: "Main", href: "/dashboard" },
-          { label: "Dashboard" }
+          { label: "Utama", href: "/dashboard" },
+          { label: "Beranda" }
         ]} 
       />
       
@@ -20,17 +20,17 @@ export default function Page() {
         {/* Hero Section */}
         <section className="px-6 lg:px-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-2">
-            <h2 className="text-4xl font-black text-primary tracking-tighter uppercase">Aceh Province Monitoring</h2>
-            <p className="text-sm text-on-surface-variant font-bold opacity-60 uppercase tracking-widest">Real-time risk assessment and Sentinel-2 satellite data analysis.</p>
+            <h2 className="text-4xl font-black text-primary tracking-tighter uppercase">Monitoring Provinsi Aceh</h2>
+            <p className="text-sm text-on-surface-variant font-bold opacity-60 uppercase tracking-widest">Penilaian risiko real-time dan analisis data satelit Sentinel-2.</p>
           </div>
           <div className="flex items-center gap-4">
             <Button className="bg-surface-container-high hover:bg-surface-variant text-primary border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-2xl transition-all">
               <LucideDownload className="size-4 mr-2" />
-              Export Report
+              Ekspor Laporan
             </Button>
             <Button className="bg-gradient-to-r from-primary to-primary-container hover:shadow-xl hover:shadow-primary/20 text-white border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-2xl shadow-lg transition-all">
               <LucideZap className="size-4 mr-2 fill-current" />
-              Run Prediction
+              Jalankan Prediksi
             </Button>
           </div>
         </section>

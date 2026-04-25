@@ -26,24 +26,24 @@ export default function DataManagementPage() {
     <>
       <DashboardHeader 
         breadcrumbs={[
-          { label: "Dashboard", href: "/dashboard" },
-          { label: "Data Management" }
+          { label: "Beranda", href: "/dashboard" },
+          { label: "Manajemen Data" }
         ]} 
       />
       <main className="flex-1 p-8 lg:p-10 space-y-10 max-w-[1600px] mx-auto w-full">
         {/* Page Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div className="space-y-2">
-            <span className="text-[10px] font-black text-primary tracking-[0.3em] uppercase opacity-60">Dataset Repository</span>
-            <h2 className="text-4xl font-black tracking-tighter text-primary uppercase">Data Management</h2>
+            <span className="text-[10px] font-black text-primary tracking-[0.3em] uppercase opacity-60">Repositori Dataset</span>
+            <h2 className="text-4xl font-black tracking-tighter text-primary uppercase">Manajemen Data</h2>
             <p className="text-on-surface-variant font-medium mt-3 max-w-2xl text-base leading-relaxed">
-              Centralized repository for Aceh&apos;s historical and real-time flood monitoring parameters. Curate, audit, and prepare data for predictive modeling.
+              Repositori terpusat untuk parameter pemantauan banjir historis dan real-time di Aceh. Kurasi, audit, dan siapkan data untuk pemodelan prediktif.
             </p>
           </div>
           <div className="flex gap-4">
             <Button className="bg-surface-container-high hover:bg-surface-variant text-primary border-none font-black text-[10px] h-12 px-6 rounded-2xl uppercase tracking-widest transition-all">
               <LucideUploadCloud className="size-4 mr-2" />
-              Import CSV
+              Impor CSV
             </Button>
             <Button className="bg-gradient-to-r from-primary to-primary-container text-white border-none font-black text-[10px] h-12 px-6 rounded-2xl uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all">
               <LucidePlus className="size-4 mr-2" />

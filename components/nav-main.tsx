@@ -18,6 +18,7 @@ export function NavMain({
     title: string
     url: string
     icon?: React.ReactNode
+    roles?: string[]
   }[]
 }) {
   const pathname = usePathname()

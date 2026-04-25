@@ -10,8 +10,8 @@ export default function EvaluationPage() {
     <>
       <DashboardHeader 
         breadcrumbs={[
-          { label: "Dashboard", href: "/dashboard" },
-          { label: "Evaluation" }
+          { label: "Beranda", href: "/dashboard" },
+          { label: "Evaluasi Model" }
         ]} 
       />
       <main className="flex-1 p-8 lg:p-10 space-y-10 max-w-[1600px] mx-auto w-full">
@@ -19,8 +19,8 @@ export default function EvaluationPage() {
         {/* Bento Metrics Grid */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-                { label: "Accuracy", value: "94.2%", icon: LucideVerified, color: "border-primary", trend: "+2.4% from last epoch", trendColor: "text-secondary" },
-                { label: "Precision", value: "91.8%", icon: LucideTarget, color: "border-secondary", trend: "True Positive Rate consistency", trendColor: "text-on-surface-variant/40" },
+                { label: "Akurasi", value: "94.2%", icon: LucideVerified, color: "border-primary", trend: "+2.4% from last epoch", trendColor: "text-secondary" },
+                { label: "Presisi", value: "91.8%", icon: LucideTarget, color: "border-secondary", trend: "True Positive Rate consistency", trendColor: "text-on-surface-variant/40" },
                 { label: "Recall", value: "89.5%", icon: LucideHistory, color: "border-tertiary", trend: "False Negative mitigation", trendColor: "text-on-surface-variant/40" },
                 { label: "F1-Score", value: "90.6%", icon: LucideScale, color: "border-primary-container", trend: "Harmonic mean balance", trendColor: "text-on-surface-variant/40" },
             ].map((metric, i) => (

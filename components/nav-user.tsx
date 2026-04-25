@@ -29,6 +29,7 @@ export function NavUser({
     name: string
     email: string
     avatar: string
+    role?: string
   }
 }) {
   const { isMobile } = useSidebar()
@@ -48,8 +49,8 @@ export function NavUser({
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs text-muted-foreground">
-                  {user.email}
+                <span className="truncate text-[10px] text-muted-foreground uppercase font-bold tracking-tight">
+                  {user.role || 'user'} • {user.email}
                 </span>
               </div>
               <EllipsisVerticalIcon className="ml-auto size-4" />
@@ -69,8 +70,8 @@ export function NavUser({
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs text-muted-foreground">
-                    {user.email}
+                  <span className="truncate text-[10px] text-muted-foreground uppercase font-bold tracking-tight">
+                    {user.role || 'user'} • {user.email}
                   </span>
                 </div>
               </div>

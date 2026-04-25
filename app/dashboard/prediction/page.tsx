@@ -9,8 +9,8 @@ export default function PredictionPage() {
     <>
       <DashboardHeader 
         breadcrumbs={[
-          { label: "Dashboard", href: "/dashboard" },
-          { label: "Prediction" }
+          { label: "Beranda", href: "/dashboard" },
+          { label: "Prediksi" }
         ]} 
       />
       <main className="flex-1 p-8 lg:p-10 space-y-10 max-w-[1600px] mx-auto w-full">
@@ -99,8 +99,8 @@ export default function PredictionPage() {
                 <div className="w-full space-y-6 pt-10 border-t border-surface-container/50">
                   <div className="flex justify-between items-end">
                     <div className="text-left space-y-1">
-                        <p className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em]">Confidence Score</p>
-                        <p className="text-sm font-black text-primary uppercase tracking-wider">Probability Metrics</p>
+                        <p className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em]">Skor Kepercayaan</p>
+                        <p className="text-sm font-black text-primary uppercase tracking-wider">Metrik Probabilitas</p>
                     </div>
                     <span className="text-4xl font-black text-primary tracking-tighter">89.4%</span>
                   </div>

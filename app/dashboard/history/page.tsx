@@ -9,8 +9,8 @@ export default function HistoryPage() {
     <>
       <DashboardHeader 
         breadcrumbs={[
-          { label: "Dashboard", href: "/dashboard" },
-          { label: "History" }
+          { label: "Beranda", href: "/dashboard" },
+          { label: "Riwayat" }
         ]} 
       />
       <main className="flex-1 p-8 lg:p-10 space-y-12 max-w-[1600px] mx-auto w-full">
@@ -18,10 +18,10 @@ export default function HistoryPage() {
         {/* Stats Snapshots */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-                { label: "Total Simulations", value: "1,284", trend: "+12%", trendUp: true, color: "text-primary" },
-                { label: "Critical Warnings", value: "42", trend: "Last 30 days", trendUp: false, color: "text-error" },
-                { label: "Accuracy Mean", value: "94.8%", trend: "Stable", trendUp: true, color: "text-secondary" },
-                { label: "Active Operators", value: "18", trend: "Internal Div", trendUp: false, color: "text-primary" },
+                { label: "Total Simulasi", value: "1,284", trend: "+12%", trendUp: true, color: "text-primary" },
+                { label: "Peringatan Kritis", value: "42", trend: "Last 30 days", trendUp: false, color: "text-error" },
+                { label: "Rata-rata Akurasi", value: "94.8%", trend: "Stabil", trendUp: true, color: "text-secondary" },
+                { label: "Operator Aktif", value: "18", trend: "Div Internal", trendUp: false, color: "text-primary" },
             ].map((stat, i) => (
                 <div key={i} className="bg-surface-container-lowest p-8 rounded-[40px] shadow-sm border border-surface-container/30 flex flex-col justify-between hover:bg-surface-container transition-colors duration-500 cursor-pointer group">
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">{stat.label}</p>
@@ -40,8 +40,8 @@ export default function HistoryPage() {
         <div className="bg-surface-container-lowest rounded-[48px] overflow-hidden shadow-2xl shadow-primary/5 border border-surface-container/50">
             <div className="px-10 py-8 bg-surface-container/20 border-b border-surface-container flex justify-between items-center">
                 <div className="space-y-1">
-                    <h3 className="text-xl font-black text-primary uppercase tracking-tight">Historical Log</h3>
-                    <p className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-widest">Global Prediction Records</p>
+                    <h3 className="text-xl font-black text-primary uppercase tracking-tight">Log Riwayat</h3>
+                    <p className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-widest">Catatan Prediksi Global</p>
                 </div>
                 <div className="flex gap-4">
                     <Button variant="ghost" size="icon" className="size-12 rounded-2xl hover:bg-white text-primary">
@@ -57,11 +57,11 @@ export default function HistoryPage() {
                 <table className="w-full text-left border-collapse">
                     <thead>
                         <tr className="bg-surface-container-high/30">
-                            <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">Timestamp</th>
-                            <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">Parameters</th>
-                            <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">Risk Status</th>
-                            <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">Authority</th>
-                            <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40 text-center">Actions</th>
+                            <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">Waktu</th>
+                            <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">Parameter</th>
+                            <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">Status Risiko</th>
+                            <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">Otoritas</th>
+                            <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-surface-container">
