@@ -19,20 +19,20 @@ export function UserButton() {
           <LucideUser className="size-5" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
+      <DropdownMenuContent className="w-56 bg-white border border-surface-container shadow-2xl" align="end" forceMount>
+        <DropdownMenuLabel className="font-normal p-4">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">Account</p>
-            <p className="text-xs leading-none text-muted-foreground">Authorized Access</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Sesi Terdaftar</p>
+            <p className="text-xs font-bold text-muted-foreground">Authorized Access</p>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="bg-surface-container" />
         <DropdownMenuItem 
           onClick={() => signOut()}
-          className="text-red-600 focus:text-red-600 cursor-pointer"
+          className="text-error focus:text-error focus:bg-error/5 cursor-pointer p-4 font-black text-[10px] uppercase tracking-[0.2em]"
         >
           <LucideLogOut className="mr-2 h-4 w-4" />
-          <span>Sign out</span>
+          <span>Keluar (Logout)</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

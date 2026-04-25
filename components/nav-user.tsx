@@ -59,47 +59,32 @@ export function NavUser({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg bg-white shadow-2xl border border-surface-container"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
           >
             <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+              <div className="flex items-center gap-2 px-3 py-3 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-[10px] text-muted-foreground uppercase font-bold tracking-tight">
+                  <span className="truncate font-black text-primary uppercase tracking-tight">{user.name}</span>
+                  <span className="truncate text-[9px] text-muted-foreground uppercase font-black tracking-widest opacity-60">
                     {user.role || 'user'} • {user.email}
                   </span>
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <CircleUserRoundIcon
-                />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCardIcon
-                />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <BellIcon
-                />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => signOut()}>
-              <LogOutIcon />
-              Log out
+            <DropdownMenuSeparator className="bg-surface-container" />
+            <DropdownMenuItem 
+              onClick={() => signOut()}
+              className="text-error focus:text-error focus:bg-error/5 cursor-pointer py-3 px-3 font-black text-[10px] uppercase tracking-[0.2em]"
+            >
+              <LogOutIcon className="mr-2 size-4" />
+              Keluar (Logout)
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
