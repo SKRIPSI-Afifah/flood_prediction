@@ -5,18 +5,20 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-[11px] font-semibold transition-colors focus:outline-none focus:ring-1 focus:ring-ring focus:ring-offset-1 select-none tracking-tight",
+  "group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap focus-visible:border-ring focus-visible:ring-ring/50 [&>svg]:pointer-events-none [&>svg]:size-3!",
   {
     variants: {
       variant: {
-        default:
-          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+        default: "bg-primary text-primary-foreground",
         secondary:
-          "border-transparent bg-secondary/10 text-secondary hover:bg-secondary/20",
+          "bg-secondary text-secondary-foreground",
         destructive:
-          "border-transparent bg-destructive/10 text-destructive hover:bg-destructive/20",
-        outline: "text-foreground border-border",
-        success: "border-transparent bg-secondary/10 text-secondary", // Reusing secondary for safe/success
+          "bg-destructive text-destructive-foreground",
+        outline:
+          "border-border shadow-ring text-foreground",
+        ghost:
+          "hover:bg-muted text-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
       },
     },
     defaultVariants: {
@@ -24,7 +26,6 @@ const badgeVariants = cva(
     },
   }
 )
-
 
 function Badge({
   className,
