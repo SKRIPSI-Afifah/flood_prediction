@@ -15,7 +15,7 @@ export default function DashboardLayout({
       }
     >
       <AppSidebar />
-      <SidebarInset className="bg-[#f6fafe]">
+      <SidebarInset className="bg-white">
         {children}
       </SidebarInset>
     </SidebarProvider>
