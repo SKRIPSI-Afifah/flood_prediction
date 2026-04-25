@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#370e00",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#601e00",
+                    "inverse-surface": "#2c3134",
+                    "secondary-container": "#82f5c1",
+                    "primary-container": "#1a4b84",
+                    "on-tertiary-fixed-variant": "#7f2b00",
+                    "surface-container": "#eaeef2",
+                    "surface-variant": "#dfe3e7",
+                    "outline": "#737781",
+                    "primary-fixed": "#d5e3ff",
+                    "surface-bright": "#f6fafe",
+                    "on-primary-fixed": "#001c3b",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#862d00",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f6fafe",
+                    "on-secondary-fixed-variant": "#005137",
+                    "on-secondary-fixed": "#002114",
+                    "surface-container-highest": "#dfe3e7",
+                    "surface-tint": "#335f99",
+                    "surface-dim": "#d6dade",
+                    "on-surface-variant": "#424750",
+                    "primary-fixed-dim": "#a6c8ff",
+                    "on-error-container": "#93000a",
+                    "outline-variant": "#c3c6d1",
+                    "on-surface": "#171c1f",
+                    "tertiary-fixed": "#ffdbce",
+                    "primary": "#003466",
+                    "inverse-on-surface": "#edf1f5",
+                    "error": "#ba1a1a",
+                    "secondary": "#006c4a",
+                    "on-secondary-container": "#00714e",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#93bcfc",
+                    "surface-container-high": "#e4e9ed",
+                    "inverse-primary": "#a6c8ff",
+                    "on-background": "#171c1f",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#144780",
+                    "on-tertiary-container": "#ffa481",
+                    "secondary-fixed": "#85f8c4",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f0f4f8",
+                    "tertiary-fixed-dim": "#ffb599",
+                    "background": "#f6fafe",
+                    "secondary-fixed-dim": "#68dba9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-overlay {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center px-6 w-full sticky top-0 z-50 bg-slate-50 dark:bg-slate-900 w-full h-16 border-b border-slate-200/50 dark:border-slate-800/50">
+<div class="text-xl font-bold tracking-tighter text-blue-900 dark:text-blue-50">FloodGuard Aceh</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors">
+<span class="material-symbols-outlined text-slate-500 mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm font-sans tracking-tight" placeholder="Search data..." type="text"/>
+</div>
+<div class="flex gap-4">
+<button class="material-symbols-outlined text-slate-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 p-2 rounded-full transition-colors" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined text-slate-500 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 p-2 rounded-full transition-colors" data-icon="account_circle">account_circle</button>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-full py-4 border-r border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950 h-screen w-64 fixed left-0 top-0 z-40">
+<div class="px-6 mb-10 mt-16">
+<div class="text-lg font-black text-blue-900 dark:text-blue-50 leading-tight">GIS Sentinel</div>
+<div class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Flood Risk Prediction</div>
+</div>
+<nav class="flex-1 space-y-1 px-3">
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+                Data Management
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                Preprocessing
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="memory">memory</span>
+                Modeling
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter bg-blue-900/10 dark:bg-blue-400/10 text-blue-900 dark:text-blue-200 border-r-4 border-blue-900 dark:border-blue-400 transition-all duration-200 ease-in-out rounded-l-lg" href="#">
+<span class="material-symbols-outlined" data-icon="batch_prediction">batch_prediction</span>
+                Prediction
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+                GIS Map
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+                Evaluation
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+                History
+            </a>
+</nav>
+<div class="mt-auto px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+                About
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 p-8 min-h-[calc(100vh-4rem)]">
+<div class="max-w-6xl mx-auto">
+<!-- Header Section -->
+<div class="mb-10">
+<h1 class="text-3xl font-black text-primary tracking-tight mb-2">Analisis Risiko Banjir</h1>
+<p class="text-on-surface-variant max-w-2xl">Masukkan parameter geografis dan meteorologis terkini untuk memprediksi tingkat kerawanan banjir di wilayah Aceh menggunakan model Sentinel GIS.</p>
+</div>
+<!-- Bento Layout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Input Form Card -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col border border-transparent">
+<div class="bg-surface-container-high px-6 py-4 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="dataset">dataset</span>
+<span class="font-bold text-on-surface tracking-tight">Parameter Input</span>
+</div>
+<span class="text-[11px] font-bold text-primary px-2 py-0.5 rounded-full bg-primary-fixed-dim">DATA AKTUAL</span>
+</div>
+<form class="p-8 space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]" data-icon="water_drop">water_drop</span>
+                                    Curah Hujan (mm)
+                                </label>
+<input class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Contoh: 125" type="number"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]" data-icon="terrain">terrain</span>
+                                    Elevasi (m)
+                                </label>
+<input class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Contoh: 15.5" type="number"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]" data-icon="landscape">landscape</span>
+                                    Slope (%)
+                                </label>
+<input class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Contoh: 5.2" type="number"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]" data-icon="home_work">home_work</span>
+                                    Lahan Terbangun (%)
+                                </label>
+<input class="w-full bg-surface-container-low border-none rounded-lg p-3 text-on-surface focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Contoh: 40" type="number"/>
+</div>
+</div>
+<div class="pt-4">
+<button class="w-full py-4 px-6 bg-gradient-to-r from-primary to-primary-container text-white font-bold rounded-lg shadow-lg shadow-primary/20 flex items-center justify-center gap-3 hover:scale-[1.01] active:scale-95 transition-all group" type="submit">
+<span>Prediksi Sekarang</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" data-icon="trending_flat">trending_flat</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Result & Visualization -->
+<div class="lg:col-span-5 space-y-8">
+<!-- Result Display Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-transparent overflow-hidden">
+<div class="bg-surface-container-high px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="online_prediction">online_prediction</span>
+<span class="font-bold text-on-surface tracking-tight">Hasil Prediksi</span>
+</div>
+</div>
+<div class="p-8 flex flex-col items-center text-center">
+<!-- Placeholder for 'RAWAN' or 'TIDAK RAWAN' -->
+<div class="mb-6 relative">
+<div class="absolute inset-0 bg-error/10 blur-3xl rounded-full"></div>
+<div class="relative flex flex-col items-center">
+<span class="text-[56px] font-black tracking-tighter text-error leading-none mb-2">RAWAN</span>
+<div class="h-1 w-24 bg-error rounded-full mb-4"></div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="warning">warning</span>
+<span class="text-sm font-medium">Potensi Banjir Tinggi</span>
+</div>
+</div>
+</div>
+<!-- Confidence Meter -->
+<div class="w-full space-y-3 pt-6 border-t border-surface-container">
+<div class="flex justify-between text-xs font-bold text-on-surface-variant">
+<span>Confidence Probability</span>
+<span class="text-primary">89.4%</span>
+</div>
+<div class="w-full h-3 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 89.4%"></div>
+</div>
+<p class="text-[11px] text-on-surface-variant leading-relaxed">Analisis dilakukan berdasarkan data historis curah hujan dan kemiringan lereng spesifik regional Aceh.</p>
+</div>
+</div>
+</div>
+<!-- Geographic Context Card (Glassmorphism Map Fragment) -->
+<div class="relative h-64 rounded-xl overflow-hidden shadow-sm group">
+<img alt="topographic map of Aceh province showing river basins and elevation patterns" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-location="Aceh, Indonesia" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-8g4wykKmGnO6--ilCS5TLBBdjCFlfJdZXkp09o9yfQ357vQmxcGijFDNqXtiDZsRW5CtLtG8EFn-3H1czRpc_7dDRx8NmqX8xPo6FQM503YLRbi8VMUtp3-ULg8mYSXc5GvGms2kVDuiZn5wKafXkwTIEEzJF8nUYrFpigwgsEW0x-rYEn7pKN57Gl4I_jlThoZcGBUYoDJe79HrKt163DLh0AEw-LZKhAU4maT19nhcjebXFShTu-nT5u72kamCN3hP3ya-9pw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 glass-overlay p-4 rounded-full flex items-center justify-between border border-white/20">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[20px]" data-icon="location_on">location_on</span>
+</div>
+<div>
+<div class="text-[11px] font-bold text-primary uppercase tracking-wider leading-none mb-1">Visualisasi Geografis</div>
+<div class="text-sm font-bold text-on-surface leading-none">Kabupaten Aceh Besar</div>
+</div>
+</div>
+<button class="material-symbols-outlined text-primary hover:rotate-45 transition-transform" data-icon="open_in_full">open_in_full</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Additional Context / Historical Trends -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container-low p-6 rounded-xl flex items-start gap-4">
+<div class="bg-secondary-container p-3 rounded-lg text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface text-sm mb-1">Data Historis</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">Mencakup 10 tahun data curah hujan ekstrem.</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl flex items-start gap-4">
+<div class="bg-primary-fixed-dim p-3 rounded-lg text-on-primary-fixed">
+<span class="material-symbols-outlined" data-icon="model_training">model_training</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface text-sm mb-1">Akurasi Model</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">Model Random Forest dengan F1-Score 0.94.</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl flex items-start gap-4">
+<div class="bg-tertiary-fixed p-3 rounded-lg text-on-tertiary-fixed">
+<span class="material-symbols-outlined" data-icon="update">update</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface text-sm mb-1">Pembaruan Real-time</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">Sinkronisasi setiap 15 menit dengan stasiun BMKG.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-slate-50 dark:bg-slate-900 flex items-center justify-around px-4 z-50 border-t border-slate-200/50">
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="text-[10px]">Map</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-blue-700 font-semibold" href="#">
+<span class="material-symbols-outlined" data-icon="batch_prediction" style="font-variation-settings: 'FILL' 1;">batch_prediction</span>
+<span class="text-[10px]">Predict</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-[10px]">History</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[10px]">Settings</span>
+</a>
+</nav>
+</body></html>

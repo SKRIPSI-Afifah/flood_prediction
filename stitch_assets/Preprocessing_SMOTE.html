@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Preprocessing - FloodGuard Aceh</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#370e00",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#601e00",
+                    "inverse-surface": "#2c3134",
+                    "secondary-container": "#82f5c1",
+                    "primary-container": "#1a4b84",
+                    "on-tertiary-fixed-variant": "#7f2b00",
+                    "surface-container": "#eaeef2",
+                    "surface-variant": "#dfe3e7",
+                    "outline": "#737781",
+                    "primary-fixed": "#d5e3ff",
+                    "surface-bright": "#f6fafe",
+                    "on-primary-fixed": "#001c3b",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#862d00",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f6fafe",
+                    "on-secondary-fixed-variant": "#005137",
+                    "on-secondary-fixed": "#002114",
+                    "surface-container-highest": "#dfe3e7",
+                    "surface-tint": "#335f99",
+                    "surface-dim": "#d6dade",
+                    "on-surface-variant": "#424750",
+                    "primary-fixed-dim": "#a6c8ff",
+                    "on-error-container": "#93000a",
+                    "outline-variant": "#c3c6d1",
+                    "on-surface": "#171c1f",
+                    "tertiary-fixed": "#ffdbce",
+                    "primary": "#003466",
+                    "inverse-on-surface": "#edf1f5",
+                    "error": "#ba1a1a",
+                    "secondary": "#006c4a",
+                    "on-secondary-container": "#00714e",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#93bcfc",
+                    "surface-container-high": "#e4e9ed",
+                    "inverse-primary": "#a6c8ff",
+                    "on-background": "#171c1f",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#144780",
+                    "on-tertiary-container": "#ffa481",
+                    "secondary-fixed": "#85f8c4",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f0f4f8",
+                    "tertiary-fixed-dim": "#ffb599",
+                    "background": "#f6fafe",
+                    "secondary-fixed-dim": "#68dba9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar Anchor -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-950 flex flex-col py-4 border-r border-slate-200 dark:border-slate-800 z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-fixed-variant" style="font-variation-settings: 'FILL' 1;">tsunami</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-blue-900 dark:text-blue-50 leading-tight">GIS Sentinel</h1>
+<p class="text-xs font-medium text-slate-500 uppercase tracking-widest">Flood Risk Prediction</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="database">database</span>
+<span class="text-sm font-medium">Data Management</span>
+</a>
+<!-- Active Navigation: Preprocessing -->
+<a class="flex items-center px-4 py-3 rounded-xl bg-blue-900/10 dark:bg-blue-400/10 text-blue-900 dark:text-blue-200 border-r-4 border-blue-900 dark:border-blue-400 transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="text-sm font-semibold">Preprocessing</span>
+</a>
+<a class="flex items-center px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="memory">memory</span>
+<span class="text-sm font-medium">Modeling</span>
+</a>
+<a class="flex items-center px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="batch_prediction">batch_prediction</span>
+<span class="text-sm font-medium">Prediction</span>
+</a>
+<a class="flex items-center px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="map">map</span>
+<span class="text-sm font-medium">GIS Map</span>
+</a>
+<a class="flex items-center px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="assessment">assessment</span>
+<span class="text-sm font-medium">Evaluation</span>
+</a>
+<a class="flex items-center px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="history">history</span>
+<span class="text-sm font-medium">History</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-1">
+<a class="flex items-center px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="info">info</span>
+<span class="text-sm font-medium">About</span>
+</a>
+<a class="flex items-center px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="settings">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar Anchor -->
+<header class="flex justify-between items-center px-8 w-full sticky top-0 z-40 bg-slate-50 dark:bg-slate-900 h-16 border-b border-slate-200/50 dark:border-slate-800/50">
+<div class="flex items-center">
+<h2 class="text-xl font-bold tracking-tighter text-blue-900 dark:text-blue-50">FloodGuard Aceh</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg" data-icon="search">search</span>
+<input class="bg-slate-100 dark:bg-slate-800 border-none rounded-full pl-10 pr-4 py-1.5 text-xs w-64 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search data points..." type="text"/>
+</div>
+<button class="p-2 rounded-full text-slate-500 hover:bg-slate-200/50 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="flex items-center gap-2 pl-4 border-l border-slate-200">
+<div class="text-right hidden sm:block">
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Analyst</p>
+<p class="text-sm font-semibold text-blue-900">Dr. Syahrul</p>
+</div>
+<img class="w-10 h-10 rounded-full object-cover border-2 border-primary-fixed shadow-sm" data-alt="professional portrait of a middle-aged male analyst with glasses in a modern office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAKbqh_xnAJjBkzwQdSLNCSs0me4zviSg4rRkj1XBCwcbqmOusfis8evuTXYUe_qNH62oKdRtBJvQDDN6xDM6FAeCz0IV3Aphc_W3Qa06i434oqAGeo1ZQJthNEj4kNpmsGjhA7PhvjpPtQQbHOEMLGCdNN6RDof_GJ89TeIR6nQoVWqTvCClFBsXN8_gjtvMXFF-CH93iq1RzjJOo65eBxpEASTHJFhNabP1ovDHK3CKyaFxHDabTfU3yagYsIu83L9jr-avVxaI"/>
+</div>
+</div>
+</header>
+<section class="p-8 max-w-7xl mx-auto space-y-8">
+<!-- Breadcrumbs & Title -->
+<div class="flex items-center justify-between">
+<div>
+<nav class="flex items-center gap-2 text-xs font-medium text-on-surface-variant mb-2">
+<span>Project</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-semibold">Preprocessing</span>
+</nav>
+<h3 class="text-3xl font-black tracking-tight text-primary">Data Balancing (SMOTE)</h3>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-bold text-primary bg-surface-container-high rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="download">download</span>
+                        Export Log
+                    </button>
+<button class="flex items-center gap-2 px-6 py-2 text-sm font-bold text-white bg-gradient-to-r from-primary to-primary-container rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined text-lg" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                        Re-run SMOTE
+                    </button>
+</div>
+</div>
+<!-- Bento Layout Start -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Explanation Card (Editorial Hero) -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-low rounded-full p-8 flex flex-col justify-center border-none">
+<div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-white" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<h4 class="text-xl font-bold text-primary mb-4">What is SMOTE?</h4>
+<p class="text-on-surface-variant leading-relaxed text-sm">
+<strong class="text-primary">Synthetic Minority Over-sampling Technique</strong> is a statistical technique for increasing the number of cases in your dataset in a balanced way. 
+                    </p>
+<p class="mt-4 text-on-surface-variant leading-relaxed text-sm">
+                        Instead of just duplicating existing samples, SMOTE generates <span class="italic">synthetic</span> examples by selecting similar records and interpolating between them. This prevents the model from simply memorizing the minority class.
+                    </p>
+<div class="mt-8 p-4 bg-surface-container-lowest rounded-xl flex items-start gap-4 border border-outline-variant/20">
+<span class="material-symbols-outlined text-secondary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<div>
+<p class="text-xs font-bold text-on-surface">Target Variable</p>
+<p class="text-sm font-medium text-secondary">Flood Risk Level (Binary)</p>
+</div>
+</div>
+</div>
+<!-- Stats Summary Row -->
+<div class="col-span-12 lg:col-span-8 grid grid-cols-2 gap-6">
+<div class="bg-surface-container-lowest rounded-full p-8 border-none relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-32 h-32 bg-slate-50 rounded-full group-hover:scale-110 transition-transform duration-500"></div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1 relative">Initial Row Count</p>
+<h5 class="text-4xl font-black text-primary relative">14,208</h5>
+<div class="flex items-center gap-2 mt-4 relative">
+<span class="text-xs font-medium px-2 py-0.5 bg-error-container text-on-error-container rounded-full">Imbalanced</span>
+<span class="text-[10px] font-bold text-slate-400">Ratio: 4.1 : 1</span>
+</div>
+</div>
+<div class="bg-primary text-on-primary rounded-full p-8 border-none relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-32 h-32 bg-white/5 rounded-full group-hover:scale-110 transition-transform duration-500"></div>
+<p class="text-xs font-bold text-primary-fixed-dim uppercase tracking-widest mb-1 relative">Balanced Row Count</p>
+<h5 class="text-4xl font-black text-white relative">22,732</h5>
+<div class="flex items-center gap-2 mt-4 relative">
+<span class="text-xs font-medium px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded-full">Optimal</span>
+<span class="text-[10px] font-bold text-primary-fixed-dim">Ratio: 1 : 1</span>
+</div>
+</div>
+<!-- Visual Comparison Section -->
+<div class="col-span-2 grid grid-cols-2 gap-8 bg-surface-container-lowest rounded-full p-10 border-none">
+<!-- Chart 1: Original -->
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h6 class="text-sm font-black text-primary uppercase">Original Imbalanced Data</h6>
+<span class="material-symbols-outlined text-outline" data-icon="bar_chart">bar_chart</span>
+</div>
+<div class="space-y-4">
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold">
+<span class="text-on-surface-variant">Tidak Rawan</span>
+<span class="text-primary">80% (11,366)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-3 overflow-hidden">
+<div class="bg-primary-container h-full w-[80%] rounded-full"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold">
+<span class="text-on-surface-variant">Rawan (Minority)</span>
+<span class="text-tertiary">20% (2,842)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-3 overflow-hidden">
+<div class="bg-tertiary-container h-full w-[20%] rounded-full"></div>
+</div>
+</div>
+</div>
+<p class="text-[10px] text-on-surface-variant leading-relaxed">
+                                Current distribution creates bias towards negative predictions, potentially missing high-risk areas during modeling.
+                            </p>
+</div>
+<!-- Divider -->
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 bg-surface rounded-full border border-surface-container shadow-sm z-10 hidden lg:flex">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="trending_flat">trending_flat</span>
+</div>
+<!-- Chart 2: After SMOTE -->
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h6 class="text-sm font-black text-primary uppercase">Balanced Data After SMOTE</h6>
+<span class="material-symbols-outlined text-secondary" data-icon="equalizer" style="font-variation-settings: 'FILL' 1;">equalizer</span>
+</div>
+<div class="space-y-4">
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold">
+<span class="text-on-surface-variant">Tidak Rawan</span>
+<span class="text-primary">50% (11,366)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-3 overflow-hidden">
+<div class="bg-primary h-full w-[50%] rounded-full"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-bold">
+<span class="text-on-surface-variant">Rawan (Synthetic)</span>
+<span class="text-secondary">50% (11,366)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-3 overflow-hidden">
+<div class="bg-secondary h-full w-[50%] rounded-full"></div>
+</div>
+</div>
+</div>
+<p class="text-[10px] text-on-surface-variant leading-relaxed">
+                                Oversampling completed. Minority class samples have been synthesized to match majority class volume.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Metadata / Configuration Details -->
+<div class="bg-surface-container rounded-full p-8 border-none grid grid-cols-4 gap-12">
+<div class="space-y-1">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Neighbors</p>
+<p class="text-lg font-black text-primary">K=5</p>
+<p class="text-[10px] text-slate-500">Standard Euclidean distance</p>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Sampling Strategy</p>
+<p class="text-lg font-black text-primary">Auto</p>
+<p class="text-[10px] text-slate-500">Resample minority to majority</p>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Random State</p>
+<p class="text-lg font-black text-primary">42</p>
+<p class="text-[10px] text-slate-500">For reproducible results</p>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Execution Time</p>
+<p class="text-lg font-black text-primary">1.24s</p>
+<p class="text-[10px] text-slate-500">Compute efficient on GPU</p>
+</div>
+</div>
+<!-- Visualization of Synthetic Clusters -->
+<div class="bg-white rounded-full overflow-hidden p-8 border border-surface-container">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h4 class="text-lg font-bold text-primary">Feature Space Visualization</h4>
+<p class="text-xs text-on-surface-variant">PCA Projection of original vs synthetic data points</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Original</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Synthetic</span>
+</div>
+</div>
+</div>
+<div class="h-64 bg-surface-container-low rounded-xl relative flex items-center justify-center">
+<img class="w-full h-full object-cover opacity-80 mix-blend-multiply" data-alt="abstract data visualization scatter plot with blue and green glowing points on a dark grid background representing statistical clusters" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_WKM7O3C-4u5Ls9hoZLCFeH5cOmbRLxIouGqBQ3HZ4SMiO4teDi7IztCv1viWtuOiEp25AJfZQ6pmSBOmKV2vupXiuKq_xRD-2JVX4-qdq7sJ0vM4i2NENwqujIsnC0Oq8T2w1c-7C6qxUQKqL20qGp1TPv0xGeKI5-kQGUP2V7Npld9safWHXaPolRXWwzZIWZqiYMzS3KjdEX2nCBJ9cZarG10WJwE9ZaQ__zQm43k7o4BzASbhaOCsMCABJbpxtfxd8q2K56M"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low/80 to-transparent"></div>
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur px-6 py-2 rounded-full shadow-lg border border-primary/10">
+<p class="text-xs font-bold text-primary">Synthesizing 8,524 new records via linear interpolation</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB Suppression: On focused sub-pages like Preprocessing, FAB is suppressed as per guidelines -->
+</body></html>

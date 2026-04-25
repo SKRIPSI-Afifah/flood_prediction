@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>History - FloodGuard Aceh</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0 4px 32px 0 rgba(23, 28, 31, 0.04);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#370e00",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#601e00",
+                        "inverse-surface": "#2c3134",
+                        "secondary-container": "#82f5c1",
+                        "primary-container": "#1a4b84",
+                        "on-tertiary-fixed-variant": "#7f2b00",
+                        "surface-container": "#eaeef2",
+                        "surface-variant": "#dfe3e7",
+                        "outline": "#737781",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-bright": "#f6fafe",
+                        "on-primary-fixed": "#001c3b",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#862d00",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f6fafe",
+                        "on-secondary-fixed-variant": "#005137",
+                        "on-secondary-fixed": "#002114",
+                        "surface-container-highest": "#dfe3e7",
+                        "surface-tint": "#335f99",
+                        "surface-dim": "#d6dade",
+                        "on-surface-variant": "#424750",
+                        "primary-fixed-dim": "#a6c8ff",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c3c6d1",
+                        "on-surface": "#171c1f",
+                        "tertiary-fixed": "#ffdbce",
+                        "primary": "#003466",
+                        "inverse-on-surface": "#edf1f5",
+                        "error": "#ba1a1a",
+                        "secondary": "#006c4a",
+                        "on-secondary-container": "#00714e",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#93bcfc",
+                        "surface-container-high": "#e4e9ed",
+                        "inverse-primary": "#a6c8ff",
+                        "on-background": "#171c1f",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#144780",
+                        "on-tertiary-container": "#ffa481",
+                        "secondary-fixed": "#85f8c4",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f0f4f8",
+                        "tertiary-fixed-dim": "#ffb599",
+                        "background": "#f6fafe",
+                        "secondary-fixed-dim": "#68dba9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-950 flex flex-col py-4 border-r border-slate-200 dark:border-slate-800 z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">water_damage</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-blue-900 dark:text-blue-50 leading-tight">GIS Sentinel</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Flood Risk Prediction</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1 px-3">
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">database</span>
+<span>Data Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">analytics</span>
+<span>Preprocessing</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">memory</span>
+<span>Modeling</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">batch_prediction</span>
+<span>Prediction</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">map</span>
+<span>GIS Map</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">assessment</span>
+<span>Evaluation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter bg-blue-900/10 dark:bg-blue-400/10 text-blue-900 dark:text-blue-200 border-r-4 border-blue-900 dark:border-blue-400 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">history</span>
+<span>History</span>
+</a>
+</nav>
+<div class="mt-auto px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">info</span>
+<span>About</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium Inter text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-200 hover:bg-slate-200 dark:hover:bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 min-h-screen">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center px-6 w-full sticky top-0 z-40 bg-slate-50 dark:bg-slate-900 h-16 border-b border-slate-200/50 dark:border-slate-800/50">
+<div class="flex items-center gap-4">
+<span class="text-sm font-sans tracking-tight text-blue-900 dark:text-blue-200">History / Global Prediction Records</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<input class="bg-slate-100 dark:bg-slate-800 border-none rounded-full px-4 py-1.5 text-sm w-64 focus:ring-2 focus:ring-primary-container outline-none text-on-surface" placeholder="Search records..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1.5 text-slate-400 text-lg">search</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors">
+<span class="material-symbols-outlined text-slate-500">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-xs">
+                    JD
+                </div>
+</div>
+</header>
+<div class="p-8 max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div>
+<h2 class="text-4xl font-headline font-bold text-primary tracking-tight mb-2">Prediction Archive</h2>
+<p class="text-on-surface-variant max-w-xl">Comprehensive ledger of all flood modeling simulations and risk assessments generated by the GIS Sentinel engine.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-surface-container-low text-primary font-semibold hover:bg-surface-container-high transition-colors border border-outline-variant/30">
+<span class="material-symbols-outlined text-xl">description</span>
+<span>Export PDF</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-on-primary font-semibold hover:opacity-90 transition-opacity editorial-shadow">
+<span class="material-symbols-outlined text-xl">table_view</span>
+<span>Export Excel</span>
+</button>
+</div>
+</div>
+<!-- Stats Bar - Bento Style -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+<div class="bg-surface-container-lowest p-6 rounded-full border border-outline-variant/10 editorial-shadow">
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Total Simulations</p>
+<div class="flex items-end gap-2">
+<span class="text-2xl font-bold text-primary">1,284</span>
+<span class="text-xs text-secondary font-medium mb-1 flex items-center"><span class="material-symbols-outlined text-xs">trending_up</span> 12%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-full border border-outline-variant/10 editorial-shadow">
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Critical Warnings</p>
+<div class="flex items-end gap-2">
+<span class="text-2xl font-bold text-tertiary">42</span>
+<span class="text-xs text-on-surface-variant font-medium mb-1">Last 30 days</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-full border border-outline-variant/10 editorial-shadow">
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Accuracy Mean</p>
+<div class="flex items-end gap-2">
+<span class="text-2xl font-bold text-primary">94.8%</span>
+<span class="text-xs text-secondary font-medium mb-1">Stable</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-full border border-outline-variant/10 editorial-shadow">
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-1">Active Users</p>
+<div class="flex items-end gap-2">
+<span class="text-2xl font-bold text-primary">18</span>
+<span class="text-xs text-on-surface-variant font-medium mb-1">Operators</span>
+</div>
+</div>
+</div>
+<!-- Table Section -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden editorial-shadow border border-outline-variant/10">
+<div class="px-6 py-4 bg-surface-container-high border-b border-outline-variant/20 flex justify-between items-center">
+<h3 class="font-bold text-primary">Historical Log</h3>
+<div class="flex gap-2">
+<button class="p-1.5 rounded-md hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+</button>
+<button class="p-1.5 rounded-md hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Date / Time</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Input Parameters</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Result / Status</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Authority</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Row 1 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Oct 24, 2023</span>
+<span class="text-xs text-on-surface-variant">14:22:10 WIB</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 bg-surface-container rounded text-[10px] font-bold text-primary">RAIN: 45mm</span>
+<span class="px-2 py-0.5 bg-surface-container rounded text-[10px] font-bold text-primary">TIDE: 2.1m</span>
+<span class="px-2 py-0.5 bg-surface-container rounded text-[10px] font-bold text-primary">SOIL: 88%</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="text-sm font-bold text-tertiary">Critical Flood Risk</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-[10px] font-bold text-blue-900">SA</div>
+<span class="text-sm font-medium">SysAdmin</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<button class="text-primary hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-surface-container-low/30 hover:bg-surface transition-colors">
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Oct 23, 2023</span>
+<span class="text-xs text-on-surface-variant">09:15:45 WIB</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 bg-surface-container rounded text-[10px] font-bold text-primary">RAIN: 12mm</span>
+<span class="px-2 py-0.5 bg-surface-container rounded text-[10px] font-bold text-primary">TIDE: 1.4m</span>
+<span class="px-2 py-0.5 bg-surface-container rounded text-[10px] font-bold text-primary">SOIL: 42%</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-sm font-bold text-secondary">Low Risk</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-[10px] font-bold text-green-900">BK</div>
+<span class="text-sm font-medium">B. Kurniawan</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<button class="text-primary hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Oct 22, 2023</span>
+<span class="text-xs text-on-surface-variant">21:05:30 WIB</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 bg-surface-container rounded text-[10px] font-bold text-primary">RAIN: 28mm</span>
+<span class="px-2 py-0.5 bg-surface-container rounded text-[10px] font-bold text-primary">TIDE: 1.8m</span>
+<span class="px-2 py-0.5 bg-surface-container rounded text-[10px] font-bold text-primary">SOIL: 75%</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+<span class="text-sm font-bold text-on-tertiary-fixed-variant">Moderate Risk</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-[10px] font-bold text-blue-900">SA</div>
+<span class="text-sm font-medium">SysAdmin</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<button class="text-primary hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="bg-surface-container-low/30 hover:bg-surface transition-colors">
+<td class="px-6 py-5">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Oct 22, 2023</span>
+<span class="text-xs text-on-surface-variant">10:44:12 WIB</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 bg-surface-container rounded text-[10px] font-bold text-primary">RAIN: 5mm</span>
+<span class="px-2 py-0.5 bg-surface-container rounded text-[10px] font-bold text-primary">TIDE: 1.1m</span>
+<span class="px-2 py-0.5 bg-surface-container rounded text-[10px] font-bold text-primary">SOIL: 20%</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-sm font-bold text-secondary">Safe State</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center text-[10px] font-bold text-purple-900">MR</div>
+<span class="text-sm font-medium">M. Ridwan</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<button class="text-primary hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 bg-surface-container-low border-t border-outline-variant/20 flex items-center justify-between">
+<p class="text-xs text-on-surface-variant font-medium">Showing 4 of 1,284 records</p>
+<div class="flex gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-primary disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary text-xs font-bold">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface-variant text-xs hover:bg-surface-variant transition-colors">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface-variant text-xs hover:bg-surface-variant transition-colors">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-primary hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Contextual Info - Asymmetric Card -->
+<div class="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 relative h-64 rounded-2xl overflow-hidden editorial-shadow group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Satellite imagery of Aceh river basins and coastal areas with data overlay heatmaps representing historical flood zones" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA6CNQ-XCaOZIovYDqqTp4NZClA-6rCxOGaJ4O27iGx1BOxMfQBVljtnuBDi3HqjEMjAYobW3nZ41fF_pidLRhtdgSZfsrH1a-xA1TnGGH1n6KDNTuWf4VypxiXtESnGtnhyj8yfhLnEgBT-Rrsje-yqgCzCjQ74-diJVJKxoOFdF84V6WRi2JzJu9SMZ0n69p-_JWWq0T9OhsjxhFGo5MvV-gD5amBJHVQj-s7hqTNnERHQtYib74mmszkLpZ8G60dBrCopIDEuN8')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<h4 class="text-xl font-bold text-white mb-2">Spatial Context View</h4>
+<p class="text-white/80 text-sm max-w-lg">All archived predictions are geographically anchored to the GIS sentinel grid. View historical trends on the interactive map for deep-learning pattern recognition.</p>
+</div>
+</div>
+<div class="bg-primary-container p-8 rounded-2xl editorial-shadow flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-on-primary-container text-4xl mb-4" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<h4 class="text-xl font-bold text-on-primary-container mb-2">Trend Analysis</h4>
+<p class="text-on-primary-container/80 text-sm leading-relaxed">Generated reports now include automated shift detection. Our algorithm identifies if new predictions deviate significantly from the 6-month seasonal average.</p>
+</div>
+<a class="mt-6 flex items-center gap-2 text-on-primary-container font-bold text-sm hover:underline decoration-2 underline-offset-4" href="#">
+                        Explore Modeling Suite
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Footer Info -->
+<footer class="p-8 mt-12 border-t border-outline-variant/10 text-center">
+<p class="text-xs text-on-surface-variant uppercase tracking-[0.2em] font-bold">FloodGuard Aceh • Intelligence Division • © 2023</p>
+</footer>
+</main>
+</body></html>
