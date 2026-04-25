@@ -1,3 +1,0 @@
-## 2024-04-15 - Global Navigation Action Buttons
-**Learning:** Icon-only navigation buttons in global headers (like notifications and user profiles) often lack structural semantics and keyboard visibility when not using dedicated components. We need to ensure explicit `aria-label`s, `title` tooltips, and `focus-visible` styling (`focus-visible:outline-none focus-visible:ring-2`) are consistently applied for inclusive interaction. Also, icons inside input fields need `pointer-events-none` to prevent them from blocking clicks on the input underneath.
-**Action:** Always verify icon-only buttons have accessible names and focus states, particularly in globally persistent headers like `TopAppBar`. Check absolute positioned icons inside form inputs for `pointer-events-none`.
