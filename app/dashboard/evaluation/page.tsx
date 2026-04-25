@@ -24,7 +24,7 @@ export default function EvaluationPage() {
                 { label: "Recall", value: "89.5%", icon: LucideHistory, color: "border-tertiary", trend: "False Negative mitigation", trendColor: "text-on-surface-variant/40" },
                 { label: "F1-Score", value: "90.6%", icon: LucideScale, color: "border-primary-container", trend: "Harmonic mean balance", trendColor: "text-on-surface-variant/40" },
             ].map((metric, i) => (
-                <div key={i} className={`bg-surface-container-lowest p-8 rounded-[40px] border-l-8 ${metric.color} shadow-sm flex flex-col justify-between hover:scale-[1.02] transition-transform duration-500 cursor-default group`}>
+                <div key={i} className={`bg-surface-container-lowest p-8 rounded-xl border-l-8 ${metric.color} shadow-sm flex flex-col justify-between hover:scale-[1.02] transition-transform duration-500 cursor-default group`}>
                     <div className="flex justify-between items-start">
                         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">{metric.label}</span>
                         <metric.icon className="size-5 text-primary opacity-20 group-hover:opacity-100 transition-opacity" />
@@ -43,7 +43,7 @@ export default function EvaluationPage() {
         {/* Main Analysis Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             {/* Confusion Matrix */}
-            <div className="lg:col-span-5 bg-surface-container-low rounded-[48px] p-10 relative overflow-hidden flex flex-col items-center">
+            <div className="lg:col-span-5 bg-surface-container-low rounded-xl p-10 relative overflow-hidden flex flex-col items-center">
                 <div className="w-full flex items-center justify-between mb-10">
                     <div className="space-y-1">
                         <h3 className="text-xl font-black text-primary uppercase tracking-tight">Confusion Matrix</h3>
@@ -58,26 +58,26 @@ export default function EvaluationPage() {
                     <div className="text-center text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40 flex items-center justify-center">Predicted: Flood</div>
                     <div className="text-center text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40 flex items-center justify-center">Predicted: Safe</div>
                     <div className="flex items-center justify-center -rotate-90 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40 whitespace-nowrap">Actual: Flood</div>
-                    <div className="bg-primary text-white rounded-3xl p-8 flex flex-col items-center justify-center shadow-2xl shadow-primary/20 aspect-square group">
+                    <div className="bg-primary text-white rounded-lg p-8 flex flex-col items-center justify-center shadow-2xl shadow-primary/20 aspect-square group">
                         <span className="text-3xl font-black tracking-tighter group-hover:scale-110 transition-transform">4,821</span>
                         <span className="text-[8px] font-black uppercase tracking-widest opacity-60 mt-1">True Positives</span>
                     </div>
-                    <div className="bg-surface-container-lowest text-primary rounded-3xl p-8 flex flex-col items-center justify-center border-2 border-dashed border-primary/20 aspect-square">
+                    <div className="bg-surface-container-lowest text-primary rounded-lg p-8 flex flex-col items-center justify-center border-2 border-dashed border-primary/20 aspect-square">
                         <span className="text-3xl font-black tracking-tighter opacity-20">214</span>
                         <span className="text-[8px] font-black uppercase tracking-widest opacity-20 mt-1">False Negatives</span>
                     </div>
                     <div className="flex items-center justify-center -rotate-90 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40 whitespace-nowrap">Actual: Safe</div>
-                    <div className="bg-tertiary-container text-on-tertiary-container rounded-3xl p-8 flex flex-col items-center justify-center border-l-8 border-tertiary aspect-square">
+                    <div className="bg-tertiary-container text-on-tertiary-container rounded-lg p-8 flex flex-col items-center justify-center border-l-8 border-tertiary aspect-square">
                         <span className="text-3xl font-black tracking-tighter">156</span>
                         <span className="text-[8px] font-black uppercase tracking-widest opacity-60 mt-1">False Positives</span>
                     </div>
-                    <div className="bg-secondary text-white rounded-3xl p-8 flex flex-col items-center justify-center shadow-2xl shadow-secondary/20 aspect-square group">
+                    <div className="bg-secondary text-white rounded-lg p-8 flex flex-col items-center justify-center shadow-2xl shadow-secondary/20 aspect-square group">
                         <span className="text-3xl font-black tracking-tighter group-hover:scale-110 transition-transform">8,942</span>
                         <span className="text-[8px] font-black uppercase tracking-widest opacity-60 mt-1">True Negatives</span>
                     </div>
                 </div>
 
-                <div className="mt-10 px-6 py-4 bg-white/50 backdrop-blur rounded-[24px] border border-white/50 flex items-start gap-4">
+                <div className="mt-10 px-6 py-4 bg-white/50 backdrop-blur rounded-md border border-white/50 flex items-start gap-4">
                     <LucideLightbulb className="size-5 text-secondary mt-1" />
                     <p className="text-[12px] font-bold text-on-surface-variant leading-relaxed italic">
                         The model shows exceptional specificity (Safe areas) but has a slight tendency for type-2 errors in mountainous flash-flood scenarios.
@@ -86,7 +86,7 @@ export default function EvaluationPage() {
             </div>
 
             {/* ROC Curve Chart Area */}
-            <div className="lg:col-span-7 bg-surface-container-lowest rounded-[48px] p-10 border border-surface-container/50 shadow-sm flex flex-col">
+            <div className="lg:col-span-7 bg-surface-container-lowest rounded-xl p-10 border border-surface-container/50 shadow-sm flex flex-col">
                 <div className="flex items-center justify-between mb-10">
                     <div className="space-y-1">
                         <h3 className="text-xl font-black text-primary uppercase tracking-tight">ROC-AUC Characteristic</h3>
@@ -132,7 +132,7 @@ export default function EvaluationPage() {
                     </svg>
                     {/* Intersection Point */}
                     <div className="absolute top-[18%] left-[18%] size-4 bg-primary rounded-full ring-8 ring-primary/10 shadow-xl cursor-help group transition-transform hover:scale-125">
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 hidden group-hover:block w-40 bg-on-surface text-surface p-3 rounded-2xl shadow-2xl backdrop-blur-xl">
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 hidden group-hover:block w-40 bg-on-surface text-surface p-3 rounded-md shadow-2xl backdrop-blur-xl">
                             <p className="text-[10px] font-black uppercase tracking-widest mb-1 text-white/40">Active Point</p>
                             <p className="text-xs font-black text-white">TPR: 0.94 | FPR: 0.08</p>
                         </div>
@@ -146,7 +146,7 @@ export default function EvaluationPage() {
         </div>
 
         {/* Bottom Actions */}
-        <div className="bg-surface-container-high rounded-full p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm border border-surface-container/50">
+        <div className="bg-surface-container-high rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm border border-surface-container/50">
             <div className="flex items-center gap-6 px-4">
                 <div className="flex -space-x-4">
                     {[
@@ -164,11 +164,11 @@ export default function EvaluationPage() {
                 <p className="text-sm font-bold text-on-surface-variant/60">Reviewed by regional hydrological team 2 hours ago</p>
             </div>
             <div className="flex items-center gap-4">
-                <Button variant="ghost" className="text-primary font-black text-[10px] uppercase h-12 px-8 rounded-2xl tracking-[0.2em] hover:bg-white/50">
+                <Button variant="ghost" className="text-primary font-black text-[10px] uppercase h-12 px-8 rounded-sm tracking-[0.2em] hover:bg-white/50">
                     <LucideDownload className="size-4 mr-2" />
                     Export Technical Report
                 </Button>
-                <Button className="bg-gradient-to-r from-primary to-primary-container text-white border-none font-black text-[10px] h-12 px-10 rounded-2xl uppercase tracking-[0.2em] shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+                <Button className="bg-primary hover:opacity-90 text-white border-none font-black text-[10px] h-12 px-10 rounded-sm uppercase tracking-[0.2em] shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
                     <span>Retrain model</span>
                     <LucideRefreshCcw className="size-4" />
                 </Button>

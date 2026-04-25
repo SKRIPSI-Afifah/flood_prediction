@@ -15,11 +15,11 @@ export default function PreprocessingPage() {
       />
       <main className="flex-1 p-8 lg:p-10 space-y-10 max-w-[1600px] mx-auto w-full">
           <div className="flex gap-4">
-            <Button className="bg-surface-container-high hover:bg-surface-variant text-primary border-none font-black text-[10px] h-12 px-6 rounded-2xl uppercase tracking-widest transition-all">
+            <Button className="bg-surface-container-high hover:bg-surface-variant text-primary border-none font-black text-[10px] h-12 px-6 rounded-sm uppercase tracking-widest transition-all">
               <LucideDownload className="size-4 mr-2" />
               Export Log
             </Button>
-            <Button className="bg-gradient-to-r from-primary to-primary-container text-white border-none font-black text-[10px] h-12 px-6 rounded-2xl uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all">
+            <Button className="bg-primary hover:opacity-90 text-white border-none font-black text-[10px] h-12 px-6 rounded-sm uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all">
               <LucidePlay className="size-4 mr-2 fill-current" />
               Re-run SMOTE
             </Button>
@@ -28,8 +28,8 @@ export default function PreprocessingPage() {
         {/* Bento Layout */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           {/* Explanation Card */}
-          <div className="md:col-span-12 lg:col-span-4 bg-surface-container-low rounded-[48px] p-10 flex flex-col justify-center relative overflow-hidden group">
-            <div className="size-16 bg-primary rounded-3xl flex items-center justify-center mb-8 shadow-xl shadow-primary/20 transition-transform group-hover:rotate-12 duration-500">
+          <div className="md:col-span-12 lg:col-span-4 bg-surface-container-low rounded-xl p-10 flex flex-col justify-center relative overflow-hidden group">
+            <div className="size-16 bg-primary rounded-lg flex items-center justify-center mb-8 shadow-xl shadow-primary/20 transition-transform group-hover:rotate-12 duration-500">
               <LucideSparkles className="size-8 text-white" />
             </div>
             <h4 className="text-2xl font-black text-primary mb-6 uppercase tracking-tight">What is SMOTE?</h4>
@@ -41,7 +41,7 @@ export default function PreprocessingPage() {
                     Instead of just duplicating existing samples, SMOTE generates <span className="italic">synthetic</span> examples by selecting similar records and interpolating between them.
                 </p>
             </div>
-            <div className="mt-10 p-6 bg-surface-container-lowest rounded-3xl flex items-start gap-5 border border-surface-container/50">
+            <div className="mt-10 p-6 bg-surface-container-lowest rounded-lg flex items-start gap-5 border border-surface-container/50">
               <LucideCheckCircle2 className="size-6 text-secondary" />
               <div>
                 <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-40">Target Variable</p>
@@ -52,7 +52,7 @@ export default function PreprocessingPage() {
 
           <div className="md:col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Stats Cards */}
-            <div className="bg-surface-container-lowest rounded-[48px] p-10 border border-surface-container/50 relative overflow-hidden group shadow-sm">
+            <div className="bg-surface-container-lowest rounded-xl p-10 border border-surface-container/50 relative overflow-hidden group shadow-sm">
                 <div className="absolute -right-8 -top-8 size-48 bg-error/5 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
                 <p className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.2em] mb-2 opacity-40">Initial Row Count</p>
                 <h5 className="text-5xl font-black text-primary tracking-tighter">14,208</h5>
@@ -61,7 +61,7 @@ export default function PreprocessingPage() {
                     <span className="text-xs font-bold text-on-surface-variant/40">Ratio 4.1 : 1</span>
                 </div>
             </div>
-            <div className="bg-primary rounded-[48px] p-10 relative overflow-hidden group shadow-2xl shadow-primary/20">
+            <div className="bg-primary rounded-xl p-10 relative overflow-hidden group shadow-2xl shadow-primary/20">
                 <div className="absolute -right-8 -top-8 size-48 bg-white/10 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
                 <p className="text-[10px] font-black text-primary-fixed uppercase tracking-[0.2em] mb-2 opacity-60">Balanced Row Count</p>
                 <h5 className="text-5xl font-black text-white tracking-tighter">22,732</h5>
@@ -72,7 +72,7 @@ export default function PreprocessingPage() {
             </div>
 
             {/* Visual Comparison */}
-            <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-12 bg-surface-container-lowest rounded-[48px] p-12 border border-surface-container/50 shadow-sm relative">
+            <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-12 bg-surface-container-lowest rounded-xl p-12 border border-surface-container/50 shadow-sm relative">
                 {/* Visual Connector Desktop */}
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 size-12 bg-surface flex items-center justify-center rounded-full border border-surface-container shadow-xl z-10 hidden md:flex">
                     <LucideTrendingUp className="size-5 text-primary" />
@@ -142,7 +142,7 @@ export default function PreprocessingPage() {
         </div>
 
         {/* Configuration Matrix */}
-        <div className="bg-surface-container rounded-[48px] p-12 border border-surface-container/50 grid grid-cols-2 md:grid-cols-4 gap-12">
+        <div className="bg-surface-container rounded-xl p-12 border border-surface-container/50 grid grid-cols-2 md:grid-cols-4 gap-12">
             {[
                 { label: "Neighbors", value: "K=5", sub: "Euclidean distance" },
                 { label: "Sampling Strategy", value: "Auto", sub: "Resample to majority" },
@@ -158,7 +158,7 @@ export default function PreprocessingPage() {
         </div>
 
         {/* Visualization of Synthetic Clusters */}
-        <div className="bg-surface-container-lowest rounded-[48px] overflow-hidden p-12 border border-surface-container/50 shadow-sm space-y-8">
+        <div className="bg-surface-container-lowest rounded-xl overflow-hidden p-12 border border-surface-container/50 shadow-sm space-y-8">
             <div className="flex justify-between items-end">
                 <div className="space-y-2">
                     <h4 className="text-2xl font-black text-primary uppercase tracking-tight">Feature Space Visualization</h4>
@@ -175,7 +175,7 @@ export default function PreprocessingPage() {
                     </div>
                 </div>
             </div>
-            <div className="h-80 bg-surface-container-low rounded-[40px] relative flex items-center justify-center overflow-hidden border border-surface-container">
+            <div className="h-80 bg-surface-container-low rounded-lg relative flex items-center justify-center overflow-hidden border border-surface-container">
                 <Image 
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_WKM7O3C-4u5Ls9hoZLCFeH5cOmbRLxIouGqBQ3HZ4SMiO4teDi7IztCv1viWtuOiEp25AJfZQ6pmSBOmKV2vupXiuKq_xRD-2JVX4-qdq7sJ0vM4i2NENwqujIsnC0Oq8T2w1c-7C6qxUQKqL20qGp1TPv0xGeKI5-kQGUP2V7Npld9safWHXaPolRXWwzZIWZqiYMzS3KjdEX2nCBJ9cZarG10WJwE9ZaQ__zQm43k7o4BzASbhaOCsMCABJbpxtfxd8q2K56M" 
                     alt="Visualization" 

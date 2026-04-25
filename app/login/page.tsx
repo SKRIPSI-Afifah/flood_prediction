@@ -35,7 +35,7 @@ export default function LoginPage() {
               <div className="relative">
                 <LucideAtSign className="absolute left-4 top-1/2 -translate-y-1/2 text-[#898989] size-4" />
                 <input 
-                  className="w-full pl-12 pr-4 py-3 bg-white shadow-ring rounded-[8px] text-sm focus:ring-2 focus:ring-[#3b82f6]/20 outline-none transition-all placeholder:text-[#898989]/50 font-sans" 
+                  className="w-full pl-12 pr-4 py-3 bg-white shadow-ring rounded-sm text-sm focus:ring-2 focus:ring-[#3b82f6]/20 outline-none transition-all placeholder:text-[#898989]/50 font-sans" 
                   id="email" 
                   placeholder="analyst@aceh.gov.id" 
                   type="email"
@@ -53,7 +53,7 @@ export default function LoginPage() {
               <div className="relative">
                 <LucideLock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#898989] size-4" />
                 <input 
-                  className="w-full pl-12 pr-4 py-3 bg-white shadow-ring rounded-[8px] text-sm focus:ring-2 focus:ring-[#3b82f6]/20 outline-none transition-all placeholder:text-[#898989]/50 font-sans" 
+                  className="w-full pl-12 pr-4 py-3 bg-white shadow-ring rounded-sm text-sm focus:ring-2 focus:ring-[#3b82f6]/20 outline-none transition-all placeholder:text-[#898989]/50 font-sans" 
                   id="password" 
                   placeholder="••••••••••••" 
                   type="password"
@@ -62,7 +62,7 @@ export default function LoginPage() {
             </div>
 
             <Link href="/dashboard" className="block pt-2">
-              <Button className="w-full py-6 bg-[#242424] text-white rounded-[8px] font-semibold text-sm hover:opacity-70 transition-opacity flex items-center justify-center gap-2 border-none">
+              <Button className="w-full py-6 bg-[#242424] text-white rounded-sm font-semibold text-sm hover:opacity-70 transition-opacity flex items-center justify-center gap-2 border-none">
                 AUTHORIZE ACCESS
                 <LucideArrowRight className="size-4" />
               </Button>

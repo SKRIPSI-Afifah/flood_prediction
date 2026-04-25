@@ -59,11 +59,11 @@ export default function UserManagementPage() {
             <p className="text-sm text-on-surface-variant font-bold opacity-60 uppercase tracking-widest">Kelola akses dan hak istimewa pengguna sistem.</p>
           </div>
           <div className="flex items-center gap-4">
-            <Button className="bg-surface-container-high hover:bg-surface-variant text-primary border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-2xl transition-all">
+            <Button className="bg-surface-container-high hover:bg-surface-variant text-primary border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-sm transition-all">
               <LucideFilter className="size-4 mr-2" />
               Filter
             </Button>
-            <Button className="bg-gradient-to-r from-primary to-primary-container hover:shadow-xl hover:shadow-primary/20 text-white border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-2xl shadow-lg transition-all">
+            <Button className="bg-primary hover:opacity-90 text-white border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-sm shadow-lg transition-all">
               <LucideUserPlus className="size-4 mr-2" />
               Tambah Pengguna
             </Button>
@@ -71,7 +71,7 @@ export default function UserManagementPage() {
         </section>
 
         <section className="px-6 lg:px-8">
-          <div className="bg-surface-container-lowest rounded-[40px] overflow-hidden shadow-sm border border-surface-container/50">
+          <div className="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-surface-container/50">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
@@ -88,7 +88,7 @@ export default function UserManagementPage() {
                     <tr key={user.id} className="hover:bg-primary/5 transition-colors group">
                       <td className="px-10 py-6">
                         <div className="flex items-center gap-4">
-                          <div className={cn("size-10 rounded-xl flex items-center justify-center font-black text-xs", user.avatarBg)}>
+                          <div className={cn("size-10 rounded-md flex items-center justify-center font-black text-xs", user.avatarBg)}>
                             {user.name.charAt(0)}
                           </div>
                           <div className="flex flex-col">
@@ -125,10 +125,10 @@ export default function UserManagementPage() {
                       </td>
                       <td className="px-10 py-6 text-right">
                         <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button className="size-10 flex items-center justify-center rounded-xl text-on-surface-variant hover:text-primary hover:bg-primary/5 transition-all">
+                          <button className="size-10 flex items-center justify-center rounded-md text-on-surface-variant hover:text-primary hover:bg-primary/5 transition-all">
                             <LucideEdit3 className="size-4" />
                           </button>
-                          <button className="size-10 flex items-center justify-center rounded-xl text-on-surface-variant hover:text-error hover:bg-error/5 transition-all">
+                          <button className="size-10 flex items-center justify-center rounded-md text-on-surface-variant hover:text-error hover:bg-error/5 transition-all">
                             <LucideTrash2 className="size-4" />
                           </button>
                         </div>

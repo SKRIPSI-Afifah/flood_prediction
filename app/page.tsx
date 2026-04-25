@@ -15,7 +15,7 @@ export default function Page() {
         {/* Hero Section */}
         <section className="relative w-full py-24 md:py-32 lg:py-40 px-6 overflow-hidden">
           <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#f5f5f5] border border-border/40 mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#f5f5f5] border border-border/40 mb-8">
               <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
               <span className="text-[10px] font-bold text-[#242424] tracking-wider uppercase">System Live: v4.2.0</span>
             </div>
@@ -30,13 +30,13 @@ export default function Page() {
 
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <Link href="/login">
-                <Button className="h-14 px-8 bg-[#242424] text-white rounded-[8px] font-semibold text-base hover:opacity-70 transition-opacity flex items-center gap-2 border-none">
+                <Button className="h-14 px-8 bg-[#242424] text-white rounded-sm font-semibold text-base hover:opacity-70 transition-opacity flex items-center gap-2 border-none">
                   ENTER ANALYTICS PORTAL
                   <LucideArrowRight className="size-5" />
                 </Button>
               </Link>
               <Link href="#features">
-                <Button variant="ghost" className="h-14 px-8 text-[#242424] font-semibold text-base hover:bg-[#f5f5f5] transition-colors rounded-[8px]">
+                <Button variant="ghost" className="h-14 px-8 text-[#242424] font-semibold text-base hover:bg-[#f5f5f5] transition-colors rounded-sm">
                   VIEW CAPABILITIES
                 </Button>
               </Link>
@@ -88,7 +88,7 @@ export default function Page() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Feature 1 */}
               <div className="cal-card p-10 flex flex-col h-full border-none">
-                <div className="w-12 h-12 rounded-[8px] bg-[#f5f5f5] flex items-center justify-center mb-8">
+                <div className="w-12 h-12 rounded-sm bg-[#f5f5f5] flex items-center justify-center mb-8">
                   <LucideMap className="size-6 text-[#242424]" />
                 </div>
                 <h4 className="font-heading text-xl font-semibold text-[#242424] mb-4">Precision GIS Mapping</h4>
@@ -99,7 +99,7 @@ export default function Page() {
 
               {/* Feature 2 */}
               <div className="cal-card p-10 flex flex-col h-full border-none">
-                <div className="w-12 h-12 rounded-[8px] bg-[#f5f5f5] flex items-center justify-center mb-8">
+                <div className="w-12 h-12 rounded-sm bg-[#f5f5f5] flex items-center justify-center mb-8">
                   <LucideZap className="size-6 text-[#242424]" />
                 </div>
                 <h4 className="font-heading text-xl font-semibold text-[#242424] mb-4">ML Predictive Models</h4>
@@ -110,7 +110,7 @@ export default function Page() {
 
               {/* Feature 3 */}
               <div className="cal-card p-10 flex flex-col h-full border-none">
-                <div className="w-12 h-12 rounded-[8px] bg-[#f5f5f5] flex items-center justify-center mb-8">
+                <div className="w-12 h-12 rounded-sm bg-[#f5f5f5] flex items-center justify-center mb-8">
                   <LucideShieldCheck className="size-6 text-[#242424]" />
                 </div>
                 <h4 className="font-heading text-xl font-semibold text-[#242424] mb-4">Command Transparency</h4>
@@ -133,12 +133,12 @@ export default function Page() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
               <Link href="/register">
-                <Button className="h-14 px-8 bg-white text-[#242424] rounded-[8px] font-semibold text-base hover:bg-white/90 transition-colors border-none">
+                <Button className="h-14 px-8 bg-white text-[#242424] rounded-sm font-semibold text-base hover:bg-white/90 transition-colors border-none">
                   GET STARTED
                 </Button>
               </Link>
               <Link href="/login">
-                <Button variant="ghost" className="h-14 px-8 text-white hover:bg-white/10 transition-colors rounded-[8px]">
+                <Button variant="ghost" className="h-14 px-8 text-white hover:bg-white/10 transition-colors rounded-sm">
                   MEMBER LOGIN
                 </Button>
               </Link>

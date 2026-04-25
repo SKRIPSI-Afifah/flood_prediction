@@ -131,49 +131,6 @@ export default function HistoryPage() {
             </div>
         </div>
 
-        {/* Featured Content Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            <div className="lg:col-span-12 xl:col-span-8 relative h-[380px] rounded-[56px] overflow-hidden shadow-2xl group border-4 border-white">
-                <Image 
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6CNQ-XCaOZIovYDqqTp4NZClA-6rCxOGaJ4O27iGx1BOxMfQBVljtnuBDi3HqjEMjAYobW3nZ41fF_pidLRhtdgSZfsrH1a-xA1TnGGH1n6KDNTuWf4VypxiXtESnGtnhyj8yfhLnEgBT-Rrsje-yqgCzCjQ74-diJVJKxoOFdF84V6WRi2JzJu9SMZ0n69p-_JWWq0T9OhsjxhFGo5MvV-gD5amBJHVQj-s7hqTNnERHQtYib74mmszkLpZ8G60dBrCopIDEuN8" 
-                    alt="Aceh Map History" 
-                    fill 
-                    className="object-cover transition-transform duration-[5000ms] group-hover:scale-125"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/30 to-transparent"></div>
-                <div className="absolute bottom-10 left-10 max-w-xl space-y-4">
-                    <div className="flex items-center gap-3">
-                        <div className="size-10 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-xl">
-                            <LucideLayoutGrid className="size-5 text-white" />
-                        </div>
-                        <span className="text-[10px] font-black text-white/60 uppercase tracking-[0.2em]">Spatial Context</span>
-                    </div>
-                    <h3 className="text-3xl font-black text-white uppercase tracking-tight">Historical Spatial Trends</h3>
-                    <p className="text-white/60 font-medium leading-relaxed">
-                        All archived predictions are geographically anchored to the GIS sentinel grid. View historical patterns on the interactive map for pattern recognition.
-                    </p>
-                </div>
-            </div>
-            <div className="lg:col-span-12 xl:col-span-4 bg-primary rounded-[56px] p-12 flex flex-col justify-between shadow-2xl shadow-primary/20 relative overflow-hidden group">
-                <div className="relative z-10 space-y-8">
-                    <div className="size-16 bg-white/10 rounded-[28px] flex items-center justify-center backdrop-blur-2xl group-hover:rotate-[360deg] transition-transform duration-1000">
-                        <LucideTrendingUp className="size-8 text-secondary-fixed" />
-                    </div>
-                    <div className="space-y-4">
-                        <h4 className="text-2xl font-black text-white uppercase tracking-tight">Trend Analytics</h4>
-                        <p className="text-primary-fixed/60 font-medium text-sm leading-relaxed">
-                            Our algorithm identifies if new predictions deviate significantly from the 6-month seasonal average for targeted mitigation.
-                        </p>
-                    </div>
-                    <Button variant="link" className="px-0 h-auto text-white font-black uppercase tracking-[0.2em] text-[10px] hover:text-secondary-fixed transition-colors group/link p-0">
-                        Explore Modeling Suite
-                        <LucideArrowRight className="size-4 ml-3 group-hover/link:translate-x-3 transition-transform" />
-                    </Button>
-                </div>
-                {/* Background Pattern */}
-                <div className="absolute -bottom-10 -right-10 size-64 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
-            </div>
-        </div>
 
         {/* Footer Brand */}
         <footer className="pt-12 text-center opacity-20 hover:opacity-100 transition-opacity duration-1000">

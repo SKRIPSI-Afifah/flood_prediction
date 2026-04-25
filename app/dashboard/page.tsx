@@ -24,11 +24,11 @@ export default function Page() {
             <p className="text-sm text-on-surface-variant font-bold opacity-60 uppercase tracking-widest">Penilaian risiko real-time dan analisis data satelit Sentinel-2.</p>
           </div>
           <div className="flex items-center gap-4">
-            <Button className="bg-surface-container-high hover:bg-surface-variant text-primary border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-2xl transition-all">
+            <Button className="bg-surface-container-high hover:bg-surface-variant text-primary border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-sm transition-all">
               <LucideDownload className="size-4 mr-2" />
               Ekspor Laporan
             </Button>
-            <Button className="bg-gradient-to-r from-primary to-primary-container hover:shadow-xl hover:shadow-primary/20 text-white border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-2xl shadow-lg transition-all">
+            <Button className="bg-primary hover:opacity-90 text-white border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-sm shadow-lg transition-all">
               <LucideZap className="size-4 mr-2 fill-current" />
               Jalankan Prediksi
             </Button>
@@ -43,7 +43,7 @@ export default function Page() {
           <div className="lg:col-span-8 h-[500px]">
             <RiskDistributionMap />
           </div>
-          <div className="lg:col-span-4 bg-surface-container-lowest rounded-[40px] p-8 shadow-sm flex flex-col justify-center border border-surface-container/50">
+          <div className="lg:col-span-4 bg-surface-container-lowest rounded-xl p-8 shadow-sm flex flex-col justify-center border border-surface-container/50">
             <ClassDistributionChart />
           </div>
         </section>

@@ -12,13 +12,13 @@ const MapLeaflet = dynamic(() => import("@/components/map-leaflet"), {
 
 export function RiskDistributionMap() {
   return (
-    <div className="bg-white rounded-[40px] overflow-hidden relative h-full shadow-lg border-2 border-surface-container">
+    <div className="bg-white rounded-xl overflow-hidden relative h-full shadow-lg border-2 border-surface-container">
       <div className="absolute inset-0 z-0">
         <MapLeaflet center={[5.5483, 95.3238]} zoom={11} />
       </div>
 
       {/* Risk Overlay Legend */}
-      <div className="absolute bottom-8 right-8 bg-white p-6 rounded-3xl z-10 max-w-[220px] shadow-2xl border-2 border-surface-container">
+      <div className="absolute bottom-8 right-8 bg-white p-6 rounded-lg z-10 max-w-[220px] shadow-2xl border-2 border-surface-container">
         <h4 className="text-[10px] font-black text-primary mb-4 uppercase tracking-[0.2em] opacity-80">Risk Distribution</h4>
         <div className="space-y-3">
           <div className="flex items-center gap-3">

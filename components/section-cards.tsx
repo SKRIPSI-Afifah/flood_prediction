@@ -40,12 +40,12 @@ export function SectionCards() {
         <div 
           key={i} 
           className={cn(
-            "p-8 rounded-[40px] flex flex-col justify-between group cursor-default transition-all duration-300 hover:shadow-xl hover:shadow-primary/5",
+            "p-8 rounded-xl flex flex-col justify-between group cursor-default transition-all duration-300 hover:shadow-xl hover:shadow-primary/5",
             stat.containerClass
           )}
         >
           <div className="flex justify-between items-start">
-            <div className={cn("p-4 rounded-2xl transition-transform group-hover:scale-110 duration-500", stat.iconBg)}>
+            <div className={cn("p-4 rounded-md transition-transform group-hover:scale-110 duration-500", stat.iconBg)}>
               <stat.icon className="size-6" />
             </div>
             <span className={cn("text-[10px] font-black flex items-center gap-1 uppercase tracking-widest", stat.changeClass)}>

@@ -33,6 +33,13 @@
 
     --shadow-layered: 0px 1px 5px -4px rgba(19, 19, 22, 0.7), 0px 0px 0px 1px rgba(34, 42, 53, 0.08), 0px 4px 8px 0px rgba(34, 42, 53, 0.05);
     --shadow-ring: 0px 0px 0px 1px rgba(34, 42, 53, 0.08);
+
+    /* Reduced Radius System */
+    --radius-xl: 12px;
+    --radius-lg: 8px;
+    --radius-md: 6px;
+    --radius-sm: 4px;
+    --radius: var(--radius-sm);
 }
 
 :root {
@@ -63,7 +70,7 @@
     --sidebar-border: rgba(34, 42, 53, 0.08);
     --sidebar-ring: #3b82f6;
     
-    --radius: 8px;
+    --radius: 4px;
 }
 
 @layer base {
@@ -80,14 +87,14 @@
 
 @layer components {
     .cal-card {
-        @apply bg-white rounded-[12px] shadow-layered;
+        @apply bg-white rounded-lg shadow-layered;
     }
     
     .cal-button-primary {
-        @apply bg-[#242424] text-white rounded-[8px] hover:opacity-70 transition-opacity font-sans font-semibold;
+        @apply bg-[#242424] text-white rounded-sm hover:opacity-70 transition-opacity font-sans font-semibold;
     }
     
     .cal-button-ghost {
-        @apply bg-white text-[#242424] rounded-[8px] shadow-ring hover:bg-[#f5f5f5] transition-colors font-sans font-semibold;
+        @apply bg-white text-[#242424] rounded-sm shadow-ring hover:bg-[#f5f5f5] transition-colors font-sans font-semibold;
     }
 }
