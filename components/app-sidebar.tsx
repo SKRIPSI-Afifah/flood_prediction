@@ -95,10 +95,17 @@ const data = {
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [role, setRole] = React.useState<"admin" | "user">(data.user.role as "admin" | "user")
+export function AppSidebar({ userProfile, ...props }: React.ComponentProps<typeof Sidebar> & { userProfile: any }) {
+  const role = (userProfile?.role || "user") as "admin" | "user"
 
   const filteredNavMain = data.navMain.filter(item => item.roles.includes(role))
+
+  const user = {
+    name: userProfile?.full_name || data.user.name,
+    email: userProfile?.email || data.user.email,
+    avatar: data.user.avatar,
+    role: role
+  }
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
@@ -125,33 +132,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent className="gap-0">
         <NavMain items={filteredNavMain} />
         
-        {/* Role Switcher for Demo */}
-        <div className="px-4 py-4 mt-auto">
-          <div className="bg-surface-container-low rounded-2xl p-3 border border-surface-container/50">
-            <p className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant/40 mb-3 px-1">Mode Sistem</p>
-            <div className="flex flex-col gap-2">
-              <button 
-                onClick={() => setRole("admin")}
-                className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-all ${role === "admin" ? "bg-primary text-white shadow-lg shadow-primary/20" : "text-on-surface-variant/60 hover:bg-surface-container-high"}`}
-              >
-                <ShieldCheckIcon className="size-3.5" />
-                <span>Admin</span>
-              </button>
-              <button 
-                onClick={() => setRole("user")}
-                className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-all ${role === "user" ? "bg-primary text-white shadow-lg shadow-primary/20" : "text-on-surface-variant/60 hover:bg-surface-container-high"}`}
-              >
-                <UserIcon className="size-3.5" />
-                <span>User</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
         <NavSecondary items={data.navSecondary} className="mt-2" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={{...data.user, role}} />
+        <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>
   )

@@ -1,10 +1,27 @@
 "use client"
 
+import { login } from "@/app/auth/actions"
 import { Button } from "@/components/ui/button"
 import { LucideArrowRight, LucideAtSign, LucideLock, LucideArrowLeft } from "lucide-react"
 import Link from "next/link"
+import { useState, useTransition } from "react"
+import { toast } from "sonner"
 
 export default function LoginPage() {
+  const [isPending, startTransition] = useTransition()
+  const [error, setError] = useState<string | null>(null)
+
+  async function handleSubmit(formData: FormData) {
+    setError(null)
+    startTransition(async () => {
+      const result = await login(formData)
+      if (result?.error) {
+        setError(result.error)
+        toast.error(result.error)
+      }
+    })
+  }
+
   return (
     <main className="min-h-screen w-full flex flex-col items-center justify-center bg-white selection:bg-black selection:text-white p-6">
       <Link 
@@ -27,7 +44,12 @@ export default function LoginPage() {
             <p className="text-sm text-[#898989] mt-2 font-sans">Authorized personnel only.</p>
           </div>
           
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-6" action={handleSubmit}>
+            {error && (
+              <div className="p-3 text-xs font-semibold text-red-500 bg-red-50 rounded-sm border border-red-100 uppercase tracking-wider text-center">
+                {error}
+              </div>
+            )}
             <div className="space-y-2">
               <label className="block text-[12px] font-semibold text-[#898989] ml-1 uppercase tracking-wider" htmlFor="email">
                 Work Email
@@ -37,8 +59,11 @@ export default function LoginPage() {
                 <input 
                   className="w-full pl-12 pr-4 py-3 bg-white shadow-ring rounded-sm text-sm focus:ring-2 focus:ring-[#3b82f6]/20 outline-none transition-all placeholder:text-[#898989]/50 font-sans" 
                   id="email" 
+                  name="email"
                   placeholder="analyst@aceh.gov.id" 
                   type="email"
+                  required
+                  disabled={isPending}
                 />
               </div>
             </div>
@@ -55,18 +80,23 @@ export default function LoginPage() {
                 <input 
                   className="w-full pl-12 pr-4 py-3 bg-white shadow-ring rounded-sm text-sm focus:ring-2 focus:ring-[#3b82f6]/20 outline-none transition-all placeholder:text-[#898989]/50 font-sans" 
                   id="password" 
+                  name="password"
                   placeholder="••••••••••••" 
                   type="password"
+                  required
+                  disabled={isPending}
                 />
               </div>
             </div>
 
-            <Link href="/dashboard" className="block pt-2">
-              <Button className="w-full py-6 bg-[#242424] text-white rounded-sm font-semibold text-sm hover:opacity-70 transition-opacity flex items-center justify-center gap-2 border-none">
-                AUTHORIZE ACCESS
-                <LucideArrowRight className="size-4" />
-              </Button>
-            </Link>
+            <Button 
+              type="submit"
+              disabled={isPending}
+              className="w-full py-6 bg-[#242424] text-white rounded-sm font-semibold text-sm hover:opacity-70 transition-opacity flex items-center justify-center gap-2 border-none"
+            >
+              {isPending ? "AUTHORIZING..." : "AUTHORIZE ACCESS"}
+              <LucideArrowRight className="size-4" />
+            </Button>
           </form>
 
           <p className="mt-8 text-center text-xs text-[#898989] font-sans">

@@ -1,7 +1,8 @@
-import { LucideSearch, LucideBell, LucideUser } from "lucide-react"
+import { LucideSearch } from "lucide-react"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import React from "react"
+import { UserButton } from "@/components/user-button"
 
 export function DashboardHeader({ title, breadcrumbs }: { title?: string, breadcrumbs?: { label: string, href?: string }[] }) {
   return (
@@ -45,13 +46,7 @@ export function DashboardHeader({ title, breadcrumbs }: { title?: string, breadc
           />
         </div>
         <div className="flex items-center gap-4">
-          <button className="relative size-11 flex items-center justify-center rounded-full text-on-surface-variant/60 hover:bg-surface-container-high hover:text-primary transition-all duration-300">
-            <LucideBell className="size-5" />
-            <span className="absolute top-3 right-3 size-2 bg-error rounded-full border-2 border-surface"></span>
-          </button>
-          <button className="size-11 flex items-center justify-center rounded-full bg-primary-fixed text-on-primary-fixed hover:scale-105 transition-all duration-300 shadow-sm">
-            <LucideUser className="size-5" />
-          </button>
+          <UserButton />
         </div>
       </div>
     </header>
