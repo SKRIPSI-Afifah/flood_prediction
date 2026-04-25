@@ -3,6 +3,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import React from "react"
 import { UserButton } from "@/components/user-button"
+import { ModeToggle } from "@/components/mode-toggle"
 
 export function DashboardHeader({ title, breadcrumbs }: { title?: string, breadcrumbs?: { label: string, href?: string }[] }) {
   return (
@@ -46,6 +47,7 @@ export function DashboardHeader({ title, breadcrumbs }: { title?: string, breadc
           />
         </div>
         <div className="flex items-center gap-4">
+          <ModeToggle />
           <UserButton />
         </div>
       </div>

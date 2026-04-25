@@ -20,7 +20,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { EllipsisVerticalIcon, CircleUserRoundIcon, CreditCardIcon, BellIcon, LogOutIcon } from "lucide-react"
+import { EllipsisVerticalIcon, CircleUserRoundIcon, CreditCardIcon, BellIcon, LogOutIcon, Moon, Sun, Laptop } from "lucide-react"
+import { useTheme } from "next-themes"
 
 import { signOut } from "@/app/auth/actions"
 
@@ -35,6 +36,7 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const { setTheme } = useTheme()
 
   return (
     <SidebarMenu>
@@ -59,7 +61,7 @@ export function NavUser({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg bg-white shadow-2xl border border-surface-container"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg bg-white dark:bg-[#0f1011] shadow-2xl border border-surface-container"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
@@ -78,6 +80,30 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-surface-container" />
+            <DropdownMenuGroup>
+              <DropdownMenuItem 
+                onClick={() => setTheme("light")}
+                className="cursor-pointer py-3 px-3 font-black text-[10px] uppercase tracking-[0.2em] focus:bg-surface-container"
+              >
+                <Sun className="mr-2 size-4" />
+                Mode Terang
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => setTheme("dark")}
+                className="cursor-pointer py-3 px-3 font-black text-[10px] uppercase tracking-[0.2em] focus:bg-surface-container"
+              >
+                <Moon className="mr-2 size-4" />
+                Mode Gelap
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => setTheme("system")}
+                className="cursor-pointer py-3 px-3 font-black text-[10px] uppercase tracking-[0.2em] focus:bg-surface-container"
+              >
+                <Laptop className="mr-2 size-4" />
+                Sesuai Sistem
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
             <DropdownMenuSeparator className="bg-surface-container" />
             <DropdownMenuItem 
               onClick={() => signOut()}

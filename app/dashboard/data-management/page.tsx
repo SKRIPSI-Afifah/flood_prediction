@@ -140,7 +140,7 @@ export default function DataManagementPage() {
             </Button>
             <Button 
               onClick={handleAdd}
-              className="bg-primary hover:opacity-90 text-white border-none font-black text-[10px] h-12 px-6 rounded-sm uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all"
+              className="bg-primary hover:opacity-90 text-primary-foreground border-none font-black text-[10px] h-12 px-6 rounded-sm uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all"
             >
               <LucidePlus className="size-4 mr-2" />
               Tambah Data
@@ -327,7 +327,7 @@ export default function DataManagementPage() {
               <button className="size-9 flex items-center justify-center rounded-sm hover:bg-surface-variant transition-colors text-primary opacity-50 cursor-not-allowed">
                 <LucideChevronLeft className="size-4" />
               </button>
-              <button className="size-9 flex items-center justify-center rounded-sm bg-primary text-white text-xs font-black shadow-lg shadow-primary/20">1</button>
+              <button className="size-9 flex items-center justify-center rounded-sm bg-primary text-primary-foreground text-xs font-black shadow-lg shadow-primary/20">1</button>
               <button className="size-9 flex items-center justify-center rounded-sm hover:bg-surface-variant transition-colors text-primary opacity-50 cursor-not-allowed">
                 <LucideChevronRight className="size-4" />
               </button>
@@ -337,7 +337,7 @@ export default function DataManagementPage() {
 
         {/* Auxiliary Cards */}
         <div className="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 bg-primary p-12 rounded-xl text-white relative overflow-hidden group shadow-2xl shadow-primary/20">
+          <div className="lg:col-span-2 bg-primary p-12 rounded-xl text-primary-foreground relative overflow-hidden group shadow-2xl shadow-primary/20">
             <div className="relative z-10 space-y-4">
               <div className="flex items-center gap-3">
                 <LucideShieldCheck className="size-8 text-secondary-container" />
@@ -346,7 +346,7 @@ export default function DataManagementPage() {
               <p className="text-on-primary-container/80 text-base max-w-xl font-medium leading-relaxed">
                 The system has identified potential outliers in the &apos;Elevasi&apos; parameter. It is recommended to perform a verification check before running the prediction model.
               </p>
-              <Button className="mt-4 bg-white text-primary hover:bg-white/90 border-none font-black text-[10px] h-12 px-8 rounded-sm uppercase tracking-widest transition-all">
+              <Button className="mt-4 bg-primary-foreground text-primary hover:bg-primary-foreground/90 border-none font-black text-[10px] h-12 px-8 rounded-sm uppercase tracking-widest transition-all">
                 Review Outliers
               </Button>
             </div>

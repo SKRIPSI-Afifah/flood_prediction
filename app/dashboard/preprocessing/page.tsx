@@ -19,7 +19,7 @@ export default function PreprocessingPage() {
               <LucideDownload className="size-4 mr-2" />
               Export Log
             </Button>
-            <Button className="bg-primary hover:opacity-90 text-white border-none font-black text-[10px] h-12 px-6 rounded-sm uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all">
+            <Button className="bg-primary hover:opacity-90 text-primary-foreground border-none font-black text-[10px] h-12 px-6 rounded-sm uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all">
               <LucidePlay className="size-4 mr-2 fill-current" />
               Re-run SMOTE
             </Button>
@@ -30,7 +30,7 @@ export default function PreprocessingPage() {
           {/* Explanation Card */}
           <div className="md:col-span-12 lg:col-span-4 bg-surface-container-low rounded-xl p-10 flex flex-col justify-center relative overflow-hidden group">
             <div className="size-16 bg-primary rounded-lg flex items-center justify-center mb-8 shadow-xl shadow-primary/20 transition-transform group-hover:rotate-12 duration-500">
-              <LucideSparkles className="size-8 text-white" />
+              <LucideSparkles className="size-8 text-primary-foreground" />
             </div>
             <h4 className="text-2xl font-black text-primary mb-6 uppercase tracking-tight">What is SMOTE?</h4>
             <div className="space-y-6">
@@ -62,9 +62,9 @@ export default function PreprocessingPage() {
                 </div>
             </div>
             <div className="bg-primary rounded-xl p-10 relative overflow-hidden group shadow-2xl shadow-primary/20">
-                <div className="absolute -right-8 -top-8 size-48 bg-white/10 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
-                <p className="text-[10px] font-black text-primary-fixed uppercase tracking-[0.2em] mb-2 opacity-60">Balanced Row Count</p>
-                <h5 className="text-5xl font-black text-white tracking-tighter">22,732</h5>
+                <div className="absolute -right-8 -top-8 size-48 bg-white/5 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
+                <p className="text-[10px] font-black text-primary-foreground/60 uppercase tracking-[0.2em] mb-2 opacity-60">Balanced Row Count</p>
+                <h5 className="text-5xl font-black text-primary-foreground tracking-tighter">22,732</h5>
                 <div className="flex items-center gap-3 mt-6">
                     <span className="text-[10px] font-black px-4 py-1.5 bg-secondary-container text-on-secondary-container rounded-full uppercase tracking-widest">Optimal</span>
                     <span className="text-xs font-bold text-primary-fixed/60">Ratio 1 : 1</span>

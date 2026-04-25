@@ -15,11 +15,11 @@ export function UserButton() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="size-11 flex items-center justify-center rounded-full bg-[#242424] text-white hover:scale-105 transition-all duration-300 shadow-sm outline-none">
+        <button className="size-11 flex items-center justify-center rounded-full bg-primary text-primary-foreground hover:scale-105 transition-all duration-300 shadow-sm outline-none">
           <LucideUser className="size-5" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 bg-white border border-surface-container shadow-2xl" align="end" forceMount>
+      <DropdownMenuContent className="w-56 bg-white dark:bg-[#0f1011] border border-surface-container shadow-2xl" align="end" forceMount>
         <DropdownMenuLabel className="font-normal p-4">
           <div className="flex flex-col space-y-1">
             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Sesi Terdaftar</p>

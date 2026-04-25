@@ -26,7 +26,7 @@ export default function PredictionPage() {
                 </div>
                 <span className="font-black text-primary tracking-tight uppercase text-sm">Parameter Input</span>
               </div>
-              <span className="text-[10px] font-black text-white px-4 py-1.5 rounded-full bg-primary uppercase tracking-widest shadow-lg shadow-primary/20">DATA AKTUAL</span>
+              <span className="text-[10px] font-black text-primary-foreground px-4 py-1.5 rounded-full bg-primary uppercase tracking-widest shadow-lg shadow-primary/20">DATA AKTUAL</span>
             </div>
             <form className="p-10 space-y-10">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -60,7 +60,7 @@ export default function PredictionPage() {
                 </div>
               </div>
               <div className="pt-4">
-                <Button className="w-full bg-primary hover:opacity-90 text-white border-none font-black text-[12px] h-16 rounded-sm uppercase tracking-[0.2em] shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-4 group" type="submit">
+                <Button className="w-full bg-primary hover:opacity-90 text-primary-foreground border-none font-black text-[12px] h-16 rounded-sm uppercase tracking-[0.2em] shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-4 group" type="submit">
                   <span>Prediksi Sekarang</span>
                   <LucideChevronRight className="size-5 group-hover:translate-x-2 transition-transform duration-300" />
                 </Button>
@@ -115,7 +115,7 @@ export default function PredictionPage() {
             </div>
 
             {/* Geographic Context Card */}
-            <div className="relative h-72 rounded-xl overflow-hidden shadow-2xl shadow-primary/10 group cursor-pointer border-4 border-white">
+            <div className="relative h-72 rounded-xl overflow-hidden shadow-2xl shadow-primary/10 group cursor-pointer border-4 border-surface-container">
               <Image 
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-8g4wykKmGnO6--ilCS5TLBBdjCFlfJdZXkp09o9yfQ357vQmxcGijFDNqXtiDZsRW5CtLtG8EFn-3H1czRpc_7dDRx8NmqX8xPo6FQM503YLRbi8VMUtp3-ULg8mYSXc5GvGms2kVDuiZn5wKafXkwTIEEzJF8nUYrFpigwgsEW0x-rYEn7pKN57Gl4I_jlThoZcGBUYoDJe79HrKt163DLh0AEw-LZKhAU4maT19nhcjebXFShTu-nT5u72kamCN3hP3ya-9pw" 
                 alt="Aceh Map" 
@@ -126,7 +126,7 @@ export default function PredictionPage() {
               <div className="absolute bottom-8 left-8 right-8 glass-panel p-6 rounded-lg flex items-center justify-between border border-white/20 shadow-2xl backdrop-blur-3xl">
                 <div className="flex items-center gap-4">
                   <div className="size-14 rounded-full bg-primary flex items-center justify-center shadow-xl shadow-primary/30 group-hover:rotate-[360deg] transition-transform duration-1000">
-                    <LucideLocateFixed className="size-6 text-white" />
+                    <LucideLocateFixed className="size-6 text-primary-foreground" />
                   </div>
                   <div className="space-y-1">
                     <div className="text-[10px] font-black text-primary uppercase tracking-[0.2em] opacity-60">Visualisasi Geografis</div>

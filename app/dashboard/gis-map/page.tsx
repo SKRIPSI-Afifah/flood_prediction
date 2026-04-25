@@ -36,14 +36,14 @@ export default function GISMapPage() {
       <div className="absolute top-6 left-6 z-[60] flex gap-3">
         <button 
           onClick={() => setShowAnalysis(!showAnalysis)}
-          className={`h-12 px-6 rounded-2xl flex items-center gap-3 font-bold text-xs uppercase tracking-widest transition-all shadow-lg border-2 ${showAnalysis ? 'bg-primary text-white border-primary' : 'bg-white text-primary border-surface-container hover:bg-surface-container-lowest'}`}
+          className={`h-12 px-6 rounded-2xl flex items-center gap-3 font-bold text-xs uppercase tracking-widest transition-all shadow-lg border-2 ${showAnalysis ? 'bg-primary text-primary-foreground border-primary' : 'bg-surface text-primary border-surface-container hover:bg-surface-container-lowest'}`}
         >
           <LucideLayoutDashboard className="size-4" />
           <span>Panel Analisis</span>
         </button>
         <button 
           onClick={() => setShowLegend(!showLegend)}
-          className={`h-12 px-6 rounded-2xl flex items-center gap-3 font-bold text-xs uppercase tracking-widest transition-all shadow-lg border-2 ${showLegend ? 'bg-primary text-white border-primary' : 'bg-white text-primary border-surface-container hover:bg-surface-container-lowest'}`}
+          className={`h-12 px-6 rounded-2xl flex items-center gap-3 font-bold text-xs uppercase tracking-widest transition-all shadow-lg border-2 ${showLegend ? 'bg-primary text-primary-foreground border-primary' : 'bg-surface text-primary border-surface-container hover:bg-surface-container-lowest'}`}
         >
           <LucideInfo className="size-4" />
           <span>Indeks Risiko</span>
@@ -53,7 +53,7 @@ export default function GISMapPage() {
       {/* Detailed Analysis Panel (Aceh Besar) */}
       {showAnalysis && (
         <div className="absolute top-6 right-6 z-[50] w-[calc(100%-48px)] sm:w-[400px] max-h-[calc(100vh-120px)] flex flex-col animate-in slide-in-from-right fade-in duration-300">
-          <div className="bg-white rounded-[32px] sm:rounded-[40px] border-2 border-surface-container shadow-2xl overflow-hidden flex flex-col h-full">
+          <div className="bg-surface rounded-[32px] sm:rounded-[40px] border-2 border-surface-container shadow-2xl overflow-hidden flex flex-col h-full">
             {/* Scrollable Area */}
             <div className="overflow-y-auto custom-scrollbar flex-1">
               <div className="relative h-44 shrink-0">
@@ -126,7 +126,7 @@ export default function GISMapPage() {
                   </div>
                 </div>
 
-                <Button className="w-full h-14 bg-primary text-white border-none font-black text-[11px] rounded-[24px] uppercase tracking-[0.15em] shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
+                <Button className="w-full h-14 bg-primary text-primary-foreground border-none font-black text-[11px] rounded-[24px] uppercase tracking-[0.15em] shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
                   <span>Deploy Warning</span>
                   <LucideSend className="size-4 -rotate-45" />
                 </Button>
@@ -142,7 +142,7 @@ export default function GISMapPage() {
       {/* Floating Legend */}
       {showLegend && (
         <div className="absolute bottom-6 left-6 z-[50] animate-in slide-in-from-left fade-in duration-300 max-w-[calc(100%-48px)]">
-          <div className="bg-white p-6 sm:p-8 rounded-[32px] sm:rounded-[40px] shadow-2xl border-2 border-surface-container min-w-[240px] sm:min-w-[280px]">
+          <div className="bg-surface p-6 sm:p-8 rounded-[32px] sm:rounded-[40px] shadow-2xl border-2 border-surface-container min-w-[240px] sm:min-w-[280px]">
             <h3 className="text-[10px] font-black text-primary mb-6 tracking-[0.2em] uppercase opacity-60">Flood Risk Index</h3>
             <div className="space-y-4 sm:y-5">
               {[
@@ -177,7 +177,7 @@ export default function GISMapPage() {
           background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #e5e7eb;
+          background: var(--surface-container-high);
           border-radius: 10px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {

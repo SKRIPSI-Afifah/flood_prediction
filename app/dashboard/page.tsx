@@ -51,7 +51,7 @@ export default async function Page() {
               <LucideDownload className="size-4 mr-2" />
               Ekspor Laporan
             </Button>
-            <Button className="bg-primary hover:opacity-90 text-white border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-sm shadow-lg transition-all">
+            <Button className="bg-primary hover:opacity-90  border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-sm shadow-lg transition-all">
               <LucideZap className="size-4 mr-2 fill-current" />
               Jalankan Prediksi
             </Button>

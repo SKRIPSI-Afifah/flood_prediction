@@ -117,12 +117,12 @@ export function AppSidebar({ userProfile, ...props }: React.ComponentProps<typeo
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
               <Link href="/dashboard">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-[8px] bg-[#242424] text-white">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-[8px] bg-primary text-primary-foreground">
                   <WavesIcon className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-heading text-sm font-semibold tracking-tight text-[#242424]">SENTINEL HYDRO</span>
-                  <span className="text-[10px] text-[#898989] font-medium uppercase tracking-wider">Flood Intelligence</span>
+                  <span className="font-heading text-sm font-semibold tracking-tight text-primary">SENTINEL HYDRO</span>
+                  <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">Flood Intelligence</span>
                 </div>
               </Link>
             </SidebarMenuButton>

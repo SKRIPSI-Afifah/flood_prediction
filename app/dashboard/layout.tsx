@@ -44,7 +44,7 @@ export default async function DashboardLayout({
       }
     >
       <AppSidebar userProfile={profile} />
-      <SidebarInset className="bg-white">
+      <SidebarInset>
         {children}
       </SidebarInset>
     </SidebarProvider>
