@@ -1,122 +1,112 @@
 "use client"
 
-import { MapContainer, TileLayer, Marker, Popup, ZoomControl, Circle } from 'react-leaflet'
-import 'leaflet/dist/leaflet.css'
-import L from 'leaflet'
-import { useEffect, useState } from 'react'
-
-// Fix for default marker icons in Leaflet with Next.js/Webpack
-const DefaultIcon = L.icon({
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-})
-
-L.Marker.prototype.options.icon = DefaultIcon
+import { MapContainer, TileLayer, ZoomControl, GeoJSON } from "react-leaflet"
+import "leaflet/dist/leaflet.css"
+import { useEffect, useState } from "react"
+import type { FeatureCollection } from "geojson"
 
 interface MapLeafletProps {
   center?: [number, number]
   zoom?: number
 }
 
-export default function MapLeaflet({ 
-  center = [5.5483, 95.3238], 
-  zoom = 12 
+export default function MapLeaflet({
+  center = [4.7, 96.8],
+  zoom = 8,
 }: MapLeafletProps) {
   const [isMounted, setIsMounted] = useState(false)
+  const [geoData, setGeoData] = useState<FeatureCollection | null>(null)
 
   useEffect(() => {
     setIsMounted(true)
+
+    fetch("/data/data_banjir.geojson")
+      .then((res) => res.json())
+      .then((data) => {
+        const acehOnly = {
+          ...data,
+          features: data.features.filter(
+            (feature: any) =>
+              feature.properties.ADM1_EN?.toLowerCase() === "aceh"
+          ),
+        }
+
+        setGeoData(acehOnly)
+      })
+      .catch((err) => console.error("Gagal load GeoJSON:", err))
   }, [])
 
-  if (!isMounted) return <div className="w-full h-full bg-surface-container animate-pulse" />
+  const getStatus = (props: any) => {
+    const key = Object.keys(props).find((k) =>
+      k.toLowerCase().includes("label_statistik")
+    )
+
+    return key ? props[key] : "-"
+  }
+
+  const getColor = (label: string = "") => {
+    const clean = label.trim()
+
+    if (clean === "Aman") return "#22c55e"
+    if (clean === "Rawan") return "#f59e0b"
+    if (clean === "Sangat Rawan") return "#ef4444"
+
+    return "#9ca3af"
+  }
+
+  const geoJsonStyle = (feature: any) => {
+    const label = getStatus(feature.properties)
+
+    return {
+      fillColor: getColor(label),
+      color: "#111827",
+      weight: 1,
+      fillOpacity: 0.65,
+    }
+  }
+
+  const onEachFeature = (feature: any, layer: any) => {
+    const props = feature.properties
+    const status = getStatus(props)
+
+    layer.bindPopup(`
+      <div style="min-width:180px">
+        <b>Kecamatan:</b> ${props.ADM3_EN || props.kecamatan || "-"}<br/>
+        <b>Kabupaten:</b> ${props.ADM2_EN || "-"}<br/>
+        <b>Provinsi:</b> ${props.ADM1_EN || "-"}<br/>
+        <b>Status:</b> ${status}
+      </div>
+    `)
+  }
+
+  if (!isMounted) {
+    return <div className="w-full h-full bg-surface-container animate-pulse" />
+  }
 
   return (
     <div className="w-full h-full relative group">
-      <MapContainer 
-        center={center} 
-        zoom={zoom} 
-        scrollWheelZoom={true} 
+      <MapContainer
+        center={center}
+        zoom={zoom}
+        scrollWheelZoom={true}
         className="w-full h-full z-0"
         zoomControl={false}
-        style={{ background: '#0a0a0a' }}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          attribution="&copy; OpenStreetMap contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        
-        {/* Risk Areas (Simulated) */}
-        <Circle 
-          center={[5.5500, 95.3200]} 
-          radius={1200} 
-          pathOptions={{ 
-            fillColor: '#ef4444', 
-            fillOpacity: 0.4, 
-            color: '#ef4444', 
-            weight: 2 
-          }} 
-        />
-        
-        <Circle 
-          center={[5.5200, 95.3500]} 
-          radius={800} 
-          pathOptions={{ 
-            fillColor: '#f59e0b', 
-            fillOpacity: 0.3, 
-            color: '#f59e0b', 
-            weight: 2 
-          }} 
-        />
 
-        <Marker position={center}>
-          <Popup className="custom-popup">
-            <div className="p-2">
-              <h3 className="font-black text-primary uppercase text-[10px] tracking-widest mb-1">Pusat Observasi</h3>
-              <p className="text-xs text-on-surface-variant font-medium">Aceh Besar Sentinel-HUD</p>
-              <div className="mt-2 pt-2 border-t border-surface-container flex items-center gap-2">
-                <div className="size-2 rounded-full bg-secondary animate-pulse"></div>
-                <span className="text-[9px] font-black uppercase text-secondary">Status: Sinkron</span>
-              </div>
-            </div>
-          </Popup>
-        </Marker>
+        {geoData && (
+          <GeoJSON
+            data={geoData}
+            style={geoJsonStyle}
+            onEachFeature={onEachFeature}
+          />
+        )}
 
         <ZoomControl position="bottomright" />
       </MapContainer>
-
-      {/* Map Overlay Vignette for aesthetic (Disabled for light mode) */}
-      {/* <div className="absolute inset-0 pointer-events-none shadow-[inner_0_0_150px_rgba(0,0,0,0.6)] z-[5]"></div> */}
-      
-      <style jsx global>{`
-        .leaflet-container {
-          font-family: inherit;
-          z-index: 0;
-        }
-        .leaflet-popup-content-wrapper {
-          background: white;
-          border-radius: 12px;
-          border: none;
-          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        .leaflet-control-zoom {
-          border: none !important;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-          margin-right: 40px !important;
-          margin-bottom: 60px !important;
-        }
-        .leaflet-control-zoom-in, .leaflet-control-zoom-out {
-          background: white !important;
-          color: #111 !important;
-          border: 1px solid #eee !important;
-        }
-        .leaflet-control-attribution {
-          background: rgba(255, 255, 255, 0.7) !important;
-          color: #666 !important;
-          font-size: 8px !important;
-        }
-      `}</style>
     </div>
   )
 }
