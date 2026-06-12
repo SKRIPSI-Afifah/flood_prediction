@@ -45,12 +45,6 @@ const data = {
       roles: ["admin", "user"],
     },
     {
-      title: "Manajemen Data",
-      url: "/dashboard/data-management",
-      icon: <DatabaseIcon />,
-      roles: ["admin"],
-    },
-    {
       title: "Manajemen Pengguna",
       url: "/dashboard/user-management",
       icon: <UsersIcon />,
@@ -69,12 +63,6 @@ const data = {
       roles: ["admin", "user"],
     },
     {
-      title: "Evaluasi Model",
-      url: "/dashboard/evaluation",
-      icon: <BarChart3Icon />,
-      roles: ["admin", "user"],
-    },
-    {
       title: "Riwayat",
       url: "/dashboard/history",
       icon: <HistoryIcon />,
@@ -82,16 +70,6 @@ const data = {
     },
   ],
   navSecondary: [
-    {
-      title: "Tentang",
-      url: "/dashboard/about",
-      icon: <InfoIcon />,
-    },
-    {
-      title: "Pengaturan",
-      url: "/dashboard/settings",
-      icon: <Settings2Icon />,
-    },
   ],
 }
 
