@@ -1,6 +1,9 @@
 "use client"
 
-import * as React from "react"
+import Link from "next/link"
+import { MoreVertical } from "lucide-react"
+
+import { Badge } from "@/components/ui/badge"
 import {
   Table,
   TableBody,
@@ -9,94 +12,196 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { MoreVertical, Info } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { formatDateTime, formatNumber, formatPercent, formatProbability, normalizeFloodRiskClass, getFloodRiskTone } from "@/lib/format"
+import { PredictionDetailDialog } from "@/components/prediction-detail-dialog"
+import type { HistoryRow } from "@/lib/dashboard-data"
 
-const assessmentData = [
-  {
-    region: "Meulaboh Basin A-2",
-    coordinates: "4.1481° N, 96.1283° E",
-    confidence: 98.2,
-    status: "RAWAN",
-    timestamp: "10 mins ago",
-  },
-  {
-    region: "Banda Aceh Coastal Zone",
-    coordinates: "5.5483° N, 95.3238° E",
-    confidence: 94.5,
-    status: "TIDAK RAWAN",
-    timestamp: "24 mins ago",
-  },
-  {
-    region: "Lhokseumawe North District",
-    coordinates: "5.1801° N, 97.1507° E",
-    confidence: 89.1,
-    status: "TIDAK RAWAN",
-    timestamp: "1 hr ago",
-  },
-]
+type PredictiveAssessmentsTableProps = {
+  rows: HistoryRow[]
+}
 
-export function PredictiveAssessmentsTable() {
-  return (
-    <div className="bg-surface-container-lowest rounded-3xl overflow-hidden mx-6 lg:mx-8 shadow-sm">
-      <div className="px-8 py-6 border-b border-surface-container/50 flex justify-between items-center">
-        <div className="flex items-center gap-3">
-            <h3 className="text-sm font-black text-primary uppercase tracking-[0.15em]">Latest Predictive Assessments</h3>
-            <Info className="size-4 text-on-surface-variant/40" />
+export function PredictiveAssessmentsTable({ rows }: PredictiveAssessmentsTableProps) {
+  if (rows.length === 0) {
+    return (
+      <div className="rounded-3xl border border-border/60 bg-surface p-6 shadow-layered">
+        <div className="flex min-h-[260px] items-center justify-center rounded-3xl border border-dashed border-border/60 bg-surface-container-low px-6 text-center">
+          <div className="space-y-2">
+            <p className="dashboard-kicker">Riwayat terbaru</p>
+            <h3 className="text-2xl font-black uppercase tracking-tighter text-primary">Belum ada data</h3>
+            <p className="max-w-md text-sm font-medium leading-relaxed text-on-surface-variant">
+              Simpan hasil prediksi terlebih dahulu agar lima data terbaru dapat tampil di sini.
+            </p>
+          </div>
         </div>
-        <button className="text-[11px] font-black text-primary hover:underline uppercase tracking-widest">View All History</button>
       </div>
-      <div className="overflow-x-auto">
+    )
+  }
+
+  return (
+    <div className="rounded-3xl border border-border/60 bg-surface shadow-layered">
+      <div className="flex items-center justify-between gap-4 border-b border-border/60 px-6 py-5 sm:px-8">
+        <div className="space-y-1">
+          <h3 className="text-sm font-black uppercase tracking-[0.18em] text-primary">5 Prediksi Terbaru</h3>
+          <p className="text-[11px] font-semibold text-on-surface-variant/70">
+            Data terakhir yang tersimpan di tabel `predictions`
+          </p>
+        </div>
+        <Button asChild variant="outline" className="hidden rounded-full px-4 text-[10px] font-black uppercase tracking-[0.18em] md:inline-flex">
+          <Link href="/dashboard/history">Buka riwayat</Link>
+        </Button>
+      </div>
+
+      <div className="md:hidden">
+        <div className="grid gap-4 p-4">
+          {rows.map((row) => {
+            const risk = normalizeFloodRiskClass(row.predicted_class)
+            const tone = getFloodRiskTone(risk)
+
+            return (
+                  <div key={row.id} className="rounded-3xl border border-border/60 bg-surface-container-low p-4 shadow-sm">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="space-y-1">
+                        <p className="text-sm font-black text-primary">{row.kecamatan}</p>
+                        <p className="text-[11px] font-medium text-on-surface-variant">{row.kabupaten}</p>
+                  </div>
+                  <Badge className={`rounded-full px-3 py-1 text-[9px] font-black uppercase tracking-[0.18em] ${tone.badge}`}>
+                    {risk}
+                  </Badge>
+                </div>
+
+                <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">Tanggal</p>
+                    <p className="mt-1 font-semibold text-on-surface">{formatDateTime(row.created_at)}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">Confidence</p>
+                    <p className="mt-1 font-semibold text-on-surface">{formatProbability(row.confidence)}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">Curah hujan</p>
+                    <p className="mt-1 font-semibold text-on-surface">{formatNumber(row.rainfall, 1)} mm</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">Risk score</p>
+                    <p className="mt-1 font-semibold text-on-surface">{formatNumber(row.risk_score, 2)}</p>
+                  </div>
+                </div>
+
+                <div className="mt-4 flex items-center justify-between gap-3">
+                  <span className={`rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] ${tone.badge}`}>
+                    {risk}
+                  </span>
+                  <PredictionDetailDialog row={row}>
+                    <Button variant="ghost" size="sm" className="rounded-full text-[10px] font-black uppercase tracking-[0.18em] text-primary">
+                      <MoreVertical className="mr-2 size-3.5" />
+                      Detail
+                    </Button>
+                  </PredictionDetailDialog>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      <div className="hidden overflow-x-auto md:block">
         <Table className="border-collapse">
           <TableHeader>
-            <TableRow className="bg-surface-container-low border-none hover:bg-surface-container-low">
-              <TableHead className="px-8 py-5 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Region Name</TableHead>
-              <TableHead className="px-8 py-5 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Coordinates</TableHead>
-              <TableHead className="px-8 py-5 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Confidence Score</TableHead>
-              <TableHead className="px-8 py-5 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Flood Status</TableHead>
-              <TableHead className="px-8 py-5 text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Timestamp</TableHead>
-              <TableHead className="px-8 py-5 w-[50px]"></TableHead>
+            <TableRow className="bg-surface-container-low/70 hover:bg-surface-container-low/70">
+              <TableHead className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
+                Waktu
+              </TableHead>
+              <TableHead className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
+                Wilayah
+              </TableHead>
+              <TableHead className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
+                Curah hujan
+              </TableHead>
+              <TableHead className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
+                Elevasi
+              </TableHead>
+              <TableHead className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
+                Slope
+              </TableHead>
+              <TableHead className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
+                Lahan terbangun
+              </TableHead>
+              <TableHead className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
+                Prediksi
+              </TableHead>
+              <TableHead className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
+                Confidence
+              </TableHead>
+              <TableHead className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
+                Risk score
+              </TableHead>
+              <TableHead className="px-6 py-4 text-right text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
+                Aksi
+              </TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody className="divide-y divide-surface-container-low">
-            {assessmentData.map((item, index) => (
-              <TableRow 
-                key={index} 
-                className="hover:bg-surface-container-low/30 transition-colors border-none group"
-              >
-                <TableCell className="px-8 py-5 text-sm font-bold text-on-surface">{item.region}</TableCell>
-                <TableCell className="px-8 py-5 text-xs font-medium font-mono text-on-surface-variant/70">{item.coordinates}</TableCell>
-                <TableCell className="px-8 py-5">
-                    <div className="flex items-center gap-3 min-w-[120px]">
-                        <span className="text-xs font-black text-primary">{item.confidence}%</span>
-                        <div className="h-1.5 flex-1 bg-surface-container rounded-full overflow-hidden">
-                            <div className="h-full bg-primary rounded-full" style={{ width: `${item.confidence}%` }} />
-                        </div>
+          <TableBody className="divide-y divide-border/60">
+            {rows.map((row) => {
+              const risk = normalizeFloodRiskClass(row.predicted_class)
+              const tone = getFloodRiskTone(risk)
+
+              return (
+                <TableRow key={row.id} className="border-none hover:bg-surface-container-low/60">
+                  <TableCell className="px-6 py-5">
+                    <div className="space-y-1">
+                      <p className="text-sm font-bold text-on-surface">{formatDateTime(row.created_at)}</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-on-surface-variant/40">
+                        ID {row.id}
+                      </p>
                     </div>
-                </TableCell>
-                <TableCell className="px-8 py-5">
-                  <Badge 
-                    className={`rounded-full px-4 py-1 text-[9px] font-black uppercase tracking-wider border-none shadow-none ${
-                      item.status === 'RAWAN' 
-                      ? 'bg-error-container text-on-error-container' 
-                      : 'bg-secondary-container text-on-secondary-container'
-                    }`}
-                  >
-                    {item.status}
-                  </Badge>
-                </TableCell>
-                <TableCell className="px-8 py-5 text-xs font-medium text-on-surface-variant opacity-60">{item.timestamp}</TableCell>
-                <TableCell className="px-8 py-5 text-right">
-                    <button className="text-on-surface-variant/40 hover:text-primary transition-colors">
-                        <MoreVertical className="size-5" />
-                    </button>
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                  <TableCell className="px-6 py-5">
+                    <div className="space-y-1">
+                      <p className="text-sm font-bold text-on-surface">{row.kecamatan}</p>
+                      <p className="text-xs font-medium text-on-surface-variant">{row.kabupaten}</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-on-surface-variant/40">
+                        {row.adm3_pcode}
+                      </p>
+                    </div>
+                  </TableCell>
+                  <TableCell className="px-6 py-5 text-sm font-semibold text-on-surface-variant">
+                    {formatNumber(row.rainfall, 1)} mm
+                  </TableCell>
+                  <TableCell className="px-6 py-5 text-sm font-semibold text-on-surface-variant">
+                    {formatNumber(row.elevation, 2)} m
+                  </TableCell>
+                  <TableCell className="px-6 py-5 text-sm font-semibold text-on-surface-variant">
+                    {formatNumber(row.slope, 2)}%
+                  </TableCell>
+                  <TableCell className="px-6 py-5 text-sm font-semibold text-on-surface-variant">
+                    {formatPercent(row.built_area)}
+                  </TableCell>
+                  <TableCell className="px-6 py-5">
+                    <Badge className={`rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] ${tone.badge}`}>
+                      {risk}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="px-6 py-5 text-sm font-semibold text-on-surface-variant">
+                    {formatProbability(row.confidence)}
+                  </TableCell>
+                  <TableCell className="px-6 py-5 text-sm font-semibold text-on-surface-variant">
+                    {formatNumber(row.risk_score, 2)}
+                  </TableCell>
+                  <TableCell className="px-6 py-5 text-right">
+                    <PredictionDetailDialog row={row}>
+                      <Button variant="ghost" size="icon" className="rounded-2xl text-primary hover:bg-primary/5">
+                        <MoreVertical className="size-4" />
+                      </Button>
+                    </PredictionDetailDialog>
+                  </TableCell>
+                </TableRow>
+              )
+            })}
           </TableBody>
         </Table>
       </div>
     </div>
   )
 }
-

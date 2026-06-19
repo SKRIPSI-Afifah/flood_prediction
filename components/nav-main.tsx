@@ -36,16 +36,16 @@ export function NavMain({
                   asChild 
                   tooltip={item.title}
                   className={cn(
-                    "h-11 rounded-none px-4 transition-all duration-200 border-r-0",
+                    "h-11 rounded-xl px-4 transition-all duration-200 border-r-0 mx-1",
                     isActive 
-                      ? "bg-primary/5 text-primary border-r-[4px] border-primary font-bold shadow-sm shadow-primary/5" 
-                      : "text-on-surface-variant/70 hover:text-primary hover:bg-surface-container-high/50 font-medium"
+                      ? "bg-sidebar-primary/10 text-sidebar-primary border-r-[4px] border-sidebar-primary font-bold shadow-sm shadow-sidebar-primary/10" 
+                      : "text-sidebar-foreground/70 hover:text-sidebar-primary hover:bg-sidebar-accent font-medium"
                   )}
                 >
                   <Link href={item.url} className="flex items-center gap-3">
                     <span className={cn(
                       "flex items-center justify-center transition-colors",
-                      isActive ? "text-primary scale-110" : "text-on-surface-variant/50"
+                      isActive ? "text-sidebar-primary scale-110" : "text-sidebar-foreground/50"
                     )}>
                       {item.icon}
                     </span>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { 
@@ -20,43 +20,45 @@ import { createClient } from "@/lib/supabase/client"
 
 const userSchema = z.object({
   full_name: z.string().min(2, "Nama minimal 2 karakter"),
-  email: z.string().email("Email tidak valid"),
   role: z.enum(["admin", "user"]),
 })
 
 type UserFormValues = z.infer<typeof userSchema>
+type EditableUser = {
+  id: string
+  full_name?: string | null
+  role?: string | null
+}
 
 interface UserDialogProps {
   isOpen: boolean
   onClose: () => void
   onSuccess: () => void
-  user?: any // If editing
+  user?: EditableUser
 }
 
 export function UserDialog({ isOpen, onClose, onSuccess, user }: UserDialogProps) {
   const supabase = createClient()
   const [loading, setLoading] = useState(false)
 
-  const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<UserFormValues>({
+  const { register, handleSubmit, setValue, control, reset, formState: { errors } } = useForm<UserFormValues>({
     resolver: zodResolver(userSchema),
     defaultValues: {
       full_name: "",
-      email: "",
       role: "user",
     }
   })
 
   useEffect(() => {
     if (user) {
+      const normalizedRole = user.role === "admin" ? "admin" : "user"
       reset({
         full_name: user.full_name || "",
-        email: user.email || "",
-        role: user.role || "user",
+        role: normalizedRole,
       })
     } else {
       reset({
         full_name: "",
-        email: "",
         role: "user",
       })
     }
@@ -72,42 +74,26 @@ export function UserDialog({ isOpen, onClose, onSuccess, user }: UserDialogProps
           .update({
             full_name: data.full_name,
             role: data.role,
-            // email is usually not updatable if linked to auth.users, 
-            // but we'll try for simplicity in this management page
-            email: data.email 
           })
           .eq("id", user.id)
 
         if (error) throw error
         toast.success("Pengguna berhasil diperbarui")
       } else {
-        // Add
-        // Note: This won't create an auth user, just a profile.
-        // In a real app, you'd use a server action with admin privileges.
-        const { error } = await supabase
-          .from("profiles")
-          .insert([{
-            id: crypto.randomUUID(), // Stub for now if no auth.users link
-            full_name: data.full_name,
-            email: data.email,
-            role: data.role,
-            created_at: new Date().toISOString()
-          }])
-
-        if (error) throw error
-        toast.success("Pengguna berhasil ditambahkan")
+        toast.error("Penambahan user baru dilakukan lewat halaman registrasi, bukan dari dialog ini.")
+        return
       }
       onSuccess()
       onClose()
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error)
-      toast.error(error.message || "Terjadi kesalahan")
+      toast.error(error instanceof Error ? error.message : "Terjadi kesalahan")
     } finally {
       setLoading(false)
     }
   }
 
-  const roleValue = watch("role")
+  const roleValue = useWatch({ control, name: "role" })
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -129,21 +115,10 @@ export function UserDialog({ isOpen, onClose, onSuccess, user }: UserDialogProps
             {errors.full_name && <p className="text-[10px] text-error font-bold">{errors.full_name.message}</p>}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-[10px] font-black uppercase tracking-widest opacity-60">Email</Label>
-            <Input 
-              id="email" 
-              {...register("email")} 
-              disabled={!!user}
-              className="bg-surface-container-high border-none h-12 font-bold placeholder:opacity-30 disabled:opacity-50"
-              placeholder="nama@contoh.com"
-            />
-            {errors.email && <p className="text-[10px] text-error font-bold">{errors.email.message}</p>}
-          </div>
-          <div className="space-y-2">
             <Label htmlFor="role" className="text-[10px] font-black uppercase tracking-widest opacity-60">Role</Label>
             <Select 
               value={roleValue} 
-              onValueChange={(val) => setValue("role", val as any)}
+              onValueChange={(val) => setValue("role", val as "admin" | "user")}
             >
               <SelectTrigger className="bg-white border border-surface-container h-12 font-bold text-primary">
                 <SelectValue placeholder="Pilih Role" />

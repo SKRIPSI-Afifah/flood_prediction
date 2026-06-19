@@ -2,6 +2,10 @@
 
 This is a Next.js template with shadcn/ui.
 
+## API Documentation
+
+Lihat dokumentasi kontrak endpoint dan field response di [docs/api.md](docs/api.md).
+
 ## Adding components
 
 To add components to your app, run the following command:

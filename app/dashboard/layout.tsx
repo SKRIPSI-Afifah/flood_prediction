@@ -24,6 +24,7 @@ export default async function DashboardLayout({
     .single()
 
   const role = profile?.role || "user"
+  const email = user?.email || ""
   const headerList = await headers()
   const pathname = headerList.get("x-url") || ""
 
@@ -43,7 +44,7 @@ export default async function DashboardLayout({
         } as React.CSSProperties
       }
     >
-      <AppSidebar userProfile={profile} />
+      <AppSidebar userProfile={profile} userEmail={email} />
       <SidebarInset>
         {children}
       </SidebarInset>

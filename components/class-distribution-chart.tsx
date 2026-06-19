@@ -1,200 +1,168 @@
 "use client"
 
-import * as React from "react"
-import { Pie, PieChart, Cell, Label } from "recharts"
-import { PieChart as PieIcon } from "lucide-react"
+import { Pie, PieChart, Cell, Label, BarChart, Bar, CartesianGrid, XAxis, YAxis } from "recharts"
+import { PieChart as PieIcon, BarChart3 } from "lucide-react"
 
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@/components/ui/chart"
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart"
+import { formatPercent } from "@/lib/format"
 
-const COLORS = {
-  Aman: "#22c55e",
-  Rawan: "#f59e0b",
-  "Sangat Rawan": "#ef4444",
+type RiskClass = "Aman" | "Rawan" | "Sangat Rawan"
+
+type ClassDistributionChartProps = {
+  classCounts: Record<RiskClass, number>
+}
+
+const COLORS: Record<RiskClass, string> = {
+  Aman: "#006c4a",
+  Rawan: "#b26a00",
+  "Sangat Rawan": "#ba1a1a",
 }
 
 const chartConfig = {
-  aman: { label: "Aman", color: COLORS.Aman },
-  rawan: { label: "Rawan", color: COLORS.Rawan },
-  sangatRawan: { label: "Sangat Rawan", color: COLORS["Sangat Rawan"] },
+  Aman: { label: "Aman", color: COLORS.Aman },
+  Rawan: { label: "Rawan", color: COLORS.Rawan },
+  "Sangat Rawan": { label: "Sangat Rawan", color: COLORS["Sangat Rawan"] },
 } satisfies ChartConfig
 
-type ChartItem = {
-  name: keyof typeof COLORS
-  value: number
-  color: string
-}
+export function ClassDistributionChart({ classCounts }: ClassDistributionChartProps) {
+  const data = (Object.keys(classCounts) as RiskClass[]).map((name) => ({
+    name,
+    value: classCounts[name] ?? 0,
+    color: COLORS[name],
+  }))
 
-export function ClassDistributionChart() {
-  const [data, setData] = React.useState<ChartItem[]>([
-    { name: "Aman", value: 0, color: COLORS.Aman },
-    { name: "Rawan", value: 0, color: COLORS.Rawan },
-    { name: "Sangat Rawan", value: 0, color: COLORS["Sangat Rawan"] },
-  ])
-
-  React.useEffect(() => {
-    async function loadData() {
-      try {
-        const res = await fetch("/data/data_banjir.geojson")
-        const geojson = await res.json()
-
-        const counts = {
-          Aman: 0,
-          Rawan: 0,
-          "Sangat Rawan": 0,
-        }
-
-        geojson.features.forEach((feature: any) => {
-          const props = feature.properties || {}
-
-          const labelKey = Object.keys(props).find((key) =>
-            key.toLowerCase().includes("label_statistik")
-          )
-
-          const status = labelKey ? String(props[labelKey]).trim() : ""
-
-          if (status === "Aman") counts.Aman += 1
-          if (status === "Rawan") counts.Rawan += 1
-          if (status === "Sangat Rawan") counts["Sangat Rawan"] += 1
-        })
-
-        const total = counts.Aman + counts.Rawan + counts["Sangat Rawan"]
-
-        setData([
-          {
-            name: "Aman",
-            value: total ? Math.round((counts.Aman / total) * 100) : 0,
-            color: COLORS.Aman,
-          },
-          {
-            name: "Rawan",
-            value: total ? Math.round((counts.Rawan / total) * 100) : 0,
-            color: COLORS.Rawan,
-          },
-          {
-            name: "Sangat Rawan",
-            value: total
-              ? Math.round((counts["Sangat Rawan"] / total) * 100)
-              : 0,
-            color: COLORS["Sangat Rawan"],
-          },
-        ])
-      } catch (error) {
-        console.error("Gagal memuat data GeoJSON:", error)
-      }
-    }
-
-    loadData()
-  }, [])
-
-  const mainItem =
-    data.find((item) => item.name === "Sangat Rawan") ||
-    data.find((item) => item.name === "Rawan") ||
-    data[0]
-
+  const total = data.reduce((sum, item) => sum + item.value, 0)
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex justify-between items-center mb-10 px-4">
-        <h3 className="text-sm font-black text-primary uppercase tracking-[0.15em]">
-          Distribusi Kelas
-        </h3>
-        <PieIcon className="size-5 text-on-surface-variant/40" />
-      </div>
+    <div className="grid gap-6 lg:grid-cols-2">
+      <div className="rounded-3xl border border-border/60 bg-surface p-6 shadow-layered">
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <div className="space-y-1">
+            <h3 className="text-sm font-black uppercase tracking-[0.18em] text-primary">
+              Distribusi Prediksi
+            </h3>
+            <p className="text-[11px] font-semibold text-on-surface-variant/70">
+              Komposisi kelas dari data prediksi di database
+            </p>
+          </div>
+          <div className="flex size-11 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/15">
+            <PieIcon className="size-5" />
+          </div>
+        </div>
 
-      <div className="flex-1 flex flex-col justify-center">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[220px] w-full"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
+        {total === 0 ? (
+          <div className="flex min-h-[260px] items-center justify-center rounded-3xl border border-dashed border-border/60 bg-surface-container-low px-6 text-center">
+            <p className="text-sm font-medium text-on-surface-variant">
+              Belum ada data prediksi untuk membentuk distribusi.
+            </p>
+          </div>
+        ) : (
+          <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[280px] w-full">
+            <PieChart>
+              <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+              <Pie
+                data={data}
+                dataKey="value"
+                nameKey="name"
+                innerRadius={78}
+                outerRadius={110}
+                strokeWidth={0}
+                paddingAngle={4}
+                cornerRadius={12}
+              >
+                {data.map((entry) => (
+                  <Cell key={entry.name} fill={entry.color} />
+                ))}
+                <Label
+                  content={({ viewBox }) => {
+                    if (!viewBox || !("cx" in viewBox) || !("cy" in viewBox)) {
+                      return null
+                    }
 
-            <Pie
-              data={data}
-              dataKey="value"
-              nameKey="name"
-              innerRadius={75}
-              outerRadius={95}
-              strokeWidth={0}
-              paddingAngle={4}
-              cornerRadius={10}
-            >
-              {data.map((entry) => (
-                <Cell key={entry.name} fill={entry.color} />
-              ))}
+                    return (
+                      <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle" dominantBaseline="middle">
+                        <tspan x={viewBox.cx} y={viewBox.cy - 6} className="fill-primary text-4xl font-black tracking-tighter">
+                          {total}
+                        </tspan>
+                        <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 20} className="fill-on-surface-variant text-[10px] font-black uppercase tracking-[0.2em] opacity-50">
+                          Total Prediksi
+                        </tspan>
+                      </text>
+                    )
+                  }}
+                />
+              </Pie>
+            </PieChart>
+          </ChartContainer>
+        )}
 
-              <Label
-                content={({ viewBox }) => {
-                  if (!viewBox || !("cx" in viewBox) || !("cy" in viewBox)) {
-                    return null
-                  }
-
-                  return (
-                    <text
-                      x={viewBox.cx}
-                      y={viewBox.cy}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                    >
-                      <tspan
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        className="fill-primary text-4xl font-black tracking-tighter"
-                      >
-                        {mainItem.value}%
-                      </tspan>
-                      <tspan
-                        x={viewBox.cx}
-                        y={(viewBox.cy || 0) + 24}
-                        className="fill-on-surface-variant text-[10px] uppercase font-black tracking-widest opacity-40"
-                      >
-                        {mainItem.name}
-                      </tspan>
-                    </text>
-                  )
-                }}
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-
-        <div className="mt-10 space-y-5 px-4 pb-4">
+        <div className="mt-6 space-y-3">
           {data.map((item) => (
-            <div key={item.name} className="space-y-2">
-              <div className="flex items-center justify-between">
+            <div key={item.name} className="space-y-2 rounded-2xl border border-border/40 bg-surface-container-low p-4">
+              <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <div
-                    className="size-2.5 rounded-full ring-4 ring-black/5"
-                    style={{ backgroundColor: item.color }}
-                  />
-                  <span className="text-xs font-bold text-on-surface-variant uppercase tracking-tight">
+                  <div className="size-2.5 rounded-full" style={{ backgroundColor: item.color }} />
+                  <span className="text-xs font-bold uppercase tracking-[0.16em] text-on-surface-variant">
                     {item.name}
                   </span>
                 </div>
-                <span className="text-xs font-black text-primary">
-                  {item.value}%
-                </span>
+                <span className="text-xs font-black text-primary">{item.value}</span>
               </div>
-
-              <div className="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+              <div className="h-2.5 w-full overflow-hidden rounded-full bg-surface-container">
                 <div
                   className="h-full rounded-full"
                   style={{
-                    width: `${item.value}%`,
+                    width: `${total ? (item.value / total) * 100 : 0}%`,
                     backgroundColor: item.color,
                   }}
                 />
               </div>
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
+                {formatPercent(total ? item.value / total : 0)}
+              </p>
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="rounded-3xl border border-border/60 bg-surface p-6 shadow-layered">
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <div className="space-y-1">
+            <h3 className="text-sm font-black uppercase tracking-[0.18em] text-primary">
+              Bar Chart
+            </h3>
+            <p className="text-[11px] font-semibold text-on-surface-variant/70">
+              Perbandingan jumlah kelas prediksi
+            </p>
+          </div>
+          <div className="flex size-11 items-center justify-center rounded-2xl bg-secondary-container text-on-secondary-container shadow-lg shadow-secondary/15">
+            <BarChart3 className="size-5" />
+          </div>
+        </div>
+
+        {total === 0 ? (
+          <div className="flex min-h-[320px] items-center justify-center rounded-3xl border border-dashed border-border/60 bg-surface-container-low px-6 text-center">
+            <p className="text-sm font-medium text-on-surface-variant">
+              Grafik batang akan muncul setelah ada prediksi tersimpan.
+            </p>
+          </div>
+        ) : (
+          <ChartContainer config={chartConfig} className="h-[320px] w-full">
+            <BarChart data={data} layout="vertical" margin={{ left: 16, right: 24 }}>
+              <CartesianGrid vertical={false} strokeDasharray="3 3" />
+              <XAxis type="number" hide />
+              <YAxis
+                type="category"
+                dataKey="name"
+                width={110}
+                tickLine={false}
+                axisLine={false}
+                className="text-[11px] font-bold"
+              />
+              <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+              <Bar dataKey="value" radius={12} fill="#003466" />
+            </BarChart>
+          </ChartContainer>
+        )}
       </div>
     </div>
   )

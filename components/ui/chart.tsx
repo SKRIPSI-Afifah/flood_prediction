@@ -191,7 +191,7 @@ function ChartTooltipContent({
   return (
     <div
       className={cn(
-        "grid min-w-32 items-start gap-1.5 rounded-lg border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl",
+        "grid min-w-32 items-start gap-1.5 rounded-xl border border-border/60 bg-surface px-3 py-2 text-xs shadow-2xl shadow-primary/5",
         className
       )}
     >
@@ -248,7 +248,7 @@ function ChartTooltipContent({
                     >
                       <div className="grid gap-1.5">
                         {nestLabel ? tooltipLabel : null}
-                        <span className="text-muted-foreground">
+                        <span className="text-on-surface-variant">
                           {itemConfig?.label ?? item.name}
                         </span>
                       </div>

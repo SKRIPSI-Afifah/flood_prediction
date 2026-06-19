@@ -1,3 +1,5 @@
+"use client"
+
 import { LucideSearch } from "lucide-react"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
@@ -7,10 +9,10 @@ import { ModeToggle } from "@/components/mode-toggle"
 
 export function DashboardHeader({ title, breadcrumbs }: { title?: string, breadcrumbs?: { label: string, href?: string }[] }) {
   return (
-    <header className="flex h-20 shrink-0 items-center justify-between px-6 lg:px-8 sticky top-0 z-40 bg-surface/80 backdrop-blur-xl border-b border-surface-container/50">
+    <header className="sticky top-0 z-40 flex h-20 shrink-0 items-center justify-between border-b border-border/60 bg-surface/90 px-4 backdrop-blur-xl sm:px-6 lg:px-8">
       <div className="flex items-center gap-4">
-        <SidebarTrigger className="-ml-1" />
-        <div className="h-6 w-px bg-surface-container mx-2" />
+        <SidebarTrigger className="-ml-1 rounded-full border border-border/60 bg-surface shadow-sm" />
+        <div className="mx-2 h-6 w-px bg-border/80" />
         {breadcrumbs ? (
           <Breadcrumb>
             <BreadcrumbList>
@@ -18,11 +20,11 @@ export function DashboardHeader({ title, breadcrumbs }: { title?: string, breadc
                 <React.Fragment key={i}>
                   <BreadcrumbItem>
                     {crumb.href ? (
-                      <BreadcrumbLink href={crumb.href} className="text-[10px] font-black uppercase tracking-widest opacity-60">
+                      <BreadcrumbLink href={crumb.href} className="text-[10px] font-black uppercase tracking-[0.22em] text-on-surface-variant/70 hover:text-primary">
                         {crumb.label}
                       </BreadcrumbLink>
                     ) : (
-                      <BreadcrumbPage className="text-[10px] font-black uppercase tracking-widest text-primary">
+                      <BreadcrumbPage className="text-[10px] font-black uppercase tracking-[0.22em] text-primary">
                         {crumb.label}
                       </BreadcrumbPage>
                     )}
@@ -33,20 +35,20 @@ export function DashboardHeader({ title, breadcrumbs }: { title?: string, breadc
             </BreadcrumbList>
           </Breadcrumb>
         ) : (
-          <h1 className="text-xl font-black text-primary tracking-tighter uppercase">{title || "FloodGuard Aceh"}</h1>
+          <h1 className="text-xl font-black uppercase tracking-tighter text-primary">{title || "FloodGuard Aceh"}</h1>
         )}
       </div>
       
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-3 sm:gap-5">
         <div className="relative group hidden md:block">
-          <LucideSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant/40 size-4" />
+          <LucideSearch className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-on-surface-variant/50" />
           <input 
             type="search" 
             placeholder="Search spatial data..." 
-            className="h-11 w-72 rounded-full bg-surface-container-low pl-11 pr-5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-primary/10 border-none transition-all placeholder:text-on-surface-variant/30 text-primary"
+            className="h-11 w-72 rounded-full border border-border/60 bg-surface pl-11 pr-5 text-xs font-semibold text-on-surface shadow-sm transition-all placeholder:text-on-surface-variant/40 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
           />
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           <ModeToggle />
           <UserButton />
         </div>

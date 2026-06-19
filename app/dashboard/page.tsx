@@ -1,82 +1,155 @@
+import Link from "next/link"
+import { ArrowRight, Table2 } from "lucide-react"
+
 import { PredictiveAssessmentsTable } from "@/components/predictive-assessments-table"
-import { SectionCards } from "@/components/section-cards"
-import { RiskDistributionMap } from "@/components/risk-distribution-map"
 import { ClassDistributionChart } from "@/components/class-distribution-chart"
+import { RiskDistributionMap } from "@/components/risk-distribution-map"
 import { Button } from "@/components/ui/button"
-import { LucideDownload, LucideZap } from "lucide-react"
 import { DashboardHeader } from "@/components/dashboard-header"
-import { createClient } from "@/lib/supabase/server"
+import { DashboardHero, DashboardPage, DashboardSection } from "@/components/dashboard-page"
+import { formatNumber } from "@/lib/format"
+import { getCookieHeader, getRequestOrigin } from "@/lib/server-request"
+
+export const dynamic = "force-dynamic"
+
+type DashboardApiResponse = {
+  total_kecamatan: number
+  total_factor_data: number
+  total_predictions: number
+  distinct_prediction_regions: number
+  class_counts: {
+    Aman: number
+    Rawan: number
+    "Sangat Rawan": number
+  }
+  latest_predictions: Array<{
+    id: number
+    user_id: string
+    adm3_pcode: string
+    kabupaten: string
+    kecamatan: string
+
+    rainfall: number | null
+    elevation: number | null
+    slope: number | null
+    built_area: number | null
+    predicted_class: "Aman" | "Rawan" | "Sangat Rawan"
+    confidence: number | null
+    risk_score: number | null
+    probability_aman: number | null
+    probability_rawan: number | null
+    probability_sangat_rawan: number | null
+    created_at: string
+    latitude: number | null
+    longitude: number | null
+  }>
+}
+
+async function fetchDashboardData(): Promise<DashboardApiResponse> {
+  const [origin, cookieHeader] = await Promise.all([getRequestOrigin(), getCookieHeader()])
+  const response = await fetch(new URL("/api/dashboard", origin), {
+    cache: "no-store",
+    headers: {
+      cookie: cookieHeader,
+    },
+  })
+
+  const data = (await response.json().catch(() => null)) as DashboardApiResponse & { error?: string } | null
+
+  if (!response.ok || !data) {
+    throw new Error(data?.error || "Gagal memuat dashboard.")
+  }
+
+  return data
+}
 
 export default async function Page() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user?.id)
-    .single()
+  const dashboard = await fetchDashboardData()
+  const coordinateCoverage = dashboard.total_kecamatan
+    ? (dashboard.distinct_prediction_regions / dashboard.total_kecamatan) * 100
+    : 0
 
-  const role = profile?.role || "user"
-  const firstName = profile?.full_name?.split(" ")[0] || "User"
+  const cards = [
+    {
+      label: "Total Kecamatan",
+      value: formatNumber(dashboard.total_kecamatan, 0),
+      subtitle: "Kecamatan yang tersedia di master wilayah",
+      tone: "bg-primary/5 text-primary",
+    },
+    {
+      label: "Total Prediksi",
+      value: formatNumber(dashboard.total_predictions, 0),
+      subtitle: "Seluruh hasil prediksi yang tersimpan",
+      tone: "bg-secondary-container text-on-secondary-container",
+    },
+    {
+      label: "Kecamatan Terprediksi",
+      value: formatNumber(dashboard.distinct_prediction_regions, 0),
+      subtitle: `${coordinateCoverage.toFixed(1)}% dari total kecamatan`,
+      tone: "bg-tertiary-container text-on-tertiary-container",
+    },
+  ]
 
   return (
     <>
-      <DashboardHeader 
+      <DashboardHeader
         breadcrumbs={[
           { label: "Utama", href: "/dashboard" },
-          { label: "Beranda" }
-        ]} 
+          { label: "Beranda" },
+        ]}
       />
-      
-      <main className="flex flex-1 flex-col gap-10 py-10">
-        {/* Hero Section */}
-        <section className="px-6 lg:px-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest rounded-sm">
-                {role === "admin" ? "Sistem Administrator" : "Pengguna Terverifikasi"}
-              </span>
+
+      <DashboardPage>
+        <DashboardHero
+          eyebrow="Sistem Ringkasan"
+          title="Dashboard FloodRisk Aceh"
+          description="Ringkasan prediksi kerawanan banjir yang dibaca langsung dari Supabase."
+          actions={
+            <>
+              <Button asChild variant="outline" className="h-12 rounded-full px-6 text-[10px] font-black uppercase tracking-[0.18em]">
+                <Link href="/dashboard/history">
+                  <Table2 className="mr-2 size-4" />
+                  Lihat Riwayat
+                </Link>
+              </Button>
+              <Button asChild className="h-12 rounded-full border-none bg-[linear-gradient(135deg,#0f4c81,#0ea5a6)] px-6 text-[10px] font-black uppercase tracking-[0.18em] text-white shadow-lg shadow-primary/20">
+                <Link href="/dashboard/prediction">
+                  <ArrowRight className="mr-2 size-4" />
+                  Jalankan Prediksi
+                </Link>
+              </Button>
+            </>
+          }
+        />
+
+        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {cards.map((card) => (
+            <div
+              key={card.label}
+              className={`rounded-3xl border border-border/60 bg-surface p-6 shadow-layered ${card.tone}`}
+            >
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/60">{card.label}</p>
+              <div className="mt-5 flex items-end justify-between gap-4">
+                <span className="text-4xl font-black tracking-tighter">{card.value}</span>
+                <div className="h-2 w-24 rounded-full bg-current/15" />
+              </div>
+              <p className="mt-4 text-sm font-medium leading-relaxed text-on-surface-variant">{card.subtitle}</p>
             </div>
-            <h2 className="text-4xl font-black text-primary tracking-tighter uppercase">
-              Halo, {firstName}
-            </h2>
-            <p className="text-sm text-on-surface-variant font-bold opacity-60 uppercase tracking-widest">
-              {role === "admin" 
-                ? "Panel kontrol pusat untuk manajemen risiko dan audit sistem."
-                : "Penilaian risiko real-time dan analisis data satelit Sentinel-2."}
-            </p>
-          </div>
-          <div className="flex items-center gap-4">
-            <Button className="bg-surface-container-high hover:bg-surface-variant text-primary border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-sm transition-all">
-              <LucideDownload className="size-4 mr-2" />
-              Ekspor Laporan
-            </Button>
-            <Button className="bg-primary hover:opacity-90  border-none text-[10px] font-black h-12 px-6 uppercase tracking-[0.15em] rounded-sm shadow-lg transition-all">
-              <LucideZap className="size-4 mr-2 fill-current" />
-              Jalankan Prediksi
-            </Button>
-          </div>
+          ))}
         </section>
 
-        {/* Stats Section */}
-        <SectionCards />
+        <DashboardSection title="Distribusi & Grafik" description="Donut chart dan bar chart dari data prediksi tersimpan.">
+          <ClassDistributionChart classCounts={dashboard.class_counts} />
+        </DashboardSection>
 
-        {/* Visualization Section */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 px-6 lg:px-8">
-          <div className="lg:col-span-8 h-[500px]">
-            <RiskDistributionMap />
-          </div>
-          <div className="lg:col-span-4 bg-surface-container-lowest rounded-xl p-8 shadow-sm flex flex-col justify-center border border-surface-container/50">
-            <ClassDistributionChart />
-          </div>
-        </section>
+        <DashboardSection title="Peta Ringkasan" description="Layer poligon Aceh yang tetap mengikuti gaya dashboard.">
+          <RiskDistributionMap />
+        </DashboardSection>
 
-        {/* Table Section */}
-        <section className="pb-12">
-          <PredictiveAssessmentsTable />
-        </section>
-      </main>
+        <DashboardSection title="Lima Prediksi Terbaru" description="Data terbaru dari tabel predictions.">
+          <PredictiveAssessmentsTable rows={dashboard.latest_predictions} />
+        </DashboardSection>
+      </DashboardPage>
     </>
   )
 }
-

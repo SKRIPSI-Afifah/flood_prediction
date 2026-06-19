@@ -1,61 +1,274 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { ChangeEvent, FormEvent } from "react"
+import dynamic from "next/dynamic"
 import {
+  LucideAlertTriangle,
+  LucideCheckCircle,
+  LucideChevronRight,
   LucideDroplets,
+  LucideHome,
+  LucideLoader2,
+  LucideMapPin,
   LucideMountain,
   LucideWind,
-  LucideHome,
   LucideZap,
-  LucideChevronRight,
-  LucideAlertTriangle,
 } from "lucide-react"
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { DashboardHeader } from "@/components/dashboard-header"
+import { DashboardHero, DashboardPage, DashboardSection } from "@/components/dashboard-page"
+
+const PredictionMap = dynamic(() => import("@/components/prediction-map"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-[400px] w-full items-center justify-center rounded-3xl border border-border/60 bg-surface-container text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+      Memuat peta spasial...
+    </div>
+  ),
+})
+
+interface KecamatanCentroid {
+  adm3_pcode: string
+  kabupaten: string
+  kecamatan: string
+  latitude: number | null
+  longitude: number | null
+  elevasi: number | null
+  slope: number | null
+  lahan_terbangun: number | null
+}
+
+interface PredictionResult {
+  kabupaten: string
+  kecamatan: string
+  tahun: number
+  rainfall: number
+  elevation: number
+  slope: number
+  built_area: number
+  predicted_class: string
+  confidence: number
+  risk_score: number
+  description: string
+  timestamp: string
+  probabilities: Record<string, number>
+}
+
+type RiskStyle = {
+  bg: string
+  text: string
+  badge: string
+  bar: string
+  desc: string
+}
+
+function getRiskClassStyles(label: string): RiskStyle {
+  const clean = label.trim().toLowerCase()
+  if (clean === "aman") {
+    return {
+      bg: "bg-secondary-container/70 border-secondary/15",
+      text: "text-secondary",
+      badge: "bg-secondary text-secondary-foreground shadow-secondary/20",
+      bar: "bg-secondary",
+      desc: "Potensi luapan air minimal. Kondisi wilayah berada pada level aman.",
+    }
+  }
+  if (clean === "rawan") {
+    return {
+      bg: "bg-tertiary-container/70 border-tertiary/15",
+      text: "text-tertiary",
+      badge: "bg-tertiary text-white shadow-tertiary/20",
+      bar: "bg-tertiary",
+      desc: "Potensi genangan meningkat. Waspadai perubahan curah hujan berikutnya.",
+    }
+  }
+  if (clean === "sangat rawan") {
+    return {
+      bg: "bg-error-container/70 border-error/15",
+      text: "text-error",
+      badge: "bg-error text-white shadow-error/20",
+      bar: "bg-error",
+      desc: "Risiko banjir tinggi. Siapkan mitigasi dan peringatan dini segera.",
+    }
+  }
+  return {
+    bg: "bg-surface-container-low border-border/60",
+    text: "text-on-surface",
+    badge: "bg-primary text-primary-foreground",
+    bar: "bg-primary",
+    desc: "Status kerawanan belum terdefinisi.",
+  }
+}
+
+function normalizePredictedClass(value: string) {
+  const clean = value.trim().toLowerCase()
+  if (clean === "aman") return "Aman"
+  if (clean === "rawan") return "Rawan"
+  if (clean === "sangat rawan") return "Sangat Rawan"
+  return "Rawan"
+}
+
+function normalizeProbabilityMap(probabilities: unknown) {
+  if (!probabilities || typeof probabilities !== "object") return {}
+
+  const entries = Object.entries(probabilities as Record<string, unknown>)
+  const normalized: Record<string, number> = {}
+
+  for (const [key, value] of entries) {
+    const label = normalizePredictedClass(key)
+    if (typeof value === "number" && Number.isFinite(value)) {
+      normalized[label] = value
+    }
+  }
+
+  return normalized
+}
+
+function currentJakartaYear() {
+  const formatted = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Jakarta",
+    year: "numeric",
+  }).format(new Date())
+
+  return Number(formatted)
+}
 
 export default function PredictionPage() {
-  const predictionApiBaseUrl =
-    process.env.NEXT_PUBLIC_PREDICTION_API_URL ?? "http://127.0.0.1:8000"
+  const [kecamatanCentroids, setKecamatanCentroids] = useState<KecamatanCentroid[]>([])
+  const [kabupatenList, setKabupatenList] = useState<string[]>([])
+  const [filteredKecamatan, setFilteredKecamatan] = useState<KecamatanCentroid[]>([])
 
-  const [formData, setFormData] = useState({
-    rainfall: "",
-    elevation: "",
-    slope: "",
-    builtArea: "",
-  })
+  const [selectedKabupaten, setSelectedKabupaten] = useState("")
+  const [selectedKecamatan, setSelectedKecamatan] = useState<KecamatanCentroid | null>(null)
+  const [rainfall, setRainfall] = useState("")
 
-  const [result, setResult] = useState<null | {
-    label: string
-    probability: number
-    description: string
-  }>(null)
+  const [loading, setLoading] = useState(true)
+  const [predicting, setPredicting] = useState(false)
+  const [result, setResult] = useState<PredictionResult | null>(null)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
-  const [loading, setLoading] = useState(false)
+  const [mapCenter, setMapCenter] = useState<[number, number]>([4.7, 96.8])
+  const [mapZoom, setMapZoom] = useState(8)
+  const [markerPosition, setMarkerPosition] = useState<[number, number] | null>(null)
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
+  useEffect(() => {
+    async function fetchMasterData() {
+      setLoading(true)
+      setErrorMsg(null)
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
+      try {
+        const response = await fetch("/api/wilayah")
+        const data = await response.json()
+
+        if (!response.ok) {
+          throw new Error(data?.error || "Gagal mengambil data wilayah.")
+        }
+
+        if (data?.wilayah && data.wilayah.length > 0) {
+          setKecamatanCentroids(data.wilayah)
+          setKabupatenList(data.kabupatenList || [])
+        } else {
+          setErrorMsg("Data master kecamatan kosong di database.")
+        }
+      } catch (error) {
+        console.error("Gagal mengambil data kecamatan:", error)
+        setErrorMsg("Gagal mengambil data geografis dari database.")
+        toast.error("Terjadi kesalahan saat menghubungi database Supabase.")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchMasterData()
+  }, [])
+
+  const handleKabupatenChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value
+    setSelectedKabupaten(value)
+    setSelectedKecamatan(null)
+    setResult(null)
+    setMarkerPosition(null)
+    setMapCenter([4.7, 96.8])
+    setMapZoom(8)
+
+    if (value) {
+      setFilteredKecamatan(kecamatanCentroids.filter((item) => item.kabupaten === value))
+    } else {
+      setFilteredKecamatan([])
+    }
+  }
+
+  const handleKecamatanChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value
+    setResult(null)
+    setMarkerPosition(null)
+
+    if (value) {
+      const kecamatan = kecamatanCentroids.find((item) => item.adm3_pcode === value)
+      if (kecamatan) {
+        setSelectedKecamatan(kecamatan)
+        if (kecamatan.latitude !== null && kecamatan.longitude !== null) {
+          setMapCenter([kecamatan.latitude, kecamatan.longitude])
+          setMarkerPosition([kecamatan.latitude, kecamatan.longitude])
+        }
+        setMapZoom(13)
+      }
+    } else {
+      setSelectedKecamatan(null)
+      setMarkerPosition(null)
+      setMapCenter([4.7, 96.8])
+      setMapZoom(8)
+    }
+  }
+
+  const handleRainfallChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    if (value === "" || Number(value) >= 0) {
+      setRainfall(value)
+      setResult(null)
+    }
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setLoading(true)
+
+    if (!selectedKabupaten || !selectedKecamatan || !rainfall) {
+      toast.error("Semua formulir input wajib diisi.")
+      return
+    }
+
+    const rainfallNum = Number(rainfall)
+    if (Number.isNaN(rainfallNum) || rainfallNum < 0) {
+      toast.error("Curah hujan tidak boleh bernilai negatif.")
+      return
+    }
+
+    if (
+      selectedKecamatan.elevasi === null ||
+      selectedKecamatan.slope === null ||
+      selectedKecamatan.lahan_terbangun === null
+    ) {
+      toast.error("Data faktor banjir untuk kecamatan yang dipilih belum tersedia.")
+      return
+    }
+
+    setPredicting(true)
+    setErrorMsg(null)
 
     const payload = {
-      hujan_mm: Number(formData.rainfall),
-      elevasi: Number(formData.elevation),
-      slope: Number(formData.slope),
-      lahan_terbangun: Number(formData.builtArea),
+      adm3_pcode: selectedKecamatan.adm3_pcode,
+      hujan_mm: rainfallNum,
+      elevasi: selectedKecamatan.elevasi,
+      slope: selectedKecamatan.slope,
+      lahan_terbangun: selectedKecamatan.lahan_terbangun,
+      tahun: currentJakartaYear(),
     }
 
     try {
-      const res = await fetch(`${predictionApiBaseUrl}/predict`, {
+      const response = await fetch("/api/predict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,213 +276,496 @@ export default function PredictionPage() {
         body: JSON.stringify(payload),
       })
 
-      if (!res.ok) throw new Error("Gagal mengambil prediksi dari server")
-
-      const data = await res.json()
-
-      let description = ""
-      if (data.prediction === "Sangat Rawan") {
-        description = "Potensi banjir sangat tinggi"
-      } else if (data.prediction === "Rawan") {
-        description = "Potensi banjir sedang hingga tinggi"
-      } else {
-        description = "Potensi banjir rendah"
+      const data = await response.json().catch(() => null)
+      if (!response.ok) {
+        throw new Error(data?.error || "Gagal mengambil hasil prediksi dari server.")
       }
 
-      setResult({
-        label: data.prediction.toUpperCase(),
-        probability: Number(data.probability.toFixed(1)),
+      const predictedClass = normalizePredictedClass(data.predicted_class || data.prediksi || "Rawan")
+      const styles = getRiskClassStyles(predictedClass)
+      const probabilities = normalizeProbabilityMap(data.probabilities)
+      const savedPrediction = data.prediction ?? null
+      const confidence =
+        typeof data.confidence === "number"
+          ? data.confidence
+          : probabilities[predictedClass] ?? 0
+      const riskScore =
+        typeof data.risk_score === "number" ? data.risk_score : Math.round(confidence * 100)
+      const description =
+        data.description ||
+        styles.desc ||
+        `Prediksi model menunjukkan kelas ${predictedClass}.`
+
+      const newResult: PredictionResult = {
+        kabupaten: savedPrediction?.kabupaten || selectedKecamatan.kabupaten,
+        kecamatan: savedPrediction?.kecamatan || selectedKecamatan.kecamatan,
+        tahun: typeof savedPrediction?.tahun === "number" ? savedPrediction.tahun : currentJakartaYear(),
+        rainfall: rainfallNum,
+        elevation: selectedKecamatan.elevasi,
+        slope: selectedKecamatan.slope,
+        built_area: selectedKecamatan.lahan_terbangun,
+        predicted_class: predictedClass,
+        confidence,
+        risk_score: riskScore,
         description,
-      })
+        timestamp: new Date().toLocaleString("id-ID", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          timeZoneName: "short",
+        }),
+        probabilities:
+          Object.keys(probabilities).length > 0
+            ? probabilities
+            : {
+                Aman: predictedClass === "Aman" ? confidence : 0,
+                Rawan: predictedClass === "Rawan" ? confidence : 0,
+                "Sangat Rawan": predictedClass === "Sangat Rawan" ? confidence : 0,
+              },
+      }
+
+      setResult(newResult)
+      toast.success("Prediksi berhasil disimpan ke Supabase.")
     } catch (error) {
       console.error("Prediction error:", error)
-      setResult({
-        label: "ERROR",
-        probability: 0,
-        description: "Terjadi kesalahan saat menghubungi server prediksi",
-      })
+      setErrorMsg("Gagal melakukan prediksi. Pastikan server FastAPI aktif.")
+      toast.error("Terjadi kesalahan saat memproses prediksi.")
     } finally {
-      setLoading(false)
+      setPredicting(false)
     }
   }
+
+  const isKecamatanDataMissing =
+    selectedKecamatan &&
+    (selectedKecamatan.elevasi === null ||
+      selectedKecamatan.slope === null ||
+      selectedKecamatan.lahan_terbangun === null)
+
+  const isSubmitDisabled =
+    !selectedKabupaten || !selectedKecamatan || !rainfall || isKecamatanDataMissing || predicting
+
+  const currentStyles = result ? getRiskClassStyles(result.predicted_class) : null
 
   return (
     <>
       <DashboardHeader
         breadcrumbs={[
           { label: "Beranda", href: "/dashboard" },
-          { label: "Prediksi" },
+          { label: "Prediksi Risiko" },
         ]}
       />
 
-      <main className="flex-1 p-8 lg:p-10 space-y-10 max-w-[1600px] mx-auto w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          <div className="lg:col-span-12 xl:col-span-7 bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col border border-surface-container/50">
-            <div className="bg-surface-container-high px-10 py-6 flex items-center justify-between border-b border-surface-container/50">
+      <DashboardPage>
+        <DashboardHero
+          eyebrow="Simulasi Prediksi"
+          title="Prediksi Risiko Banjir"
+          description="Pilih wilayah, isi curah hujan, lalu jalankan simulasi untuk melihat skor risiko, confidence, dan integrasi peta spasial."
+          actions={
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="rounded-full border border-border/60 bg-surface px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant">
+                Model XGBoost
+              </div>
+              <div className="rounded-full border border-secondary/15 bg-secondary-container px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-on-secondary-container">
+                Database Wilayah Aceh
+              </div>
+            </div>
+          }
+        />
+
+        {errorMsg && (
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm font-semibold text-amber-900 shadow-sm">
+            {errorMsg}
+          </div>
+        )}
+
+        <section className="grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+          <div className="dashboard-panel overflow-hidden">
+            <div className="dashboard-panel-header">
               <div className="flex items-center gap-4">
-                <div className="size-10 bg-primary/5 rounded-md flex items-center justify-center text-primary">
+                <div className="dashboard-icon">
                   <LucideZap className="size-5" />
                 </div>
-                <span className="font-black text-primary tracking-tight uppercase text-sm">
-                  Parameter Input
-                </span>
+                <div>
+                  <p className="dashboard-title">Parameter Pengujian</p>
+                  <p className="dashboard-subtitle">Isi wilayah dan curah hujan untuk menjalankan simulasi.</p>
+                </div>
               </div>
-
-              <span className="text-[10px] font-black text-primary-foreground px-4 py-1.5 rounded-full bg-primary uppercase tracking-widest shadow-lg shadow-primary/20">
-                DATA AKTUAL
+              <span className="rounded-full bg-primary px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary-foreground shadow-sm shadow-primary/20">
+                Input Simulasi
               </span>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-10 space-y-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em] flex items-center gap-3">
-                    <LucideDroplets className="size-4 text-primary" />
-                    Curah Hujan (mm)
-                  </label>
-                  <input
-                    name="rainfall"
-                    value={formData.rainfall}
-                    onChange={handleChange}
-                    className="w-full bg-surface-container-low border-none rounded-md px-6 py-4 text-primary font-black focus:ring-2 focus:ring-primary/20 transition-all outline-none"
-                    placeholder="Contoh: 125"
-                    type="number"
-                    required
-                  />
+            <form onSubmit={handleSubmit} className="dashboard-panel-body space-y-6">
+              {loading ? (
+                <div className="flex min-h-[320px] flex-col items-center justify-center gap-4">
+                  <LucideLoader2 className="size-8 animate-spin text-primary" />
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+                    Memuat data geografis...
+                  </p>
                 </div>
-
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em] flex items-center gap-3">
-                    <LucideMountain className="size-4 text-primary" />
-                    Elevasi (m)
-                  </label>
-                  <input
-                    name="elevation"
-                    value={formData.elevation}
-                    onChange={handleChange}
-                    className="w-full bg-surface-container-low border-none rounded-md px-6 py-4 text-primary font-black focus:ring-2 focus:ring-primary/20 transition-all outline-none"
-                    placeholder="Contoh: 15.5"
-                    type="number"
-                    required
-                  />
-                </div>
-
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em] flex items-center gap-3">
-                    <LucideWind className="size-4 text-primary" />
-                    Slope (%)
-                  </label>
-                  <input
-                    name="slope"
-                    value={formData.slope}
-                    onChange={handleChange}
-                    className="w-full bg-surface-container-low border-none rounded-md px-6 py-4 text-primary font-black focus:ring-2 focus:ring-primary/20 transition-all outline-none"
-                    placeholder="Contoh: 5.2"
-                    type="number"
-                    required
-                  />
-                </div>
-
-                <div className="space-y-4">
-                  <label className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em] flex items-center gap-3">
-                    <LucideHome className="size-4 text-primary" />
-                    Lahan Terbangun (%)
-                  </label>
-                  <input
-                    name="builtArea"
-                    value={formData.builtArea}
-                    onChange={handleChange}
-                    className="w-full bg-surface-container-low border-none rounded-md px-6 py-4 text-primary font-black focus:ring-2 focus:ring-primary/20 transition-all outline-none"
-                    placeholder="Contoh: 40"
-                    type="number"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="pt-4">
-                <Button
-                  className="w-full bg-primary hover:opacity-90 text-primary-foreground border-none font-black text-[12px] h-16 rounded-sm uppercase tracking-[0.2em] shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-4 group"
-                  type="submit"
-                  disabled={loading}
-                >
-                  <span>{loading ? "Memproses..." : "Prediksi Sekarang"}</span>
-                  <LucideChevronRight className="size-5 group-hover:translate-x-2 transition-transform duration-300" />
-                </Button>
-              </div>
-            </form>
-          </div>
-
-          <div className="lg:col-span-12 xl:col-span-5 space-y-10">
-            <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-container/50 overflow-hidden group">
-              <div className="bg-surface-container-high px-10 py-6 border-b border-surface-container/50">
-                <div className="flex items-center gap-4">
-                  <div className="size-10 bg-primary/5 rounded-md flex items-center justify-center text-primary">
-                    <LucideZap className="size-5 group-hover:scale-110 transition-transform" />
-                  </div>
-                  <span className="font-black text-primary tracking-tight uppercase text-sm">
-                    Hasil Prediksi
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-12 flex flex-col items-center text-center relative">
-                <div className="mb-8 relative w-full flex flex-col items-center">
-                  <div className="absolute inset-0 bg-error/5 blur-[80px] rounded-full scale-150" />
-
-                  <div className="relative flex flex-col items-center gap-4">
-                    <span className="text-[60px] font-black tracking-tighter text-error leading-none transition-transform group-hover:scale-105 duration-1000">
-                      {result ? result.label : "BELUM ADA"}
-                    </span>
-
-                    <div className="h-2 w-32 bg-error/20 rounded-full overflow-hidden">
-                      <div className="h-full bg-error w-1/2 mx-auto rounded-full" />
+              ) : (
+                <>
+                  <div className="grid gap-5 md:grid-cols-2">
+                    <div className="space-y-3">
+                      <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/70">
+                        <LucideMapPin className="size-4 text-primary" />
+                        Kabupaten / Kota
+                      </label>
+                      <select
+                        value={selectedKabupaten}
+                        onChange={handleKabupatenChange}
+                        className="h-14 w-full rounded-2xl border border-border/60 bg-surface-container-low px-5 text-sm font-semibold text-on-surface outline-none transition-all placeholder:text-on-surface-variant/50 focus:border-primary focus:ring-4 focus:ring-primary/10"
+                        required
+                      >
+                        <option value="">Pilih kabupaten/kota</option>
+                        {kabupatenList.map((kabupaten) => (
+                          <option key={kabupaten} value={kabupaten}>
+                            {kabupaten}
+                          </option>
+                        ))}
+                      </select>
                     </div>
 
-                    <div className="flex items-center gap-3 px-6 py-2 bg-error-container text-on-error-container rounded-full shadow-lg shadow-error/10">
-                      <LucideAlertTriangle className="size-4 animate-bounce" />
-                      <span className="text-[11px] font-black uppercase tracking-widest">
-                        {result
-                          ? result.description
-                          : "Masukkan parameter terlebih dahulu"}
+                    <div className="space-y-3">
+                      <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/70">
+                        <LucideMapPin className="size-4 text-primary" />
+                        Kecamatan
+                      </label>
+                      <select
+                        value={selectedKecamatan?.adm3_pcode || ""}
+                        onChange={handleKecamatanChange}
+                        disabled={!selectedKabupaten}
+                        className="h-14 w-full rounded-2xl border border-border/60 bg-surface-container-low px-5 text-sm font-semibold text-on-surface outline-none transition-all focus:border-primary focus:ring-4 focus:ring-primary/10 disabled:cursor-not-allowed disabled:opacity-50"
+                        required
+                      >
+                        <option value="">Pilih kecamatan</option>
+                        {filteredKecamatan.map((kecamatan) => (
+                          <option key={kecamatan.adm3_pcode} value={kecamatan.adm3_pcode}>
+                            {kecamatan.kecamatan}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/70">
+                      <LucideDroplets className="size-4 text-primary" />
+                      Curah Hujan Harian
+                    </label>
+                    <div className="relative">
+                      <input
+                        value={rainfall}
+                        onChange={handleRainfallChange}
+                        className="h-14 w-full rounded-2xl border border-border/60 bg-surface-container-low px-5 pr-16 text-sm font-semibold text-on-surface outline-none transition-all placeholder:text-on-surface-variant/50 focus:border-primary focus:ring-4 focus:ring-primary/10"
+                        placeholder="Masukkan nilai curah hujan dalam mm"
+                        type="number"
+                        min="0"
+                        step="any"
+                        required
+                      />
+                      <span className="absolute right-5 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
+                        mm
                       </span>
                     </div>
                   </div>
-                </div>
 
-                <div className="w-full space-y-6 pt-10 border-t border-surface-container/50">
-                  <div className="flex justify-between items-end">
-                    <div className="text-left space-y-1">
-                      <p className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em]">
-                        Skor Kepercayaan
-                      </p>
-                      <p className="text-sm font-black text-primary uppercase tracking-wider">
-                        Metrik Probabilitas
-                      </p>
+                  {isKecamatanDataMissing && (
+                    <div className="flex items-start gap-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4 text-amber-900">
+                      <LucideAlertTriangle className="mt-0.5 size-5 shrink-0 text-amber-600" />
+                      <div className="space-y-1 text-sm">
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em]">Data wilayah belum lengkap</p>
+                        <p className="leading-relaxed text-amber-900/80">
+                          Data elevasi, lereng, atau lahan terbangun untuk kecamatan ini belum tersedia di master wilayah.
+                        </p>
+                      </div>
                     </div>
+                  )}
 
-                    <span className="text-4xl font-black text-primary tracking-tighter">
-                      {result ? `${result.probability}%` : "0%"}
-                    </span>
+                  <div className="flex flex-col gap-3 border-t border-border/60 pt-5 sm:flex-row">
+                    <Button
+                      className="h-14 flex-1 rounded-2xl bg-primary text-[11px] font-black uppercase tracking-[0.2em] text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
+                      type="submit"
+                      disabled={isSubmitDisabled}
+                    >
+                      {predicting ? (
+                        <>
+                          <LucideLoader2 className="mr-2 size-4 animate-spin" />
+                          Memproses simulasi
+                        </>
+                      ) : (
+                        <>
+                          <span>Mulai Prediksi</span>
+                          <LucideChevronRight className="ml-2 size-4" />
+                        </>
+                      )}
+                    </Button>
                   </div>
+                </>
+              )}
+            </form>
+          </div>
 
-                  <div className="w-full h-4 bg-surface-container rounded-full overflow-hidden p-1 shadow-inner">
-                    <div
-                      className="h-full bg-primary rounded-full shadow-lg transition-all duration-[2000ms] ease-out"
-                      style={{ width: result ? `${result.probability}%` : "0%" }}
-                    />
-                  </div>
-
-                  <p className="text-[12px] text-on-surface-variant leading-relaxed font-medium opacity-60 italic max-w-[320px] mx-auto">
-                    Analisis dilakukan berdasarkan data historis curah hujan dan
-                    kemiringan lereng spesifik regional Aceh.
-                  </p>
+          <div className="dashboard-panel overflow-hidden">
+            <div className="dashboard-panel-header">
+              <div className="flex items-center gap-4">
+                <div className="dashboard-icon">
+                  <LucideCheckCircle className="size-5" />
+                </div>
+                <div>
+                  <p className="dashboard-title">Keluaran Prediksi</p>
+                  <p className="dashboard-subtitle">Ringkasan hasil simulasi dan indikator risiko.</p>
                 </div>
               </div>
             </div>
+
+            {result && currentStyles ? (
+              <div className="dashboard-panel-body space-y-6">
+                <div className={`rounded-3xl border p-6 ${currentStyles.bg}`}>
+                  <div className="mb-4 flex items-center justify-between gap-3">
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
+                      Status Kerawanan
+                    </span>
+                    <span className={`rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] ${currentStyles.badge}`}>
+                      Evaluasi selesai
+                    </span>
+                  </div>
+                  <p className={`text-4xl font-black uppercase tracking-tighter sm:text-5xl ${currentStyles.text}`}>
+                    {result.predicted_class}
+                  </p>
+                  <p className="mt-3 max-w-md text-sm font-medium leading-relaxed text-on-surface-variant">
+                    {result.description}
+                  </p>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-2xl border border-border/60 bg-surface-container-low p-4">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
+                      Confidence
+                    </p>
+                    <div className="mt-3 flex items-end justify-between gap-3">
+                      <span className={`text-3xl font-black ${currentStyles.text}`}>
+                        {(result.confidence * 100).toFixed(1)}%
+                      </span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
+                        Skor keyakinan
+                      </span>
+                    </div>
+                    <div className="mt-4 h-3 rounded-full bg-surface-container p-0.5 shadow-inner">
+                      <div
+                        className={`h-full rounded-full transition-all duration-1000 ease-out ${currentStyles.bar}`}
+                        style={{ width: `${result.confidence * 100}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl border border-border/60 bg-surface-container-low p-4">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
+                      Risk Score
+                    </p>
+                    <div className="mt-3 flex items-end justify-between gap-3">
+                      <span className={`text-3xl font-black ${currentStyles.text}`}>
+                        {result.risk_score}
+                      </span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
+                        Indeks risiko
+                      </span>
+                    </div>
+                    <div className="mt-4 h-3 rounded-full bg-surface-container p-0.5 shadow-inner">
+                      <div
+                        className={`h-full rounded-full transition-all duration-1000 ease-out ${currentStyles.bar}`}
+                        style={{ width: `${Math.min(result.risk_score, 100)}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-3xl border border-border/60 bg-surface-container-low p-4">
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
+                    Probabilitas Kelas
+                  </p>
+                  <div className="mt-4 space-y-3">
+                    {Object.entries(result.probabilities).map(([label, value]) => {
+                      const styles = getRiskClassStyles(label)
+                      const width = Math.max(0, Math.min(value * 100, 100))
+
+                      return (
+                        <div key={label} className="space-y-2">
+                          <div className="flex items-center justify-between gap-3">
+                            <span className="text-sm font-bold text-on-surface">{label}</span>
+                            <span className={`rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] ${styles.badge}`}>
+                              {(value * 100).toFixed(1)}%
+                            </span>
+                          </div>
+                          <div className="h-2.5 rounded-full bg-surface-container p-0.5">
+                            <div
+                              className={`h-full rounded-full transition-all duration-700 ease-out ${styles.bar}`}
+                              style={{ width: `${width}%` }}
+                            />
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                <div className="grid gap-4 rounded-3xl border border-border/60 bg-surface p-4 sm:grid-cols-2">
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">
+                      Kabupaten
+                    </p>
+                    <p className="text-sm font-bold text-on-surface">{result.kabupaten}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">
+                      Kecamatan
+                    </p>
+                    <p className="text-sm font-bold text-on-surface">{result.kecamatan}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">
+                      Curah hujan
+                    </p>
+                    <p className="text-sm font-bold text-on-surface">{result.rainfall} mm</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">
+                      Tahun
+                    </p>
+                    <p className="text-sm font-bold text-on-surface">{result.tahun}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/40">
+                      Waktu simulasi
+                    </p>
+                    <p className="text-xs font-mono font-semibold text-on-surface-variant">{result.timestamp}</p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="dashboard-panel-body flex min-h-[360px] flex-col items-center justify-center text-center">
+                <div className="rounded-full bg-primary/10 p-5 text-primary">
+                  <LucideAlertTriangle className="size-7" />
+                </div>
+                <h3 className="mt-5 text-2xl font-black uppercase tracking-tighter text-primary">
+                  Belum ada hasil
+                </h3>
+                <p className="mt-3 max-w-sm text-sm font-medium leading-relaxed text-on-surface-variant">
+                  Isi wilayah dan curah hujan untuk menjalankan simulasi. Hasil akan tampil di panel ini setelah proses selesai.
+                </p>
+              </div>
+            )}
           </div>
-        </div>
-      </main>
+        </section>
+
+        <DashboardSection
+          title="Parameter Wilayah"
+          description="Ringkasan faktor fisik yang menjadi input model prediksi."
+        >
+          <div className="grid gap-4 md:grid-cols-3">
+            <div className="dashboard-panel flex items-center gap-4 px-5 py-5">
+              <div className="dashboard-icon-strong">
+                <LucideMountain className="size-5" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
+                  Elevasi
+                </p>
+                <p className="text-lg font-black text-primary">
+                  {selectedKecamatan?.elevasi !== null && selectedKecamatan?.elevasi !== undefined
+                    ? `${selectedKecamatan.elevasi.toFixed(2)} m`
+                    : "--"}
+                </p>
+              </div>
+            </div>
+
+            <div className="dashboard-panel flex items-center gap-4 px-5 py-5">
+              <div className="dashboard-icon-strong">
+                <LucideWind className="size-5" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
+                  Slope
+                </p>
+                <p className="text-lg font-black text-primary">
+                  {selectedKecamatan?.slope !== null && selectedKecamatan?.slope !== undefined
+                    ? `${selectedKecamatan.slope.toFixed(2)} %`
+                    : "--"}
+                </p>
+              </div>
+            </div>
+
+            <div className="dashboard-panel flex items-center gap-4 px-5 py-5">
+              <div className="dashboard-icon-strong">
+                <LucideHome className="size-5" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
+                  Lahan terbangun
+                </p>
+                <p className="text-lg font-black text-primary">
+                  {selectedKecamatan?.lahan_terbangun !== null &&
+                  selectedKecamatan?.lahan_terbangun !== undefined
+                    ? `${selectedKecamatan.lahan_terbangun.toFixed(2)} %`
+                    : "--"}
+                </p>
+              </div>
+            </div>
+          </div>
+        </DashboardSection>
+
+        <DashboardSection
+          title="Peta Spasial"
+          description="Visualisasi kecamatan terpilih pada layer GIS dan hasil prediksi yang sudah dijalankan."
+        >
+          <div className="dashboard-panel overflow-hidden">
+            <div className="dashboard-panel-header">
+              <div className="flex items-center gap-4">
+                <div className="dashboard-icon">
+                  <LucideMapPin className="size-5" />
+                </div>
+                <div>
+                  <p className="dashboard-title">Integrasi GIS Kecamatan</p>
+                  <p className="dashboard-subtitle">Peta memperbarui posisi ketika kecamatan dipilih.</p>
+                </div>
+              </div>
+              {result && currentStyles && (
+                <span className={`rounded-full px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] ${currentStyles.badge}`}>
+                  {result.predicted_class}
+                </span>
+              )}
+            </div>
+            <div className="dashboard-panel-body">
+              <PredictionMap
+                center={mapCenter}
+                markerPosition={markerPosition}
+                zoom={mapZoom}
+                selectedPcode={selectedKecamatan?.adm3_pcode || null}
+                predictedClass={result?.predicted_class || null}
+                popupInfo={
+                  result
+                    ? {
+                        kabupaten: result.kabupaten,
+                        kecamatan: result.kecamatan,
+                        rainfall: result.rainfall,
+                        elevation: result.elevation,
+                        slope: result.slope,
+                        built_area: result.built_area,
+                        predicted_class: result.predicted_class,
+                        confidence: result.confidence,
+                        risk_score: result.risk_score,
+                        description: result.description,
+                      }
+                    : null
+                }
+              />
+            </div>
+          </div>
+        </DashboardSection>
+      </DashboardPage>
     </>
   )
 }

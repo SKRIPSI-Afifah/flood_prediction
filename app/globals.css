@@ -1,3 +1,5 @@
+@import "@fontsource/inter/index.css";
+@import "@fontsource/cal-sans/index.css";
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -75,123 +77,123 @@
 }
 
 :root {
-    --background: #ffffff;
-    --foreground: #242424;
-    
-    /* Cal.com Palette */
-    --primary: #242424;
-    --primary-foreground: #ffffff;
-    
-    --secondary: #f5f5f5;
-    --secondary-foreground: #242424;
+    --background: #f6fafe;
+    --foreground: #171c1f;
 
-    --destructive: #ef4444;
+    /* Core palette */
+    --primary: #003466;
+    --primary-foreground: #ffffff;
+
+    --secondary: #006c4a;
+    --secondary-foreground: #ffffff;
+
+    --destructive: #ba1a1a;
     --destructive-foreground: #ffffff;
 
-    --muted: #f5f5f5;
-    --muted-foreground: #898989;
-    
-    --accent: #f5f5f5;
-    --accent-foreground: #242424;
+    --muted: #eaeef2;
+    --muted-foreground: #424750;
 
-    --error: #ef4444;
-    --error-container: #fee2e2;
-    --on-error-container: #991b1b;
+    --accent: #dfe3e7;
+    --accent-foreground: #171c1f;
 
-    --secondary-container: #f5f5f5;
-    --on-secondary-container: #242424;
+    --error: #ba1a1a;
+    --error-container: #ffdad6;
+    --on-error-container: #93000a;
 
-    --tertiary: #3b82f6;
-    --tertiary-container: #dbeafe;
-    --on-tertiary-container: #1e40af;
+    --secondary-container: #dff4f0;
+    --on-secondary-container: #005137;
 
-    --primary-fixed: #242424;
-    --on-primary-fixed: #ffffff;
-    --tertiary-fixed: #3b82f6;
-    --on-tertiary-fixed: #ffffff;
-    
-    --border: rgba(34, 42, 53, 0.08);
-    --input: rgba(34, 42, 53, 0.08);
-    --ring: #3b82f6;
+    --tertiary: #7f2b00;
+    --tertiary-container: #ffe0cc;
+    --on-tertiary-container: #7f2b00;
+
+    --primary-fixed: #d5e3ff;
+    --on-primary-fixed: #001c3b;
+    --tertiary-fixed: #ffdbce;
+    --on-tertiary-fixed: #370e00;
+
+    --border: rgba(23, 28, 31, 0.09);
+    --input: rgba(23, 28, 31, 0.12);
+    --ring: #335f99;
 
     /* Surfaces */
     --surface: #ffffff;
-    --surface-container: #f5f5f5;
-    --surface-container-low: #fafafa;
-    --surface-container-high: #ebebeb;
+    --surface-container: #eaeef2;
+    --surface-container-low: #f0f4f8;
+    --surface-container-high: #dfe3e7;
     --surface-container-lowest: #ffffff;
 
-    --on-surface: #242424;
-    --on-surface-variant: #5f5f5f;
+    --on-surface: #171c1f;
+    --on-surface-variant: #424750;
 
-    /* Sidebar - Grayscale */
-    --sidebar: #ffffff;
-    --sidebar-foreground: #242424;
-    --sidebar-primary: #242424;
+    /* Sidebar */
+    --sidebar: #f6fafe;
+    --sidebar-foreground: #171c1f;
+    --sidebar-primary: #003466;
     --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #f5f5f5;
-    --sidebar-accent-foreground: #242424;
-    --sidebar-border: rgba(34, 42, 53, 0.08);
-    --radius: 4px;
+    --sidebar-accent: #eaeef2;
+    --sidebar-accent-foreground: #171c1f;
+    --sidebar-border: rgba(23, 28, 31, 0.08);
+    --sidebar-ring: #335f99;
+    --radius: 8px;
 }
 
 .dark {
-    --background: #0f1011;
-    --foreground: #f5f5f5;
-    
-    --primary: #f5f5f5;
-    --primary-foreground: #0f1011;
-    
-    --secondary: #1e1e1e;
-    --secondary-foreground: #f5f5f5;
+    --background: #0b1117;
+    --foreground: #edf1f5;
 
-    --destructive: #7f1d1d;
-    --destructive-foreground: #f5f5f5;
+    --primary: #a6c8ff;
+    --primary-foreground: #001427;
 
-    --muted: #1e1e1e;
-    --muted-foreground: #a1a1a1;
-    
-    --accent: #1e1e1e;
-    --accent-foreground: #f5f5f5;
+    --secondary: #68dba9;
+    --secondary-foreground: #002114;
 
-    --error: #f87171;
-    --error-container: #450a0a;
-    --on-error-container: #fecaca;
+    --destructive: #ffb4ab;
+    --destructive-foreground: #690005;
 
-    --secondary-container: #1e1e1e;
-    --on-secondary-container: #f5f5f5;
+    --muted: #17212c;
+    --muted-foreground: #b7c4d4;
 
-    --tertiary: #60a5fa;
-    --tertiary-container: #1e3a8a;
-    --on-tertiary-container: #dbeafe;
+    --accent: #203241;
+    --accent-foreground: #edf1f5;
 
-    --primary-fixed: #f5f5f5;
-    --on-primary-fixed: #0f1011;
-    --tertiary-fixed: #60a5fa;
-    --on-tertiary-fixed: #0f1011;
-    
-    --border: rgba(255, 255, 255, 0.08);
-    --input: rgba(255, 255, 255, 0.08);
-    --ring: #3b82f6;
+    --error: #ffb4ab;
+    --error-container: #93000a;
+    --on-error-container: #ffdad6;
 
-    /* Surfaces */
-    --surface: #161718;
-    --surface-container: #1e1f20;
-    --surface-container-low: #121314;
-    --surface-container-high: #2a2b2c;
-    --surface-container-lowest: #08090a;
+    --secondary-container: #0f3a2f;
+    --on-secondary-container: #c0f3d8;
 
-    --on-surface: #f5f5f5;
-    --on-surface-variant: #a1a1a1;
+    --tertiary: #ffb599;
+    --tertiary-container: #5a1a00;
+    --on-tertiary-container: #ffd3c1;
 
-    --sidebar: #0f1011;
-    --sidebar-foreground: #f5f5f5;
-    --sidebar-primary: #f5f5f5;
-    --sidebar-primary-foreground: #0f1011;
-    --sidebar-accent: #1a1a1a;
-    --sidebar-accent-foreground: #f5f5f5;
-    --sidebar-border: rgba(255, 255, 255, 0.08);
-    --sidebar-ring: #3b82f6;
+    --primary-fixed: #d5e3ff;
+    --on-primary-fixed: #001c3b;
+    --tertiary-fixed: #ffdbce;
+    --on-tertiary-fixed: #370e00;
+
+    --border: rgba(166, 200, 255, 0.12);
+    --input: rgba(166, 200, 255, 0.18);
+    --ring: #7fb1ff;
+
+    --surface: #0e1520;
+    --surface-container: #17212c;
+    --surface-container-low: #0b1117;
+    --surface-container-high: #203241;
+    --surface-container-lowest: #050b12;
+
+    --on-surface: #edf1f5;
+    --on-surface-variant: #b7c4d4;
+
+    --sidebar: #0b1117;
+    --sidebar-foreground: #edf1f5;
+    --sidebar-primary: #a6c8ff;
+    --sidebar-primary-foreground: #001427;
+    --sidebar-accent: #17212c;
+    --sidebar-accent-foreground: #edf1f5;
+    --sidebar-border: rgba(166, 200, 255, 0.12);
+    --sidebar-ring: #7fb1ff;
 }
 
 @layer base {
@@ -200,6 +202,10 @@
     }
   body {
     @apply bg-background text-foreground antialiased font-sans;
+    background-image:
+      radial-gradient(circle at top left, rgba(0, 52, 102, 0.08), transparent 30%),
+      radial-gradient(circle at top right, rgba(0, 108, 74, 0.07), transparent 26%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.84), transparent 24%);
     }
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading tracking-tight;
@@ -207,15 +213,51 @@
 }
 
 @layer components {
+    .dashboard-shell {
+        @apply bg-[radial-gradient(circle_at_top,rgba(0,52,102,0.08),transparent_28%),radial-gradient(circle_at_right,rgba(0,108,74,0.08),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.92),rgba(246,250,254,0.88))];
+    }
+
+    .dashboard-panel {
+        @apply rounded-3xl border border-border/60 bg-surface shadow-layered;
+    }
+
+    .dashboard-panel-header {
+        @apply flex items-center justify-between border-b border-border/60 bg-surface-container-high px-6 py-5 sm:px-8;
+    }
+
+    .dashboard-panel-body {
+        @apply px-6 py-6 sm:px-8 sm:py-8;
+    }
+
+    .dashboard-kicker {
+        @apply text-[10px] font-black uppercase tracking-[0.22em] text-on-surface-variant/60;
+    }
+
+    .dashboard-title {
+        @apply text-sm font-black uppercase tracking-[0.18em] text-primary;
+    }
+
+    .dashboard-subtitle {
+        @apply text-sm font-medium leading-relaxed text-on-surface-variant;
+    }
+
+    .dashboard-icon {
+        @apply flex size-10 items-center justify-center rounded-2xl bg-primary/5 text-primary;
+    }
+
+    .dashboard-icon-strong {
+        @apply flex size-11 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/15;
+    }
+
     .cal-card {
-        @apply bg-background rounded-lg shadow-layered;
+        @apply bg-surface rounded-xl shadow-layered border border-border/60;
     }
     
     .cal-button-primary {
-        @apply bg-primary text-primary-foreground rounded-sm hover:opacity-70 transition-opacity font-sans font-semibold;
+        @apply bg-primary text-primary-foreground rounded-md hover:brightness-110 transition-all font-sans font-semibold shadow-lg shadow-primary/20;
     }
     
     .cal-button-ghost {
-        @apply bg-background text-foreground rounded-sm shadow-ring hover:bg-muted transition-colors font-sans font-semibold;
+        @apply bg-surface text-foreground rounded-md shadow-ring hover:bg-surface-container transition-colors font-sans font-semibold;
     }
 }

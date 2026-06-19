@@ -1,15 +1,35 @@
+import { DashboardHeader } from "@/components/dashboard-header"
+import { DashboardHero, DashboardPage } from "@/components/dashboard-page"
+
 export default function SettingsPage() {
   return (
     <>
-      <header className="flex h-16 shrink-0 items-center justify-between px-6 border-none">
-        <h1 className="text-lg font-black text-primary tracking-tight">Settings</h1>
-      </header>
-      <main className="flex flex-1 flex-col gap-8 p-6">
-        <div className="bg-white rounded-2xl p-8 border border-muted-foreground/10 shadow-sm min-h-[400px] flex flex-col items-center justify-center text-center">
-          <h2 className="text-2xl font-black text-primary mb-2">System Settings</h2>
-          <p className="text-muted-foreground max-w-md">Configure API keys, model parameters, and user preferences.</p>
-        </div>
-      </main>
+      <DashboardHeader
+        breadcrumbs={[
+          { label: "Beranda", href: "/dashboard" },
+          { label: "Pengaturan" },
+        ]}
+      />
+
+      <DashboardPage>
+        <DashboardHero
+          eyebrow="Konfigurasi Sistem"
+          title="Pengaturan"
+          description="Kelola API, parameter model, preferensi tampilan, dan kontrol sistem dari satu tempat."
+        />
+
+        <section className="dashboard-panel min-h-[420px] overflow-hidden">
+          <div className="dashboard-panel-body flex min-h-[420px] flex-col items-center justify-center text-center">
+            <p className="dashboard-kicker">Workspace</p>
+            <h2 className="mt-3 text-3xl font-black uppercase tracking-tighter text-primary">
+              System Settings
+            </h2>
+            <p className="mt-3 max-w-lg text-sm font-medium leading-relaxed text-on-surface-variant">
+              Halaman pengaturan siap dipakai untuk konfigurasi API keys, parameter model, dan preferensi pengguna.
+            </p>
+          </div>
+        </section>
+      </DashboardPage>
     </>
   )
 }
