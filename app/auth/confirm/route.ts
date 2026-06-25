@@ -21,6 +21,21 @@ export async function GET(request: NextRequest) {
       token_hash,
     })
     if (!error) {
+      const { data: authUser } = await supabase.auth.getUser()
+      if (authUser?.user?.id) {
+        const fullName =
+          authUser.user.user_metadata?.full_name ||
+          authUser.user.user_metadata?.name ||
+          authUser.user.email?.split("@")[0] ||
+          "Pengguna"
+
+        await supabase.rpc("ensure_profile", {
+          p_user_id: authUser.user.id,
+          p_full_name: fullName,
+          p_role: "user",
+        })
+      }
+
       redirectTo.searchParams.delete('next')
       return NextResponse.redirect(redirectTo)
     }

@@ -113,13 +113,23 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator className="bg-border/60" />
-            <DropdownMenuItem
-              onClick={() => signOut()}
-              className="cursor-pointer px-3 py-3 font-black text-[10px] uppercase tracking-[0.2em] text-error focus:bg-error/5 focus:text-error"
-            >
-              <LogOutIcon className="mr-2 size-4" />
-              Keluar (Logout)
-            </DropdownMenuItem>
+            {user.role === "guest" ? (
+              <DropdownMenuItem
+                onClick={() => window.location.href = "/login"}
+                className="cursor-pointer px-3 py-3 font-black text-[10px] uppercase tracking-[0.2em] text-primary focus:bg-primary/5 focus:text-primary"
+              >
+                <LogOutIcon className="mr-2 size-4 rotate-180" />
+                Masuk (Login)
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem
+                onClick={() => signOut()}
+                className="cursor-pointer px-3 py-3 font-black text-[10px] uppercase tracking-[0.2em] text-error focus:bg-error/5 focus:text-error"
+              >
+                <LogOutIcon className="mr-2 size-4" />
+                Keluar (Logout)
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

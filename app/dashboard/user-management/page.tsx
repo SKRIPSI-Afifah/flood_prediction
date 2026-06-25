@@ -14,7 +14,6 @@ import {
   LucideSearch,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { createClient } from "@/lib/supabase/client"
 import { UserDialog } from "./user-dialog"
 import { toast } from "sonner"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -26,8 +25,20 @@ type ProfileRow = {
   created_at: string
 }
 
+async function readResponseBody(response: Response) {
+  const text = await response.text()
+  if (!text) {
+    return null
+  }
+
+  try {
+    return JSON.parse(text)
+  } catch {
+    return text
+  }
+}
+
 export default function UserManagementPage() {
-  const supabase = createClient()
   const [users, setUsers] = useState<ProfileRow[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
@@ -36,37 +47,79 @@ export default function UserManagementPage() {
     key: "created_at",
     direction: "desc",
   })
-
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState<ProfileRow | null>(null)
+  const [loadError, setLoadError] = useState<string | null>(null)
 
   const fetchUsers = useCallback(async () => {
     setLoading(true)
-    const { data, error } = await supabase.from("profiles").select("*")
+    setLoadError(null)
+    try {
+      const response = await fetch("/api/admin/users", {
+        method: "GET",
+        cache: "no-store",
+      })
+      const result = await readResponseBody(response)
 
-    if (error) {
-      toast.error("Gagal mengambil data pengguna")
-      console.error(error)
-    } else {
-      setUsers(data || [])
+      if (!response.ok) {
+        const message = (result as { error?: string } | null)?.error || "Gagal mengambil data pengguna"
+        setLoadError(message)
+        toast.error(message)
+        return
+      }
+
+      setUsers((result as { data?: ProfileRow[] } | null)?.data || [])
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Gagal mengambil data pengguna"
+      setLoadError(message)
+      toast.error(message)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
-  }, [supabase])
+  }, [])
 
   useEffect(() => {
-    let isActive = true
+    let isMounted = true
 
     const load = async () => {
-      if (!isActive) return
-      await fetchUsers()
+      try {
+        const response = await fetch("/api/admin/users", {
+          method: "GET",
+          cache: "no-store",
+        })
+        const result = await readResponseBody(response)
+
+        if (!response.ok) {
+          const message = (result as { error?: string } | null)?.error || "Gagal mengambil data pengguna"
+          if (isMounted) {
+            setLoadError(message)
+          }
+          toast.error(message)
+          return
+        }
+
+        if (isMounted) {
+          setUsers((result as { data?: ProfileRow[] } | null)?.data || [])
+        }
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Gagal mengambil data pengguna"
+        if (isMounted) {
+          setLoadError(message)
+        }
+        toast.error(message)
+      } finally {
+        if (isMounted) {
+          setLoading(false)
+        }
+      }
     }
 
     void load()
 
     return () => {
-      isActive = false
+      isMounted = false
     }
-  }, [fetchUsers])
+  }, [])
 
   const handleSort = (key: keyof ProfileRow) => {
     setSortConfig((prev) => ({
@@ -87,20 +140,30 @@ export default function UserManagementPage() {
   const filteredUsers = sortedUsers.filter((user) => {
     const matchesSearch = user.full_name?.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesRole = roleFilter === "all" || user.role === roleFilter
-    return matchesSearch && matchesRole
+    return Boolean(matchesSearch && matchesRole)
   })
 
   const handleDelete = async (id: string) => {
     if (!confirm("Apakah Anda yakin ingin menghapus pengguna ini?")) return
 
-    const { error } = await supabase.from("profiles").delete().eq("id", id)
+    try {
+      const response = await fetch("/api/admin/users", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      })
+      const result = await readResponseBody(response)
 
-    if (error) {
-      toast.error("Gagal menghapus pengguna")
-      console.error(error)
-    } else {
+      if (!response.ok) {
+        const message = (result as { error?: string } | null)?.error || "Gagal menghapus pengguna"
+        toast.error(message)
+        return
+      }
+
       toast.success("Pengguna berhasil dihapus")
-      fetchUsers()
+      await fetchUsers()
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Gagal menghapus pengguna")
     }
   }
 
@@ -110,7 +173,8 @@ export default function UserManagementPage() {
   }
 
   const handleAdd = () => {
-    toast.info("Penambahan user baru dilakukan lewat registrasi Supabase Auth, bukan dari halaman ini.")
+    setSelectedUser(null)
+    setIsDialogOpen(true)
   }
 
   const getAvatarBg = (name: string) => {
@@ -172,6 +236,11 @@ export default function UserManagementPage() {
         />
 
         <section className="dashboard-panel overflow-hidden">
+          {loadError && (
+            <div className="border-b border-border/60 bg-error/5 px-6 py-4 text-sm font-medium text-error">
+              {loadError}
+            </div>
+          )}
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
               <thead>

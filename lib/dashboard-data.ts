@@ -49,6 +49,15 @@ export interface DashboardSummary {
   classCounts: Record<FloodRiskClass, number>
   latestPredictions: PredictionWithLocation[]
   mapPoints: PredictionWithLocation[]
+  latestPredictionByPcode: Record<string, PredictionWithLocation>
+}
+
+export interface GisLatestPredictionSummary {
+  totalPredictions: number
+  distinctPredictionRegions: number
+  classCounts: Record<FloodRiskClass, number>
+  latestPredictions: PredictionWithLocation[]
+  latestPredictionByPcode: Record<string, PredictionWithLocation>
 }
 
 export interface HistoryFilters {
@@ -182,6 +191,7 @@ async function loadPredictionsForUser(supabase: SupabaseClient, userId: string, 
     )
     .eq("user_id", userId)
     .order("created_at", { ascending: false })
+    .order("id", { ascending: false })
 
   if (typeof limit === "number") {
     query = query.limit(limit)
@@ -203,7 +213,16 @@ export async function loadDashboardSummary(supabase: SupabaseClient, userId: str
 
   const centroidLookup = mapCentroids(centroids)
   const classCounts = normalizePredictedClassCounts(predictions)
-  const distinctPredictionRegions = new Set(predictions.map((row) => row.adm3_pcode)).size
+  const latestPredictionByPcode: Record<string, PredictionWithLocation> = {}
+
+  for (const row of predictions) {
+    if (!latestPredictionByPcode[row.adm3_pcode]) {
+      latestPredictionByPcode[row.adm3_pcode] = enrichWithCentroid(row, centroidLookup.get(row.adm3_pcode))
+    }
+  }
+
+  const latestPredictionList = Object.values(latestPredictionByPcode)
+  const distinctPredictionRegions = latestPredictionList.length
 
   const enriched = predictions.map((row) => enrichWithCentroid(row, centroidLookup.get(row.adm3_pcode)))
 
@@ -217,6 +236,37 @@ export async function loadDashboardSummary(supabase: SupabaseClient, userId: str
     classCounts,
     latestPredictions: enriched.slice(0, 5),
     mapPoints: enriched.filter((row) => row.latitude !== null && row.longitude !== null),
+    latestPredictionByPcode,
+  }
+}
+
+export async function loadLatestPredictionSummary(
+  supabase: SupabaseClient,
+  userId: string
+): Promise<GisLatestPredictionSummary> {
+  const [centroids, predictions] = await Promise.all([
+    loadCentroids(supabase),
+    loadPredictionsForUser(supabase, userId),
+  ])
+
+  const centroidLookup = mapCentroids(centroids)
+  const latestPredictionByPcode: Record<string, PredictionWithLocation> = {}
+
+  for (const row of predictions) {
+    const enriched = enrichWithCentroid(row, centroidLookup.get(row.adm3_pcode))
+    if (!latestPredictionByPcode[enriched.adm3_pcode]) {
+      latestPredictionByPcode[enriched.adm3_pcode] = enriched
+    }
+  }
+
+  const latestPredictions = Object.values(latestPredictionByPcode)
+
+  return {
+    totalPredictions: predictions.length,
+    distinctPredictionRegions: latestPredictions.length,
+    classCounts: normalizePredictedClassCounts(latestPredictions),
+    latestPredictions,
+    latestPredictionByPcode,
   }
 }
 

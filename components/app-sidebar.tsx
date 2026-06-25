@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-
 import Link from "next/link"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
@@ -29,7 +28,7 @@ const data = {
     name: "Afifah",
     email: "afifah@example.com",
     avatar: "/avatars/afifah.jpg",
-    role: "admin", // Default role
+    role: "admin", // default role
   },
   navMain: [
     {
@@ -54,7 +53,7 @@ const data = {
       title: "Peta GIS",
       url: "/dashboard/gis-map",
       icon: <MapIcon />,
-      roles: ["admin", "user"],
+      roles: ["admin", "user", "guest"], // guest bisa akses GIS Map
     },
     {
       title: "Riwayat",
@@ -63,26 +62,29 @@ const data = {
       roles: ["admin", "user"],
     },
   ],
-  navSecondary: [
-  ],
+  navSecondary: [],
 }
 
 export function AppSidebar(
-  { userProfile, userEmail, ...props }: React.ComponentProps<typeof Sidebar> & { userProfile: any; userEmail: string }
+  { userProfile, userEmail, ...props }: React.ComponentProps<typeof Sidebar> & { userProfile?: any; userEmail?: string }
 ) {
-  const role = (userProfile?.role || "user") as "admin" | "user"
+  const role = (userProfile?.role || "guest") as "admin" | "user" | "guest"
 
-  const filteredNavMain = data.navMain.filter(item => item.roles.includes(role))
+  const filteredNavMain = data.navMain.filter((item) => item.roles.includes(role))
 
   const user = {
-    name: userProfile?.full_name || data.user.name,
-    email: userEmail || data.user.email,
-    avatar: data.user.avatar,
-    role: role
+    name: userProfile?.full_name || "Tamu Publik",
+    email: userEmail || "guest@floodriskaceh.app",
+    avatar: role === "guest" ? "" : data.user.avatar,
+    role,
   }
 
   return (
-    <Sidebar collapsible="offcanvas" className="bg-surface/95 text-sidebar-foreground border-r border-sidebar-border/60" {...props}>
+    <Sidebar
+      collapsible="offcanvas"
+      className="bg-surface/95 text-sidebar-foreground border-r border-sidebar-border/60"
+      {...props}
+    >
       <SidebarHeader className="border-b border-sidebar-border/60 bg-surface">
         <SidebarMenu>
           <SidebarMenuItem>
@@ -95,19 +97,24 @@ export function AppSidebar(
                   <WavesIcon className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-heading text-sm font-semibold tracking-tight text-primary">SENTINEL HYDRO</span>
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-on-surface-variant">Flood Intelligence</span>
+                  <span className="font-heading text-sm font-semibold tracking-tight text-primary">
+                    SENTINEL HYDRO
+                  </span>
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-on-surface-variant">
+                    Flood Intelligence
+                  </span>
                 </div>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+
       <SidebarContent className="gap-0 bg-surface">
         <NavMain items={filteredNavMain} />
-        
         <NavSecondary items={data.navSecondary} className="mt-2" />
       </SidebarContent>
+
       <SidebarFooter className="border-t border-sidebar-border/60 bg-surface">
         <NavUser user={user} />
       </SidebarFooter>

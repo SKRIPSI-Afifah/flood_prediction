@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css"
 import { useEffect, useState } from "react"
 import type { FeatureCollection } from "geojson"
 import L from "leaflet"
+import { formatPercent } from "@/lib/format"
 
 interface PredictionMapProps {
   center?: [number, number]
@@ -180,7 +181,7 @@ export default function PredictionMap({
                   </div>
                   <div className="flex justify-between">
                     <span className="opacity-50">LAHAN TERBANGUN:</span>
-                    <span>{popupInfo.built_area} %</span>
+                    <span>{formatPercent(popupInfo.built_area)}</span>
                   </div>
                   <div className="flex justify-between border-t pt-1.5 mt-1.5">
                     <span className="opacity-50">PREDIKSI:</span>

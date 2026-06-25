@@ -22,6 +22,19 @@ type PredictiveAssessmentsTableProps = {
 }
 
 export function PredictiveAssessmentsTable({ rows }: PredictiveAssessmentsTableProps) {
+  const getRowKey = (row: HistoryRow, index: number) => {
+    const idKey = row.id != null ? String(row.id) : ""
+    const fallback = [
+      row.created_at ?? "no-date",
+      row.adm3_pcode ?? "no-code",
+      row.kecamatan ?? "no-kecamatan",
+      row.kabupaten ?? "no-kabupaten",
+      index,
+    ].join("-")
+
+    return idKey || fallback
+  }
+
   if (rows.length === 0) {
     return (
       <div className="rounded-3xl border border-border/60 bg-surface p-6 shadow-layered">
@@ -54,12 +67,13 @@ export function PredictiveAssessmentsTable({ rows }: PredictiveAssessmentsTableP
 
       <div className="md:hidden">
         <div className="grid gap-4 p-4">
-          {rows.map((row) => {
+          {rows.map((row, index) => {
             const risk = normalizeFloodRiskClass(row.predicted_class)
             const tone = getFloodRiskTone(risk)
+            const rowKey = getRowKey(row, index)
 
             return (
-                  <div key={row.id} className="rounded-3xl border border-border/60 bg-surface-container-low p-4 shadow-sm">
+                  <div key={rowKey} className="rounded-3xl border border-border/60 bg-surface-container-low p-4 shadow-sm">
                     <div className="flex items-start justify-between gap-4">
                       <div className="space-y-1">
                         <p className="text-sm font-black text-primary">{row.kecamatan}</p>
@@ -143,12 +157,13 @@ export function PredictiveAssessmentsTable({ rows }: PredictiveAssessmentsTableP
             </TableRow>
           </TableHeader>
           <TableBody className="divide-y divide-border/60">
-            {rows.map((row) => {
+            {rows.map((row, index) => {
               const risk = normalizeFloodRiskClass(row.predicted_class)
               const tone = getFloodRiskTone(risk)
+              const rowKey = getRowKey(row, index)
 
               return (
-                <TableRow key={row.id} className="border-none hover:bg-surface-container-low/60">
+                <TableRow key={rowKey} className="border-none hover:bg-surface-container-low/60">
                   <TableCell className="px-6 py-5">
                     <div className="space-y-1">
                       <p className="text-sm font-bold text-on-surface">{formatDateTime(row.created_at)}</p>

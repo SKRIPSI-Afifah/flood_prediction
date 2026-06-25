@@ -28,7 +28,7 @@ export function DashboardPage({ className, children }: DashboardPageProps) {
         className
       )}
     >
-      <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-8 lg:gap-10">
+      <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-6 lg:gap-8">
         {children}
       </div>
     </main>

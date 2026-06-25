@@ -16,11 +16,12 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "sonner"
-import { createClient } from "@/lib/supabase/client"
 
 const userSchema = z.object({
   full_name: z.string().min(2, "Nama minimal 2 karakter"),
   role: z.enum(["admin", "user"]),
+  email: z.string().email("Email tidak valid").optional(),
+  password: z.string().min(6, "Password minimal 6 karakter").optional(),
 })
 
 type UserFormValues = z.infer<typeof userSchema>
@@ -28,6 +29,19 @@ type EditableUser = {
   id: string
   full_name?: string | null
   role?: string | null
+}
+
+async function readResponseBody(response: Response) {
+  const text = await response.text()
+  if (!text) {
+    return null
+  }
+
+  try {
+    return JSON.parse(text)
+  } catch {
+    return text
+  }
 }
 
 interface UserDialogProps {
@@ -38,14 +52,16 @@ interface UserDialogProps {
 }
 
 export function UserDialog({ isOpen, onClose, onSuccess, user }: UserDialogProps) {
-  const supabase = createClient()
   const [loading, setLoading] = useState(false)
+  const isEditing = Boolean(user)
 
   const { register, handleSubmit, setValue, control, reset, formState: { errors } } = useForm<UserFormValues>({
     resolver: zodResolver(userSchema),
     defaultValues: {
       full_name: "",
       role: "user",
+      email: "",
+      password: "",
     }
   })
 
@@ -55,11 +71,15 @@ export function UserDialog({ isOpen, onClose, onSuccess, user }: UserDialogProps
       reset({
         full_name: user.full_name || "",
         role: normalizedRole,
+        email: "",
+        password: "",
       })
     } else {
       reset({
         full_name: "",
         role: "user",
+        email: "",
+        password: "",
       })
     }
   }, [user, reset])
@@ -67,21 +87,32 @@ export function UserDialog({ isOpen, onClose, onSuccess, user }: UserDialogProps
   const onSubmit = async (data: UserFormValues) => {
     setLoading(true)
     try {
-      if (user) {
-        // Update
-        const { error } = await supabase
-          .from("profiles")
-          .update({
-            full_name: data.full_name,
-            role: data.role,
-          })
-          .eq("id", user.id)
+      const payload = {
+        id: user?.id,
+        full_name: data.full_name,
+        role: data.role,
+        email: data.email?.trim(),
+        password: data.password,
+      }
 
-        if (error) throw error
+      const response = await fetch("/api/admin/users", {
+        method: user ? "PATCH" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      })
+
+      const result = await readResponseBody(response)
+
+      if (!response.ok) {
+        throw new Error((result as { error?: string } | null)?.error || "Terjadi kesalahan")
+      }
+
+      if (user) {
         toast.success("Pengguna berhasil diperbarui")
       } else {
-        toast.error("Penambahan user baru dilakukan lewat halaman registrasi, bukan dari dialog ini.")
-        return
+        toast.success("Pengguna baru berhasil ditambahkan")
       }
       onSuccess()
       onClose()
@@ -130,6 +161,32 @@ export function UserDialog({ isOpen, onClose, onSuccess, user }: UserDialogProps
             </Select>
             {errors.role && <p className="text-[10px] text-error font-bold">{errors.role.message}</p>}
           </div>
+          {!isEditing && (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-[10px] font-black uppercase tracking-widest opacity-60">Email</Label>
+                <Input 
+                  id="email" 
+                  type="email"
+                  {...register("email")} 
+                  className="bg-white border border-surface-container h-12 font-bold placeholder:opacity-30"
+                  placeholder="nama@domain.com"
+                />
+                {errors.email && <p className="text-[10px] text-error font-bold">{errors.email.message}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-[10px] font-black uppercase tracking-widest opacity-60">Password</Label>
+                <Input 
+                  id="password" 
+                  type="password"
+                  {...register("password")} 
+                  className="bg-white border border-surface-container h-12 font-bold placeholder:opacity-30"
+                  placeholder="Minimal 6 karakter"
+                />
+                {errors.password && <p className="text-[10px] text-error font-bold">{errors.password.message}</p>}
+              </div>
+            </>
+          )}
           <DialogFooter className="pt-4">
             <Button 
               type="button" 

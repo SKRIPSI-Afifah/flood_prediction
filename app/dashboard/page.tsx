@@ -43,6 +43,26 @@ type DashboardApiResponse = {
     latitude: number | null
     longitude: number | null
   }>
+  latest_prediction_by_pcode: Record<string, {
+    id: number
+    user_id: string
+    adm3_pcode: string
+    kabupaten: string
+    kecamatan: string
+    rainfall: number | null
+    elevation: number | null
+    slope: number | null
+    built_area: number | null
+    predicted_class: "Aman" | "Rawan" | "Sangat Rawan"
+    confidence: number | null
+    risk_score: number | null
+    probability_aman: number | null
+    probability_rawan: number | null
+    probability_sangat_rawan: number | null
+    created_at: string
+    latitude: number | null
+    longitude: number | null
+  }>
 }
 
 async function fetchDashboardData(): Promise<DashboardApiResponse> {
@@ -122,15 +142,15 @@ export default async function Page() {
           }
         />
 
-        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {cards.map((card) => (
             <div
               key={card.label}
-              className={`rounded-3xl border border-border/60 bg-surface p-6 shadow-layered ${card.tone}`}
+              className={`flex h-full min-h-[180px] flex-col rounded-3xl border border-border/60 bg-surface p-6 shadow-layered ${card.tone}`}
             >
               <p className="text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/60">{card.label}</p>
-              <div className="mt-5 flex items-end justify-between gap-4">
-                <span className="text-4xl font-black tracking-tighter">{card.value}</span>
+              <div className="mt-5 flex flex-1 items-end justify-between gap-4">
+                <span className="text-3xl font-black tracking-tighter sm:text-4xl">{card.value}</span>
                 <div className="h-2 w-24 rounded-full bg-current/15" />
               </div>
               <p className="mt-4 text-sm font-medium leading-relaxed text-on-surface-variant">{card.subtitle}</p>
@@ -143,7 +163,7 @@ export default async function Page() {
         </DashboardSection>
 
         <DashboardSection title="Peta Ringkasan" description="Layer poligon Aceh yang tetap mengikuti gaya dashboard.">
-          <RiskDistributionMap />
+          <RiskDistributionMap latestPredictionByPcode={dashboard.latest_prediction_by_pcode} />
         </DashboardSection>
 
         <DashboardSection title="Lima Prediksi Terbaru" description="Data terbaru dari tabel predictions.">

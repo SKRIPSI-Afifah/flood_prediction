@@ -3,6 +3,11 @@ import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 import { savePredictionHistory } from "@/lib/dashboard-data"
 import { type FloodRiskClass } from "@/lib/format"
+import {
+  PREDICTION_INPUT_RANGES,
+  isFiniteNumber,
+  validatePredictionInput,
+} from "@/lib/prediction-validation"
 
 const predictionApiBaseUrl =
   process.env.PREDICTION_API_URL ??
@@ -32,7 +37,7 @@ function normalizePayload(payload: Record<string, unknown>) {
 }
 
 function isValidNumber(value: unknown) {
-  return typeof value === "number" && Number.isFinite(value)
+  return isFiniteNumber(value)
 }
 
 function normalizePredictedClass(value: unknown): FloodRiskClass | null {
@@ -67,17 +72,26 @@ export async function POST(request: Request) {
     const rawPayload = (await request.json()) as Record<string, unknown>
     const payload = normalizePayload(rawPayload)
 
+    const validationErrors = validatePredictionInput({
+      hujan_mm: payload.hujan_mm,
+      elevasi: payload.elevasi,
+      slope: payload.slope,
+      lahan_terbangun: payload.lahan_terbangun,
+    })
+
     if (
       !payload.adm3_pcode ||
       !isValidNumber(payload.hujan_mm) ||
       !isValidNumber(payload.elevasi) ||
       !isValidNumber(payload.slope) ||
-      !isValidNumber(payload.lahan_terbangun)
+      !isValidNumber(payload.lahan_terbangun) ||
+      validationErrors.length > 0
     ) {
       return NextResponse.json(
         {
           error:
-            "Payload tidak valid. Pastikan adm3_pcode, hujan_mm, elevasi, slope, dan lahan_terbangun berupa nilai yang valid.",
+            validationErrors[0] ??
+            `Payload tidak valid. Pastikan adm3_pcode, hujan_mm, elevasi, slope, dan lahan_terbangun berupa nilai yang valid. Batas realistis: ${PREDICTION_INPUT_RANGES.hujan_mm.min}-${PREDICTION_INPUT_RANGES.hujan_mm.max} mm curah hujan, ${PREDICTION_INPUT_RANGES.elevasi.min}-${PREDICTION_INPUT_RANGES.elevasi.max} m elevasi, ${PREDICTION_INPUT_RANGES.slope.min}-${PREDICTION_INPUT_RANGES.slope.max}% slope, dan ${PREDICTION_INPUT_RANGES.lahan_terbangun.min}-${PREDICTION_INPUT_RANGES.lahan_terbangun.max} proporsi lahan terbangun.`,
         },
         { status: 400 }
       )

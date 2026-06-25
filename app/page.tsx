@@ -1,51 +1,68 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { LucideArrowRight, LucideCheck, LucideLayers, LucideMap, LucideShieldCheck, LucideZap } from "lucide-react"
+import {
+  LucideCheck,
+  LucideMap,
+  LucideShieldCheck,
+  LucideZap,
+  LucideInfo,
+} from "lucide-react"
 import Link from "next/link"
 import { LandingHeader } from "@/components/landing-header"
 import { LandingFooter } from "@/components/landing-footer"
 
 export default function Page() {
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground transition-colors duration-500">
+    <div className="flex min-h-screen flex-col bg-background text-foreground transition-colors duration-500">
       <LandingHeader />
-      
+
       <main className="flex-grow pt-16">
         {/* Hero Section */}
-        <section className="relative w-full py-24 md:py-32 lg:py-40 px-6 overflow-hidden">
-          <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-muted border border-border/40 mb-8 font-sans">
-              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-              <span className="text-[10px] font-bold text-foreground tracking-wider uppercase">System Live: v4.2.0</span>
+        <section className="relative w-full overflow-hidden px-6 py-20 md:py-28 lg:py-32">
+          <div className="mx-auto flex max-w-4xl flex-col items-center text-center relative z-10">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/10 bg-primary/5 px-4 py-1.5 font-sans mb-8">
+              <span className="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
+              <span className="text-[10px] font-black text-primary tracking-widest uppercase">SISTEM AKTIF: PROVINSI ACEH</span>
             </div>
-            
-            <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tighter text-foreground leading-[1.05] mb-10 max-w-4xl">
-              The infrastructure for <br /> flood risk intelligence.
+
+            <h1 className="max-w-5xl font-heading text-4xl font-black leading-[1.05] tracking-tight text-foreground uppercase md:text-6xl lg:text-7xl mb-6">
+              Peta Risiko Banjir
+              <br />
+              <span className="bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent">
+                Aceh Interaktif
+              </span>
             </h1>
-            
-            <p className="max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground font-sans font-light leading-relaxed mb-12">
-              High-precision GIS analytical gateway for regional flood risk assessment and real-time monitoring across the Aceh region.
+
+            <p className="mx-auto mb-3 max-w-2xl text-base font-medium leading-relaxed text-on-surface-variant/80 md:text-lg">
+              Masuk portal untuk membuka peta GIS interaktif Aceh.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4">
-              <Link href="/login">
-                <Button className="h-14 px-8 bg-primary text-primary-foreground rounded-sm font-semibold text-base hover:opacity-70 transition-opacity flex items-center gap-2 border-none">
-                  ENTER ANALYTICS PORTAL
-                  <LucideArrowRight className="size-5" />
-                </Button>
-              </Link>
-              <Link href="#features">
-                <Button variant="ghost" className="h-14 px-8 text-foreground font-semibold text-base hover:bg-muted transition-colors rounded-sm">
-                  VIEW CAPABILITIES
-                </Button>
-              </Link>
+            <p className="mx-auto mb-10 max-w-2xl text-sm font-medium leading-relaxed text-on-surface-variant/70 md:text-base">
+              Akses peta, panel analisis, dan fitur prediksi tersedia setelah login.
+            </p>
+
+            <div className="flex w-full flex-col items-stretch justify-center gap-4 sm:w-auto sm:flex-row sm:items-center">
+              <Button asChild className="h-14 w-full rounded-[16px] border-none bg-primary px-8 text-xs font-black uppercase tracking-widest text-primary-foreground shadow-xl shadow-primary/20 transition-all hover:-translate-y-0.5 hover:bg-primary/90 active:translate-y-0 sm:w-auto">
+                <Link href="/login" aria-label="Masuk Portal Analisis">
+                  Masuk Portal
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="h-14 w-full rounded-[16px] border-2 border-border/80 px-8 text-xs font-black uppercase tracking-widest text-foreground transition-colors hover:border-primary/20 hover:bg-surface-container sm:w-auto">
+                <Link href="/login">
+                  Masuk Portal
+                </Link>
+              </Button>
             </div>
+
+            <p className="mt-5 max-w-xl text-xs font-medium leading-relaxed text-on-surface-variant/60 md:text-sm">
+              Login diperlukan untuk membuka peta GIS dan fitur prediksi.
+            </p>
           </div>
 
-          {/* Decorative Elements */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-full max-w-6xl aspect-square opacity-[0.03] select-none pointer-events-none">
-            <svg viewBox="0 0 100 100" className="w-full h-full text-[#242424]">
+          {/* Decorative Grid Pattern */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 w-full max-w-6xl aspect-square opacity-[0.04] select-none pointer-events-none">
+            <svg viewBox="0 0 100 100" className="w-full h-full text-[#000]">
               <defs>
                 <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
                   <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" strokeWidth="0.5"/>
@@ -56,97 +73,143 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Trust Bar */}
-        <section className="py-12 border-y border-border/40 bg-background/50 backdrop-blur-sm">
-          <div className="max-w-7xl mx-auto px-6">
-            <p className="text-center text-[10px] font-bold text-muted-foreground tracking-[0.2em] uppercase mb-8">Trusted by Strategic Authorities</p>
-            <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-40 grayscale contrast-125">
-              <span className="font-heading text-xl font-bold tracking-tighter">BPBA</span>
-              <span className="font-heading text-xl font-bold tracking-tighter">BMKG</span>
-              <span className="font-heading text-xl font-bold tracking-tighter">PU-PR</span>
-              <span className="font-heading text-xl font-bold tracking-tighter">GIS-PORTAL</span>
-              <span className="font-heading text-xl font-bold tracking-tighter">ACEH-SAT</span>
+        {/* Strategic Authorities Bar */}
+        <section className="border-y border-border/40 bg-surface/50 py-12 backdrop-blur-sm">
+          <div className="mx-auto max-w-7xl px-6">
+            <p className="mb-8 text-center text-[10px] font-black uppercase tracking-[0.25em] text-on-surface-variant/40">Didukung & Digunakan Oleh Otoritas Kebencanaan</p>
+            <div className="flex flex-wrap items-center justify-center gap-12 opacity-60 grayscale contrast-125 md:gap-24">
+              <span className="font-heading text-lg font-black tracking-widest text-primary">BPBA ACEH</span>
+              <span className="font-heading text-lg font-black tracking-widest text-primary">BMKG</span>
+              <span className="font-heading text-lg font-black tracking-widest text-primary">DINAS PENGAIRAN</span>
+              <span className="font-heading text-lg font-black tracking-widest text-primary">BNPB</span>
             </div>
           </div>
         </section>
 
         {/* Features Section */}
-        <section id="features" className="py-24 md:py-32 bg-background px-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20">
+        <section id="features" className="bg-surface-container-lowest px-6 py-24 md:py-32">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-20 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
               <div className="max-w-2xl">
-                <h2 className="text-[12px] font-bold text-foreground tracking-widest uppercase mb-4 opacity-40">Core Capabilities</h2>
-                <h3 className="font-heading text-4xl md:text-5xl font-semibold tracking-tighter text-foreground leading-tight">
-                  Designed for mission-critical <br /> decision making.
+                <h2 className="text-[10px] font-black text-primary tracking-widest uppercase mb-4 opacity-50">Kapabilitas Platform</h2>
+                <h3 className="font-heading text-4xl font-black leading-tight tracking-tight text-foreground uppercase md:text-5xl">
+                  Teknologi Cerdas untuk <br /> Keputusan Penyelamatan.
                 </h3>
               </div>
-              <p className="max-w-xs text-muted-foreground font-sans font-light leading-relaxed">
-                Our suite of analytical tools providing state-of-the-art foresight into hydro-meteorological risks.
+              <p className="max-w-md font-sans font-semibold leading-relaxed text-on-surface-variant/70">
+                Menyediakan visualisasi interaktif dan prediksi ilmiah berbasis data topografi, iklim, dan tata guna lahan.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Feature 1 */}
-              <div className="cal-card p-10 flex flex-col h-full border-none">
-                <div className="w-12 h-12 rounded-sm bg-muted flex items-center justify-center mb-8">
-                  <LucideMap className="size-6 text-foreground" />
+              <div className="cal-card p-10 flex flex-col h-full border-2 border-surface-container hover:border-primary/20 transition-all rounded-[32px] bg-surface group">
+                <div className="w-12 h-12 rounded-2xl bg-primary/5 text-primary flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                  <LucideMap className="size-6" />
                 </div>
-                <h4 className="font-heading text-xl font-semibold text-foreground mb-4">Precision GIS Mapping</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed font-sans font-light flex-grow">
-                  Layer-based visualization of regional topography integrated with real-time hydrological sensors.
+                <h4 className="font-heading text-lg font-black text-foreground uppercase tracking-tight mb-4">Peta GIS Presisi</h4>
+                <p className="text-[13px] font-medium text-on-surface-variant/70 leading-relaxed font-sans flex-grow">
+                  Visualisasi poligon tingkat kerawanan per kecamatan di Aceh (Aman, Rawan, Sangat Rawan) dengan data elevasi dan lereng interaktif.
                 </p>
               </div>
 
               {/* Feature 2 */}
-              <div className="cal-card p-10 flex flex-col h-full border-none">
-                <div className="w-12 h-12 rounded-sm bg-[#f5f5f5] flex items-center justify-center mb-8">
-                  <LucideZap className="size-6 text-[#242424]" />
+              <div className="cal-card p-10 flex flex-col h-full border-2 border-surface-container hover:border-primary/20 transition-all rounded-[32px] bg-surface group">
+                <div className="w-12 h-12 rounded-2xl bg-secondary/5 text-secondary flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                  <LucideZap className="size-6" />
                 </div>
-                <h4 className="font-heading text-xl font-semibold text-[#242424] mb-4">ML Predictive Models</h4>
-                <p className="text-sm text-[#898989] leading-relaxed font-sans font-light flex-grow">
-                  Advanced machine learning algorithms trained on historical datasets for high-accuracy flood forecasting.
+                <h4 className="font-heading text-lg font-black text-foreground uppercase tracking-tight mb-4">Faktor Risiko Dinamis</h4>
+                <p className="text-[13px] font-medium text-on-surface-variant/70 leading-relaxed font-sans flex-grow">
+                  Analisis pemicu otomatis seperti curah hujan ekstrim, kelerengan landai, dan rendahnya infiltrasi lahan di wilayah terdampak.
                 </p>
               </div>
 
               {/* Feature 3 */}
-              <div className="cal-card p-10 flex flex-col h-full border-none">
-                <div className="w-12 h-12 rounded-sm bg-[#f5f5f5] flex items-center justify-center mb-8">
-                  <LucideShieldCheck className="size-6 text-[#242424]" />
+              <div className="cal-card p-10 flex flex-col h-full border-2 border-surface-container hover:border-primary/20 transition-all rounded-[32px] bg-surface group">
+                <div className="w-12 h-12 rounded-2xl bg-error/5 text-error flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                  <LucideShieldCheck className="size-6" />
                 </div>
-                <h4 className="font-heading text-xl font-semibold text-[#242424] mb-4">Command Transparency</h4>
-                <p className="text-sm text-[#898989] leading-relaxed font-sans font-light flex-grow">
-                  Audit-ready decision logs and authenticated access control for sensitive regional data infrastructure.
+                <h4 className="font-heading text-lg font-black text-foreground uppercase tracking-tight mb-4">Pemberitahuan Cepat</h4>
+                <p className="text-[13px] font-medium text-on-surface-variant/70 leading-relaxed font-sans flex-grow">
+                  Pengambilan keputusan darurat yang cepat melalui fitur deploy warning ke penanggung jawab wilayah demi kewaspadaan dini.
                 </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* GIS Info & Visual Section */}
+        <section id="gis-info" className="bg-background px-6 py-24 md:py-32">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 lg:grid-cols-2">
+            <div className="space-y-8">
+              <div className="inline-flex items-center gap-2 rounded-full border border-secondary/10 bg-secondary/10 px-3 py-1 font-sans">
+                <LucideInfo className="size-4 text-secondary" />
+                <span className="text-[10px] font-black text-secondary tracking-widest uppercase">EKSPLORASI INTERAKTIF</span>
+              </div>
+              <h3 className="font-heading text-4xl font-black leading-tight tracking-tight text-foreground uppercase md:text-5xl">
+                Pahami Risiko Tanpa Membaca Data Mentah
+              </h3>
+              <p className="font-sans font-medium leading-relaxed text-on-surface-variant/80">
+                Sistem kami menyederhanakan data spasial rumit menjadi indikator visual yang intuitif. Cukup klik kecamatan pada peta untuk mengetahui persentase risiko, riwayat kejadian banjir, dan analisis faktor pemicu utama di wilayah tersebut.
+              </p>
+              
+              <ul className="space-y-4">
+                {[
+                  "Pengkodean warna poligon standar (Aman, Rawan, Sangat Rawan)",
+                  "Filter dinamis berdasarkan faktor curah hujan, elevasi, dan kelerengan",
+                  "Integrasi data sensor cuaca historis BMKG dan tata guna lahan"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="size-5 rounded-full bg-secondary/10 text-secondary flex items-center justify-center shrink-0 mt-0.5">
+                      <LucideCheck className="size-3" />
+                    </span>
+                    <span className="text-sm font-semibold text-on-surface-variant">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="relative aspect-video overflow-hidden rounded-[32px] border-4 border-surface-container bg-surface-container shadow-2xl">
+              <iframe
+                src="/login"
+                className="h-full w-full scale-[1.02] opacity-90 transition-transform duration-500 pointer-events-none"
+                title="Preview Peta"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#000]/60 to-transparent flex items-end p-8">
+                <div>
+                  <p className="text-[10px] font-black text-white/70 uppercase tracking-widest mb-1">Preview Sistem GIS</p>
+                  <p className="text-lg font-black text-white uppercase tracking-wide">Peta Poligon Kecamatan Aceh</p>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="py-24 md:py-32 px-6">
-          <div className="max-w-5xl mx-auto cal-card p-12 md:p-20 text-center bg-[#242424] text-white border-none overflow-hidden relative">
-            <h3 className="font-heading text-3xl md:text-5xl font-semibold tracking-tighter mb-8 relative z-10">
-              Ready to secure the region? <br /> Request your access today.
+        <section id="cta" className="px-6 py-24 md:py-32">
+          <div className="relative mx-auto max-w-5xl overflow-hidden rounded-[40px] border-none bg-primary p-12 text-center text-primary-foreground shadow-2xl md:p-20 cal-card">
+            <h3 className="relative z-10 mb-8 font-heading text-3xl font-black tracking-tight uppercase md:text-5xl">
+              Siap Mengakses Portal <br /> Kebencanaan Aceh?
             </h3>
-            <p className="text-[#898989] mb-12 max-w-xl mx-auto relative z-10">
-              Join the network of analysts and engineers dedicated to building a flood-resilient Aceh.
+            <p className="relative z-10 mx-auto mb-12 max-w-xl text-sm font-medium text-primary-foreground/70 font-sans">
+              Bergabunglah dengan jaringan analis dan otoritas daerah untuk mewujudkan Aceh yang tangguh dan siap siaga banjir.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
-              <Link href="/register">
-                <Button className="h-14 px-8 bg-primary-foreground text-primary rounded-sm font-semibold text-base hover:bg-primary-foreground/90 transition-colors border-none">
-                  GET STARTED
-                </Button>
-              </Link>
-              <Link href="/login">
-                <Button variant="ghost" className="h-14 px-8 text-primary-foreground hover:bg-white/10 transition-colors rounded-sm">
-                  MEMBER LOGIN
-                </Button>
-              </Link>
+            <div className="relative z-10 flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center">
+              <Button asChild className="h-14 w-full rounded-[16px] border-none bg-white px-8 text-xs font-black uppercase tracking-widest text-primary shadow-xl shadow-white/5 transition-all hover:-translate-y-0.5 active:translate-y-0 sm:w-auto">
+                <Link href="/login">
+                  Masuk Portal
+                </Link>
+              </Button>
+              <Button asChild variant="ghost" className="h-14 w-full rounded-[16px] px-8 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-white/10 sm:w-auto">
+                <Link href="/login">
+                  Masuk Portal
+                </Link>
+              </Button>
             </div>
             
-            {/* Background Accent */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] opacity-10 blur-3xl select-none pointer-events-none">
-              <div className="w-full h-full bg-blue-500 rounded-full"></div>
+            {/* Background Gradient Glow */}
+            <div className="absolute left-1/2 top-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 select-none pointer-events-none opacity-20 blur-3xl">
+              <div className="h-full w-full rounded-full bg-secondary"></div>
             </div>
           </div>
         </section>

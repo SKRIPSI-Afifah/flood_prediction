@@ -11,11 +11,24 @@ const MapLeaflet = dynamic(() => import("@/components/map-leaflet"), {
   ),
 })
 
-export function RiskDistributionMap() {
+type LatestPrediction = {
+  adm3_pcode: string
+  kabupaten: string
+  kecamatan: string
+  rainfall: number | null
+  predicted_class: string
+  created_at: string
+}
+
+export function RiskDistributionMap({
+  latestPredictionByPcode = {},
+}: {
+  latestPredictionByPcode?: Record<string, LatestPrediction>
+}) {
   return (
     <div className="relative min-h-[420px] overflow-hidden rounded-3xl border border-border/60 bg-surface shadow-layered">
       <div className="absolute inset-0">
-        <MapLeaflet />
+        <MapLeaflet latestPredictionByPcode={latestPredictionByPcode} popupMode="prediction-only" />
       </div>
 
       <div className="absolute left-4 top-4 z-[10] rounded-2xl border border-border/60 bg-surface/90 px-4 py-3 shadow-xl backdrop-blur">

@@ -47,7 +47,7 @@ export function formatPercent(value: number | null | undefined) {
     return "-"
   }
 
-  return `${idPercentageFormatter.format(value)}%`
+  return `${idPercentageFormatter.format(value * 100)}%`
 }
 
 export function formatProbability(value: number | null | undefined) {

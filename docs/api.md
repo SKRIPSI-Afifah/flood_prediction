@@ -39,16 +39,16 @@ Request body:
   "hujan_mm": 120.5,
   "elevasi": 15.2,
   "slope": 4.1,
-  "lahan_terbangun": 32.7
+  "lahan_terbangun": 0.327
 }
 ```
 
 Field request:
 - `adm3_pcode` `string` wajib
-- `hujan_mm` `number` wajib, `>= 0`
-- `elevasi` `number` wajib, `>= 0`
-- `slope` `number` wajib, `>= 0`
-- `lahan_terbangun` `number` wajib, `0-100`
+- `hujan_mm` `number` wajib, `0-1000` mm
+- `elevasi` `number` wajib, `0-3000` m
+- `slope` `number` wajib, `0-45` persen
+- `lahan_terbangun` `number` wajib, proporsi `0-1`
 
 Response sukses `200`:
 ```json
@@ -75,6 +75,10 @@ Field response:
   - `Rawan` `number`
   - `Sangat Rawan` `number`
 
+Catatan validasi:
+- Input di luar rentang realistis akan ditolak sebelum prediksi dijalankan.
+- Batas ini sengaja dibuat lebih ketat agar angka ekstrem tidak menghasilkan prediksi yang menyesatkan.
+
 Error response contoh:
 ```json
 { "detail": "Model file tidak ditemukan" }
@@ -97,7 +101,7 @@ Request body:
   "hujan_mm": 120.5,
   "elevasi": 15.2,
   "slope": 4.1,
-  "lahan_terbangun": 32.7,
+  "lahan_terbangun": 0.327,
   "tahun": 2026
 }
 ```
@@ -106,6 +110,7 @@ Catatan:
 - `tahun` optional.
 - `year` juga diterima sebagai alias input.
 - `rainfall` diterima sebagai alias `hujan_mm`.
+- `lahan_terbangun` diperlakukan sebagai proporsi `0-1`, bukan persen `0-100`.
 
 Response sukses `200`:
 ```json
@@ -131,7 +136,7 @@ Response sukses `200`:
     "rainfall": 120.5,
     "elevation": 15.2,
     "slope": 4.1,
-    "built_area": 32.7,
+    "built_area": 0.327,
     "predicted_class": "Rawan",
     "confidence": 0.8234,
     "risk_score": 61.2,
