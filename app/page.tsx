@@ -49,8 +49,8 @@ export default function Page() {
                 </Link>
               </Button>
               <Button asChild variant="outline" className="h-14 w-full rounded-[16px] border-2 border-border/80 px-8 text-xs font-black uppercase tracking-widest text-foreground transition-colors hover:border-primary/20 hover:bg-surface-container sm:w-auto">
-                <Link href="/login">
-                  Masuk Portal
+                <Link href="#features">
+                  Lihat Fitur
                 </Link>
               </Button>
             </div>
@@ -201,8 +201,8 @@ export default function Page() {
                 </Link>
               </Button>
               <Button asChild variant="ghost" className="h-14 w-full rounded-[16px] px-8 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-white/10 sm:w-auto">
-                <Link href="/login">
-                  Masuk Portal
+                <Link href="#gis-info">
+                  Pelajari Peta
                 </Link>
               </Button>
             </div>

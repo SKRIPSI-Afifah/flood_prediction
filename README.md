@@ -5,6 +5,7 @@ This is a Next.js template with shadcn/ui.
 ## API Documentation
 
 Lihat dokumentasi kontrak endpoint dan field response di [docs/api.md](docs/api.md).
+Diagram UML sequence dan class tersedia di [docs/uml-sequence-class-diagram.md](docs/uml-sequence-class-diagram.md).
 
 ## Adding components
 
