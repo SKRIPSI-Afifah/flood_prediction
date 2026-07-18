@@ -547,7 +547,10 @@ export default function PredictionPage() {
 
       const data = await response.json().catch(() => null)
       if (!response.ok) {
-        throw new Error(data?.error || "Gagal mengambil hasil prediksi dari server.")
+        const message = data?.error || "Gagal mengambil hasil prediksi dari server."
+        setErrorMsg(message)
+        toast.error(message)
+        return
       }
 
       const predictedClass = normalizePredictedClass(data.predicted_class || data.prediksi || "Rawan")
@@ -599,9 +602,10 @@ export default function PredictionPage() {
       setResult(newResult)
       toast.success("Prediksi berhasil disimpan ke Supabase.")
     } catch (error) {
-      console.error("Prediction error:", error)
-      setErrorMsg("Gagal melakukan prediksi. Pastikan server FastAPI aktif.")
-      toast.error("Terjadi kesalahan saat memproses prediksi.")
+      const message =
+        error instanceof Error ? error.message : "Gagal melakukan prediksi. Pastikan server FastAPI aktif."
+      setErrorMsg(message)
+      toast.error(message)
     } finally {
       setPredicting(false)
     }

@@ -22,23 +22,50 @@ type LatestPrediction = {
 
 export function RiskDistributionMap({
   latestPredictionByPcode = {},
+  classCounts,
 }: {
   latestPredictionByPcode?: Record<string, LatestPrediction>
+  classCounts?: {
+    Aman: number
+    Rawan: number
+    "Sangat Rawan": number
+  }
 }) {
+  const total = classCounts
+    ? classCounts.Aman + classCounts.Rawan + classCounts["Sangat Rawan"]
+    : 0
+
   return (
     <div className="relative min-h-[420px] overflow-hidden rounded-3xl border border-border/60 bg-surface shadow-layered">
       <div className="absolute inset-0">
         <MapLeaflet latestPredictionByPcode={latestPredictionByPcode} popupMode="prediction-only" />
       </div>
 
-      <div className="absolute left-4 top-4 z-[10] rounded-2xl border border-border/60 bg-surface/90 px-4 py-3 shadow-xl backdrop-blur">
+      <div className="absolute left-4 top-4 z-[10] rounded-2xl border border-border/60 bg-surface px-4 py-3 shadow-sm">
         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/70">Peta Poligon</p>
         <p className="mt-1 text-xs font-medium text-on-surface-variant">
           Visualisasi tingkat kerawanan pada layer Aceh
         </p>
       </div>
 
-      <div className="absolute bottom-4 right-4 z-[10] w-[240px] rounded-3xl border border-border/60 bg-surface/90 p-4 shadow-xl backdrop-blur">
+      <div className="absolute left-4 bottom-4 z-[10] w-[320px] rounded-3xl border border-border/60 bg-surface p-4 shadow-sm">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/70">Ringkasan Kelas</p>
+            <p className="mt-1 text-xs font-medium text-on-surface-variant">Total prediksi terbaru per kelas</p>
+          </div>
+          <span className="rounded-full border border-border/60 bg-surface-container-low px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/60">
+            {total} total
+          </span>
+        </div>
+        <div className="mt-3 grid grid-cols-3 gap-2">
+          <MapSummary value={classCounts?.Aman ?? 0} label="Aman" color="bg-secondary" />
+          <MapSummary value={classCounts?.Rawan ?? 0} label="Rawan" color="bg-tertiary" />
+          <MapSummary value={classCounts?.["Sangat Rawan"] ?? 0} label="Sangat Rawan" color="bg-error" />
+        </div>
+      </div>
+
+      <div className="absolute bottom-4 right-4 z-[10] w-[240px] rounded-3xl border border-border/60 bg-surface p-4 shadow-sm">
         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/70">Legenda</p>
         <div className="mt-4 space-y-3">
           <LegendItem color="bg-secondary" label="Aman" />
@@ -46,6 +73,16 @@ export function RiskDistributionMap({
           <LegendItem color="bg-error" label="Sangat Rawan" />
         </div>
       </div>
+    </div>
+  )
+}
+
+function MapSummary({ value, label, color }: { value: number; label: string; color: string }) {
+  return (
+    <div className="rounded-2xl border border-border/60 bg-surface-container-low px-3 py-3">
+      <span className={`mb-2 block size-2.5 rounded-full ${color}`} />
+      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">{label}</p>
+      <p className="mt-1 text-lg font-black tracking-tighter text-primary">{value}</p>
     </div>
   )
 }

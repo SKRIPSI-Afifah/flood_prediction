@@ -58,7 +58,7 @@ export function DashboardHeader({
               <LucideSearch className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-on-surface-variant/50" />
               <input
                 type="search"
-                placeholder="Search spatial data..."
+                placeholder="Cari kecamatan..."
                 className="h-11 w-72 rounded-full border border-border/60 bg-surface pl-11 pr-5 text-xs font-semibold text-on-surface shadow-sm transition-all placeholder:text-on-surface-variant/40 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
               />
             </div>

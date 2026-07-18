@@ -218,32 +218,44 @@ export function ClassDistributionChart({ classCounts }: ClassDistributionChartPr
           </ChartContainer>
         )}
 
-        <div className="mt-6 space-y-3">
+        <div className="mt-6">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
+              Ringkasan kelas
+            </p>
+            <p className="text-[10px] font-semibold text-on-surface-variant/60">
+              Semua kelas tampil sekaligus
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
           {data.map((item) => (
-            <div key={item.name} className="space-y-2 rounded-2xl border border-border/40 bg-surface-container-low p-4">
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="size-2.5 rounded-full" style={{ backgroundColor: item.color }} />
-                  <span className="text-xs font-bold uppercase tracking-[0.16em] text-on-surface-variant">
-                    {item.name}
+              <div key={item.name} className="rounded-2xl border border-border/40 bg-surface-container-low p-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <div className="size-2.5 rounded-full" style={{ backgroundColor: item.color }} />
+                      <span className="text-xs font-bold uppercase tracking-[0.16em] text-on-surface-variant">
+                        {item.name}
+                      </span>
+                    </div>
+                    <p className="text-2xl font-black tracking-tighter text-primary">{item.value}</p>
+                  </div>
+                  <span className="rounded-full border border-border/60 bg-surface px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/60">
+                    {formatPercent(total ? item.value / total : 0)}
                   </span>
                 </div>
-                <span className="text-xs font-black text-primary">{item.value}</span>
+                <div className="mt-4 h-2.5 w-full overflow-hidden rounded-full bg-surface-container">
+                  <div
+                    className="h-full rounded-full"
+                    style={{
+                      width: `${total ? (item.value / total) * 100 : 0}%`,
+                      backgroundColor: item.color,
+                    }}
+                  />
+                </div>
               </div>
-              <div className="h-2.5 w-full overflow-hidden rounded-full bg-surface-container">
-                <div
-                  className="h-full rounded-full"
-                  style={{
-                    width: `${total ? (item.value / total) * 100 : 0}%`,
-                    backgroundColor: item.color,
-                  }}
-                />
-              </div>
-              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
-                {formatPercent(total ? item.value / total : 0)}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
@@ -251,7 +263,7 @@ export function ClassDistributionChart({ classCounts }: ClassDistributionChartPr
         <div className="mb-6 flex items-center justify-between gap-4">
           <div className="space-y-1">
             <h3 className="text-sm font-black uppercase tracking-[0.18em] text-primary">
-              Top Wilayah Paling Rawan
+              Kecamatan dengan Prediksi Rawan Terbanyak
             </h3>
             <p className="text-[11px] font-semibold text-on-surface-variant/70">
               Menampilkan wilayah dengan jumlah banjir tertinggi berdasarkan GeoJSON

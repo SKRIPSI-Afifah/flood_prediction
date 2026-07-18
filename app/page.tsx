@@ -27,19 +27,19 @@ export default function Page() {
             </div>
 
             <h1 className="max-w-5xl font-heading text-4xl font-black leading-[1.05] tracking-tight text-foreground uppercase md:text-6xl lg:text-7xl mb-6">
-              Peta Risiko Banjir
+              Peta Daerah Rawan 
               <br />
               <span className="bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent">
-                Aceh Interaktif
+                Banjir Aceh
               </span>
             </h1>
 
             <p className="mx-auto mb-3 max-w-2xl text-base font-medium leading-relaxed text-on-surface-variant/80 md:text-lg">
-              Masuk portal untuk membuka peta GIS interaktif Aceh.
+              Akses peta GIS Aceh dan analisis risiko banjir dalam satu tempat.
             </p>
 
             <p className="mx-auto mb-10 max-w-2xl text-sm font-medium leading-relaxed text-on-surface-variant/70 md:text-base">
-              Akses peta, panel analisis, dan fitur prediksi tersedia setelah login.
+              Login dibutuhkan untuk membuka peta, analisis, dan prediksi.
             </p>
 
             <div className="flex w-full flex-col items-stretch justify-center gap-4 sm:w-auto sm:flex-row sm:items-center">
@@ -56,7 +56,7 @@ export default function Page() {
             </div>
 
             <p className="mt-5 max-w-xl text-xs font-medium leading-relaxed text-on-surface-variant/60 md:text-sm">
-              Login diperlukan untuk membuka peta GIS dan fitur prediksi.
+              Login membuka akses ke peta, analisis, dan prediksi.
             </p>
           </div>
 
@@ -76,7 +76,7 @@ export default function Page() {
         {/* Strategic Authorities Bar */}
         <section className="border-y border-border/40 bg-surface/50 py-12 backdrop-blur-sm">
           <div className="mx-auto max-w-7xl px-6">
-            <p className="mb-8 text-center text-[10px] font-black uppercase tracking-[0.25em] text-on-surface-variant/40">Didukung & Digunakan Oleh Otoritas Kebencanaan</p>
+            <p className="mb-8 text-center text-[10px] font-black uppercase tracking-[0.25em] text-on-surface-variant/40">Digunakan oleh otoritas kebencanaan</p>
             <div className="flex flex-wrap items-center justify-center gap-12 opacity-60 grayscale contrast-125 md:gap-24">
               <span className="font-heading text-lg font-black tracking-widest text-primary">BPBA ACEH</span>
               <span className="font-heading text-lg font-black tracking-widest text-primary">BMKG</span>
@@ -91,13 +91,13 @@ export default function Page() {
           <div className="mx-auto max-w-7xl">
             <div className="mb-20 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
               <div className="max-w-2xl">
-                <h2 className="text-[10px] font-black text-primary tracking-widest uppercase mb-4 opacity-50">Kapabilitas Platform</h2>
+                <h2 className="text-[10px] font-black text-primary tracking-widest uppercase mb-4 opacity-50">Fitur Inti</h2>
                 <h3 className="font-heading text-4xl font-black leading-tight tracking-tight text-foreground uppercase md:text-5xl">
-                  Teknologi Cerdas untuk <br /> Keputusan Penyelamatan.
+                  Data yang cepat <br /> untuk keputusan tepat.
                 </h3>
               </div>
               <p className="max-w-md font-sans font-semibold leading-relaxed text-on-surface-variant/70">
-                Menyediakan visualisasi interaktif dan prediksi ilmiah berbasis data topografi, iklim, dan tata guna lahan.
+                Visualisasi interaktif dan prediksi berbasis data topografi, iklim, dan tata guna lahan.
               </p>
             </div>
 
@@ -109,7 +109,7 @@ export default function Page() {
                 </div>
                 <h4 className="font-heading text-lg font-black text-foreground uppercase tracking-tight mb-4">Peta GIS Presisi</h4>
                 <p className="text-[13px] font-medium text-on-surface-variant/70 leading-relaxed font-sans flex-grow">
-                  Visualisasi poligon tingkat kerawanan per kecamatan di Aceh (Aman, Rawan, Sangat Rawan) dengan data elevasi dan lereng interaktif.
+                  Poligon kerawanan per kecamatan di Aceh dengan data elevasi dan lereng interaktif.
                 </p>
               </div>
 
@@ -120,7 +120,7 @@ export default function Page() {
                 </div>
                 <h4 className="font-heading text-lg font-black text-foreground uppercase tracking-tight mb-4">Faktor Risiko Dinamis</h4>
                 <p className="text-[13px] font-medium text-on-surface-variant/70 leading-relaxed font-sans flex-grow">
-                  Analisis pemicu otomatis seperti curah hujan ekstrim, kelerengan landai, dan rendahnya infiltrasi lahan di wilayah terdampak.
+                  Analisis pemicu utama seperti curah hujan tinggi, lereng landai, dan lahan terbangun.
                 </p>
               </div>
 
@@ -129,9 +129,9 @@ export default function Page() {
                 <div className="w-12 h-12 rounded-2xl bg-error/5 text-error flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
                   <LucideShieldCheck className="size-6" />
                 </div>
-                <h4 className="font-heading text-lg font-black text-foreground uppercase tracking-tight mb-4">Pemberitahuan Cepat</h4>
+                <h4 className="font-heading text-lg font-black text-foreground uppercase tracking-tight mb-4">Peringatan Cepat</h4>
                 <p className="text-[13px] font-medium text-on-surface-variant/70 leading-relaxed font-sans flex-grow">
-                  Pengambilan keputusan darurat yang cepat melalui fitur deploy warning ke penanggung jawab wilayah demi kewaspadaan dini.
+                  Informasi singkat untuk mempercepat respons dan kewaspadaan dini.
                 </p>
               </div>
             </div>
@@ -147,17 +147,17 @@ export default function Page() {
                 <span className="text-[10px] font-black text-secondary tracking-widest uppercase">EKSPLORASI INTERAKTIF</span>
               </div>
               <h3 className="font-heading text-4xl font-black leading-tight tracking-tight text-foreground uppercase md:text-5xl">
-                Pahami Risiko Tanpa Membaca Data Mentah
+                Pahami Risiko Tanpa Data Mentah
               </h3>
               <p className="font-sans font-medium leading-relaxed text-on-surface-variant/80">
-                Sistem kami menyederhanakan data spasial rumit menjadi indikator visual yang intuitif. Cukup klik kecamatan pada peta untuk mengetahui persentase risiko, riwayat kejadian banjir, dan analisis faktor pemicu utama di wilayah tersebut.
+                Data spasial disederhanakan menjadi indikator visual. Klik kecamatan untuk melihat risiko, riwayat banjir, dan faktor pemicu utama.
               </p>
               
               <ul className="space-y-4">
                 {[
-                  "Pengkodean warna poligon standar (Aman, Rawan, Sangat Rawan)",
-                  "Filter dinamis berdasarkan faktor curah hujan, elevasi, dan kelerengan",
-                  "Integrasi data sensor cuaca historis BMKG dan tata guna lahan"
+                  "Warna poligon standar: Aman, Rawan, Sangat Rawan",
+                  "Filter faktor hujan, elevasi, dan kelerengan",
+                  "Integrasi data cuaca dan tata guna lahan"
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span className="size-5 rounded-full bg-secondary/10 text-secondary flex items-center justify-center shrink-0 mt-0.5">
@@ -177,7 +177,7 @@ export default function Page() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#000]/60 to-transparent flex items-end p-8">
                 <div>
-                  <p className="text-[10px] font-black text-white/70 uppercase tracking-widest mb-1">Preview Sistem GIS</p>
+                  <p className="text-[10px] font-black text-white/70 uppercase tracking-widest mb-1">Pratinjau sistem GIS</p>
                   <p className="text-lg font-black text-white uppercase tracking-wide">Peta Poligon Kecamatan Aceh</p>
                 </div>
               </div>
@@ -189,10 +189,10 @@ export default function Page() {
         <section id="cta" className="px-6 py-24 md:py-32">
           <div className="relative mx-auto max-w-5xl overflow-hidden rounded-[40px] border-none bg-primary p-12 text-center text-primary-foreground shadow-2xl md:p-20 cal-card">
             <h3 className="relative z-10 mb-8 font-heading text-3xl font-black tracking-tight uppercase md:text-5xl">
-              Siap Mengakses Portal <br /> Kebencanaan Aceh?
+              Siap memantau <br /> risiko banjir Aceh?
             </h3>
             <p className="relative z-10 mx-auto mb-12 max-w-xl text-sm font-medium text-primary-foreground/70 font-sans">
-              Bergabunglah dengan jaringan analis dan otoritas daerah untuk mewujudkan Aceh yang tangguh dan siap siaga banjir.
+              Masuk untuk melihat peta, analisis, dan prediksi dalam satu alur kerja.
             </p>
             <div className="relative z-10 flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center">
               <Button asChild className="h-14 w-full rounded-[16px] border-none bg-white px-8 text-xs font-black uppercase tracking-widest text-primary shadow-xl shadow-white/5 transition-all hover:-translate-y-0.5 active:translate-y-0 sm:w-auto">

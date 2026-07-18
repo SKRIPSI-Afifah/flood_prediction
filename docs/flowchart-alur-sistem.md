@@ -36,5 +36,4 @@ Hasil yang tersimpan kemudian digunakan kembali oleh modul penyajian informasi. 
 
 ## File Diagram
 
-- Versi vektor: [flowchart-alur-sistem-akademik.svg](./flowchart-alur-sistem-akademik.svg)
-- Versi raster: [flowchart-alur-sistem-akademik.png](./flowchart-alur-sistem-akademik.png)
+- Versi gambar: [activity-diagram-sistem.svg](./activity-diagram-sistem.svg)

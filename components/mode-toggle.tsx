@@ -19,6 +19,7 @@ export function ModeToggle() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button 
+          id="theme-menu-trigger"
           variant="outline" 
           size="icon" 
           className="size-11 rounded-full bg-surface-container-low border-none shadow-sm hover:bg-surface-container-high transition-all duration-300 outline-none"

@@ -81,7 +81,7 @@ export default async function DashboardLayout({
         } as React.CSSProperties
       }
     >
-      <AppSidebar userProfile={profile} userEmail={email} />
+      <AppSidebar userProfile={profile ?? undefined} userEmail={email} />
       <SidebarInset>
         {children}
       </SidebarInset>

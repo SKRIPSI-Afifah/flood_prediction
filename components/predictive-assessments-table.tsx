@@ -167,9 +167,6 @@ export function PredictiveAssessmentsTable({ rows }: PredictiveAssessmentsTableP
                   <TableCell className="px-6 py-5">
                     <div className="space-y-1">
                       <p className="text-sm font-bold text-on-surface">{formatDateTime(row.created_at)}</p>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-on-surface-variant/40">
-                        ID {row.id}
-                      </p>
                     </div>
                   </TableCell>
                   <TableCell className="px-6 py-5">
