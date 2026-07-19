@@ -44,12 +44,6 @@ const data = {
       roles: ["admin", "user"],
     },
     {
-      title: "Manajemen Pengguna",
-      url: "/dashboard/user-management",
-      icon: <UsersIcon />,
-      roles: ["admin"],
-    },
-    {
       title: "Prediksi",
       url: "/dashboard/prediction",
       icon: <ZapIcon />,

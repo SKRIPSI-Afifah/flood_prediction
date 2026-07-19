@@ -67,7 +67,7 @@ export default async function DashboardLayout({
 
   // Simple protection for admin routes
   if (role !== "admin" && user) {
-      const adminRoutes = ["/dashboard/user-management", "/dashboard/data-management"]
+      const adminRoutes = ["/dashboard/data-management"]
       if (adminRoutes.some(route => pathname.startsWith(route))) {
           redirect("/dashboard")
       }

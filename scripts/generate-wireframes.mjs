@@ -110,7 +110,7 @@ function listBlock(x, y, items, width, rowH = 36) {
 }
 
 function appSidebar(x, y, w, h, active) {
-  const items = ["Beranda", "Manajemen Pengguna", "Prediksi", "Peta GIS", "Riwayat"]
+  const items = ["Beranda", "Prediksi", "Peta GIS", "Riwayat"]
   let out = ""
   out += rect(x, y, w, h, { rx: 24, fill: COLORS.paper, stroke: COLORS.line, sw: 2 })
   out += rect(x + 16, y + 16, w - 32, 82, { rx: 18, fill: COLORS.panel, stroke: COLORS.line, sw: 2 })
@@ -386,33 +386,6 @@ function gisMapPage(style) {
   }, style)
 }
 
-function userManagementPage(style) {
-  return shellWithSidebar("User Management Page", "Manajemen Pengguna", (x, y, w) => {
-    let out = ""
-    out += rect(x, y, w, 118, { rx: 22, fill: COLORS.paper, stroke: COLORS.line, sw: 2 })
-    out += rect(x + 24, y + 28, 280, 52, { rx: 16, fill: COLORS.paper, stroke: COLORS.line, sw: 2 })
-    out += rect(x + 320, y + 28, 180, 52, { rx: 16, fill: COLORS.paper, stroke: COLORS.line, sw: 2 })
-    out += rect(x + w - 220, y + 28, 196, 52, { rx: 16, fill: COLORS.line, stroke: COLORS.line, sw: 2 })
-    out += text(x + w - 122, y + 61, "Tambah Pengguna", "micro", "middle", "#fff")
-    out += rect(x, y + 142, w, 690, { rx: 22, fill: COLORS.paper, stroke: COLORS.line, sw: 2 })
-    out += text(x + 24, y + 184, "Tabel Pengguna", "section")
-    out += line(x + 24, y + 220, x + w - 24, y + 220, { stroke: COLORS.soft, sw: 2 })
-    for (let i = 0; i < 5; i++) {
-      const yy = y + 258 + i * 96
-      out += line(x + 24, yy + 68, x + w - 24, yy + 68, { stroke: "#e6e9ef", sw: 2 })
-      out += circle(x + 54, yy + 34, 18, { fill: COLORS.alt, stroke: COLORS.line, sw: 2 })
-      out += rect(x + w - 212, yy + 16, 76, 36, { rx: 12, fill: COLORS.paper, stroke: COLORS.line, sw: 2 })
-      out += rect(x + w - 126, yy + 16, 76, 36, { rx: 12, fill: COLORS.paper, stroke: COLORS.line, sw: 2 })
-    }
-    out += text(x + 84, y + 292, "Nama user / avatar", "micro")
-    out += text(x + 420, y + 292, "Role", "micro")
-    out += text(x + 680, y + 292, "Created", "micro")
-    out += text(x + w - 212, y + 292, "Edit", "micro")
-    out += text(x + w - 126, y + 292, "Delete", "micro")
-    return out
-  }, style)
-}
-
 function settingsPage(style) {
   return shellWithSidebar("Settings Page", "Beranda", (x, y, w) => {
     let out = ""
@@ -440,7 +413,6 @@ const variants = [
       ["05-prediction", predictionPage("detail")],
       ["06-history", historyPage("detail")],
       ["07-gis-map", gisMapPage("detail")],
-      ["08-user-management", userManagementPage("detail")],
       ["09-settings", settingsPage("detail")],
     ],
   },
@@ -455,7 +427,6 @@ const variants = [
       ["05-prediction", predictionPage("report")],
       ["06-history", historyPage("report")],
       ["07-gis-map", gisMapPage("report")],
-      ["08-user-management", userManagementPage("report")],
       ["09-settings", settingsPage("report")],
     ],
   },
