@@ -97,10 +97,6 @@ export function PredictiveAssessmentsTable({ rows }: PredictiveAssessmentsTableP
                     <p className="text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">Curah hujan</p>
                     <p className="mt-1 font-semibold text-on-surface">{formatNumber(row.rainfall, 1)} mm</p>
                   </div>
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">Risk score</p>
-                    <p className="mt-1 font-semibold text-on-surface">{formatNumber(row.risk_score, 2)}</p>
-                  </div>
                 </div>
 
                 <div className="mt-4 flex items-center justify-between gap-3">
@@ -148,9 +144,6 @@ export function PredictiveAssessmentsTable({ rows }: PredictiveAssessmentsTableP
               <TableHead className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
                 Confidence
               </TableHead>
-              <TableHead className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
-                Risk score
-              </TableHead>
               <TableHead className="px-6 py-4 text-right text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">
                 Aksi
               </TableHead>
@@ -197,9 +190,6 @@ export function PredictiveAssessmentsTable({ rows }: PredictiveAssessmentsTableP
                   </TableCell>
                   <TableCell className="px-6 py-5 text-sm font-semibold text-on-surface-variant">
                     {formatProbability(row.confidence)}
-                  </TableCell>
-                  <TableCell className="px-6 py-5 text-sm font-semibold text-on-surface-variant">
-                    {formatNumber(row.risk_score, 2)}
                   </TableCell>
                   <TableCell className="px-6 py-5 text-right">
                     <PredictionDetailDialog row={row}>

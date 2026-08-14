@@ -320,7 +320,6 @@ export default async function HistoryPage({ searchParams }: { searchParams?: Sea
                       <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">Lahan terbangun</th>
                       <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">Prediksi</th>
                       <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">Confidence</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">Risk score</th>
                       <th className="px-6 py-4 text-right text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant/50">Detail</th>
                     </tr>
                   </thead>
@@ -358,7 +357,6 @@ export default async function HistoryPage({ searchParams }: { searchParams?: Sea
                             </Badge>
                           </td>
                           <td className="px-6 py-5 text-sm font-medium text-on-surface-variant">{formatProbability(row.confidence)}</td>
-                          <td className="px-6 py-5 text-sm font-medium text-on-surface-variant">{formatNumber(row.risk_score, 2)}</td>
                           <td className="px-6 py-5 text-right">
                             <PredictionDetailDialog row={row}>
                               <Button variant="ghost" size="sm" className="rounded-full text-[10px] font-black uppercase tracking-[0.18em] text-primary">

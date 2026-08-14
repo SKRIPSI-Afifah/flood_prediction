@@ -146,13 +146,6 @@ export async function POST(request: Request) {
         ? normalizeProbability(data.confidence)
         : probabilityMap[predictedClass]
 
-    const riskScore =
-      typeof data?.risk_score === "number"
-        ? data.risk_score
-        : confidence !== null
-          ? Math.round(confidence * 100)
-          : null
-
     const hujanMm = payload.hujan_mm as number
     const elevasi = payload.elevasi as number
     const slope = payload.slope as number
@@ -166,7 +159,6 @@ export async function POST(request: Request) {
       lahan_terbangun: lahanTerbangun,
       predicted_class: predictedClass,
       confidence,
-      risk_score: riskScore,
       probabilities: probabilityMap,
     })
 
@@ -175,7 +167,6 @@ export async function POST(request: Request) {
       prediksi: predictedClass,
       confidence,
       probabilities: probabilityMap,
-      risk_score: riskScore,
       description: typeof data?.description === "string" ? data.description : null,
       saved: true,
       prediction: savedPrediction,

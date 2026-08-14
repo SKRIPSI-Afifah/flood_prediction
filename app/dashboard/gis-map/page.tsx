@@ -1,6 +1,6 @@
 "use client"
 
-import { LucideSearch, LucideLayers, LucideMapPin, LucideX, LucideCloudRain, LucideSend, LucidePlus, LucideMinus, LucideZap, LucideLayoutDashboard, LucideInfo, LucideFilter, LucideHelpCircle } from "lucide-react"
+import { LucideSearch, LucideLayers, LucideMapPin, LucideX, LucideCloudRain, LucidePlus, LucideMinus, LucideZap, LucideLayoutDashboard, LucideInfo, LucideFilter, LucideHelpCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import dynamic from "next/dynamic"
@@ -62,72 +62,46 @@ export default function GISMapPage() {
     return key ? props[key]?.trim() : "-"
   }
 
-  const getRiskScore = (props: any) => {
-    if (!props) return 0
-    const label = getStatus(props)
-    const totalBanjir = props['klasifikasi banjir perkecamatan_total_jumlah_banjir'] || 0
-    
-    let base = 25
-    if (label === 'Rawan') base = 65
-    if (label === 'Sangat Rawan') base = 88
-    
-    // Add realistic variation
-    const variance = (totalBanjir * 1.5) % 10
-    return Math.min(99.4, +(base + variance).toFixed(1))
-  }
-
   const getFactors = (props: any) => {
     if (!props) return []
 
     const hujan = props['klasifikasi banjir perkecamatan_rata_hujan_mm'] || 0
     const elevasi = props['klasifikasi banjir perkecamatan_rata_elevasi'] || 0
     const slope = props['klasifikasi banjir perkecamatan_rata_slope'] || 0
-    const ndvi = props['klasifikasi banjir perkecamatan_rata_ndvi'] || 0
     const lahan = props['klasifikasi banjir perkecamatan_rata_lahan_terbangun'] || 0
 
-    const list = []
-
-    list.push({
-      id: 'hujan',
-      icon: <LucideCloudRain className="size-5" />,
-      title: hujan > 220 ? "Curah Hujan Tinggi" : "Curah Hujan Normal",
-      desc: `Curah hujan rata-rata bulanan ${hujan.toFixed(1)} mm. ${hujan > 220 ? "Melebihi ambang batas penampungan wilayah." : "Masih dalam kapasitas tampung alami."}`,
-      isCritical: hujan > 220,
-    })
-
-    list.push({
-      id: 'elevasi',
-      icon: <LucideLayers className="size-5" />,
-      title: elevasi < 75 ? "Elevasi Rendah (Dataran)" : "Elevasi Tinggi (Perbukitan)",
-      desc: `Ketinggian rata-rata ${elevasi.toFixed(1)} m dpl. ${elevasi < 75 ? "Mempermudah akumulasi air kiriman dari hulu." : "Mengurangi risiko genangan air menetap."}`,
-      isCritical: elevasi < 75,
-    })
-
-    list.push({
-      id: 'slope',
-      icon: <LucideMinus className="size-5" />,
-      title: slope < 12 ? "Kelerengan Landai" : "Kelerengan Curam",
-      desc: `Sudut kemiringan ${slope.toFixed(1)}Â°. ${slope < 12 ? "Aliran air lambat sehingga memicu genangan yang lama." : "Limpasan air cepat namun aman dari genangan."}`,
-      isCritical: slope < 12,
-    })
-
-    const isLahanTinggi = lahan > 0.01 // 1%
-    list.push({
-      id: 'lahan',
-      icon: <LucideMapPin className="size-5" />,
-      title: isLahanTinggi ? "Resapan Terganggu" : "Kapasitas Resapan Alami",
-      desc: `Lahan terbangun ${(lahan * 100).toFixed(2)}% dengan NDVI (Vegetasi) ${ndvi.toFixed(2)}. ${isLahanTinggi ? "Betonisasi mengurangi daya resap permukaan." : "Tutupan vegetasi alami menjaga penyerapan air."}`,
-      isCritical: isLahanTinggi,
-    })
-
-    return list
+    return [
+      {
+        id: 'hujan',
+        icon: <LucideCloudRain className="size-5" />,
+        title: 'Curah Hujan',
+        desc: `Rata-rata curah hujan bulanan: ${hujan.toFixed(1)} mm`,
+      },
+      {
+        id: 'elevasi',
+        icon: <LucideLayers className="size-5" />,
+        title: 'Elevasi',
+        desc: `Rata-rata elevasi wilayah: ${elevasi.toFixed(1)} meter`,
+      },
+      {
+        id: 'slope',
+        icon: <LucideMinus className="size-5" />,
+        title: 'Kemiringan Lereng',
+        desc: `Nilai kemiringan lereng: ${slope.toFixed(1)}`,
+      },
+      {
+        id: 'lahan',
+        icon: <LucideMapPin className="size-5" />,
+        title: 'Tutupan Lahan Terbangun',
+        desc: `Persentase area terbangun: ${(lahan * 100).toFixed(2)}%`,
+      },
+    ]
   }
 
   const props = selectedFeature?.properties
   const name = props?.ADM3_EN || props?.kecamatan || "Pilih Wilayah"
   const regency = props?.ADM2_EN || "Aceh"
   const riskLabel = getStatus(props)
-  const riskScore = getRiskScore(props)
   const totalBanjir = props?.['klasifikasi banjir perkecamatan_total_jumlah_banjir'] || 0
   const factors = getFactors(props)
 
@@ -167,7 +141,7 @@ export default function GISMapPage() {
                 className={`h-12 px-6 rounded-2xl flex items-center gap-3 font-bold text-xs uppercase tracking-widest transition-all shadow-lg border-2 ${showLegend ? 'bg-primary text-primary-foreground border-primary' : 'bg-surface text-primary border-surface-container hover:bg-surface-container-lowest'}`}
               >
                 <LucideInfo className="size-4" />
-                <span>Indeks Risiko</span>
+                <span>Legenda</span>
               </button>
 
               {activeFactorFilter && (
@@ -208,84 +182,54 @@ export default function GISMapPage() {
                 </div>
 
                 <div className="p-6 sm:p-8 space-y-8">
-                  <div className="grid grid-cols-2 gap-8 border-b border-surface-container pb-8">
-                    <div className="space-y-1">
-                      <p className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em]">Estimasi Risiko</p>
-                      <div className="flex items-baseline gap-1">
-                          <p className={`text-4xl font-black ${riskLabel === "Sangat Rawan" ? "text-error" : riskLabel === "Rawan" ? "text-tertiary" : "text-secondary"}`}>{riskScore}%</p>
+                  <div className="space-y-3">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="min-w-0">
+                        <p className="text-[9px] font-black uppercase tracking-[0.22em] text-primary/60">Wilayah Terpilih</p>
+                        <h2 className="mt-1 text-2xl font-black uppercase tracking-tight text-on-surface leading-tight">{name}</h2>
+                        <p className="mt-1 text-[11px] font-semibold text-on-surface-variant/60">{regency}</p>
                       </div>
+                      <Badge className={`shrink-0 border-none px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] ${riskLabel === "Sangat Rawan" ? "bg-error text-error-foreground" : riskLabel === "Rawan" ? "bg-tertiary text-tertiary-foreground" : "bg-secondary text-secondary-foreground"}`}>
+                        {riskLabel}
+                      </Badge>
                     </div>
-                    <div className="space-y-1">
-                      <p className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em]">Total Banjir</p>
-                      <div className="flex items-baseline gap-1">
-                          <p className="text-4xl font-black text-primary">{totalBanjir}</p>
-                          <span className="text-xs font-black text-primary opacity-60">kali</span>
+
+                    <div className="rounded-3xl border border-surface-container bg-surface-container-low p-4">
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">Riwayat Kejadian Banjir</p>
+                      <div className="mt-2 flex items-end justify-between gap-4">
+                        <p className="text-3xl font-black text-primary">{totalBanjir}</p>
                       </div>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[10px] font-black text-on-surface-variant/60 uppercase tracking-widest">Tingkat Kerawanan</span>
-                      <Badge className={`border-none font-black text-[9px] uppercase px-4 py-1 tracking-widest ${
-                        riskLabel === "Sangat Rawan" 
-                          ? "bg-error text-error-foreground" 
-                          : riskLabel === "Rawan" 
-                          ? "bg-tertiary text-tertiary-foreground" 
-                          : "bg-secondary text-secondary-foreground"
-                      }`}>{riskLabel}</Badge>
-                    </div>
-                    <div className="h-3 w-full bg-surface-container rounded-full overflow-hidden shadow-inner">
-                      <div className={`h-full rounded-full shadow-lg ${
-                        riskLabel === "Sangat Rawan" ? "bg-error" : riskLabel === "Rawan" ? "bg-tertiary" : "bg-secondary"
-                      }`} style={{ width: `${riskScore}%` }}></div>
+                      <p className="mt-1 text-[11px] font-semibold text-on-surface-variant/55">Periode data historis 2021-2025</p>
                     </div>
                   </div>
 
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <h4 className="text-[10px] font-black text-primary uppercase tracking-widest opacity-60">Faktor Pemicu</h4>
+                      <h4 className="text-[10px] font-black text-primary uppercase tracking-widest opacity-60">Parameter Wilayah</h4>
                       <span className="text-[9px] font-bold text-on-surface-variant/40 flex items-center gap-1">
-                        <LucideFilter className="size-3" /> Klik faktor untuk filter peta
+                        <LucideFilter className="size-3" /> Klik kartu untuk filter peta
                       </span>
                     </div>
-                    <div className="space-y-3">
+                    <div className="grid gap-3 sm:grid-cols-2">
                       {factors.map((item) => (
                         <div 
                           key={item.id} 
                           onClick={() => setActiveFactorFilter(activeFactorFilter === item.id ? null : item.id)}
-                          className={`p-5 rounded-3xl flex items-start gap-4 border-2 transition-all cursor-pointer hover:border-primary/50 ${
-                            activeFactorFilter === item.id 
-                              ? 'bg-primary/5 border-primary shadow-md scale-[1.02]' 
-                              : 'bg-surface-container-lowest border-surface-container'
-                          }`}
+                          className={`rounded-3xl border-2 p-4 transition-all cursor-pointer ${activeFactorFilter === item.id ? 'border-primary bg-primary/5 shadow-md' : 'border-surface-container bg-surface-container-lowest hover:border-primary/30'}`}
                         >
-                          <div className={`size-10 rounded-xl flex items-center justify-center shrink-0 ${
-                            item.isCritical ? "bg-error/10 text-error" : "bg-secondary/10 text-secondary"
-                          }`}>
-                            {item.icon}
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between">
-                              <p className="text-xs font-black text-on-surface uppercase tracking-tight">{item.title}</p>
-                              {item.isCritical && (
-                                <Badge className="bg-error/10 text-error border-none text-[8px] font-black scale-90">kritis</Badge>
-                              )}
+                          <div className="flex items-start gap-3">
+                            <div className="size-10 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center shrink-0">
+                              {item.icon}
                             </div>
-                            <p className="text-[10px] font-bold text-on-surface-variant/60 mt-1 leading-relaxed">{item.desc}</p>
+                            <div className="min-w-0">
+                              <p className="text-xs font-black text-on-surface uppercase tracking-tight">{item.title}</p>
+                              <p className="mt-1 text-[10px] font-medium text-on-surface-variant/60 leading-relaxed">{item.desc}</p>
+                            </div>
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
-
-                  <Button className="w-full h-14 bg-primary text-primary-foreground border-none font-black text-[11px] rounded-[24px] uppercase tracking-[0.15em] shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
-                    <span>Deploy Warning</span>
-                    <LucideSend className="size-4 -rotate-45" />
-                  </Button>
-                  
-                  {/* Extra Padding for scroll */}
-                  <div className="h-4"></div>
                 </div>
               </div>
             </div>
@@ -296,19 +240,18 @@ export default function GISMapPage() {
             {showLegend && (
           <div className="absolute bottom-6 left-6 z-[50] animate-in slide-in-from-left fade-in duration-300 max-w-[calc(100%-48px)]">
             <div className="bg-surface p-6 sm:p-8 rounded-[32px] sm:rounded-[40px] shadow-2xl border-2 border-surface-container min-w-[240px] sm:min-w-[280px]">
-              <h3 className="text-[10px] font-black text-primary mb-6 tracking-[0.2em] uppercase opacity-60">Indeks Risiko Banjir</h3>
+              <h3 className="text-[10px] font-black text-primary mb-6 tracking-[0.2em] uppercase opacity-60">Kelas Kerawanan Banjir</h3>
               <div className="space-y-4 sm:y-5">
                 {[
-                  { label: "SANGAT RAWAN", color: "bg-error shadow-error/30", range: "85-100%" },
-                  { label: "RAWAN", color: "bg-tertiary shadow-tertiary/30", range: "40-84%" },
-                  { label: "AMAN", color: "bg-secondary shadow-secondary/30", range: "0-39%" },
+                  { label: "SANGAT RAWAN", color: "bg-error shadow-error/30" },
+                  { label: "RAWAN", color: "bg-tertiary shadow-tertiary/30" },
+                  { label: "AMAN", color: "bg-secondary shadow-secondary/30" },
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center justify-between gap-4">
+                  <div key={i} className="flex items-center gap-4">
                     <div className="flex items-center gap-4">
                       <div className={`w-8 sm:w-10 h-2.5 sm:h-3 rounded-full ${item.color} shadow-lg`}></div>
                       <span className="text-[10px] sm:text-xs font-black text-primary uppercase tracking-wider">{item.label}</span>
                     </div>
-                    <span className="text-[10px] font-black text-on-surface-variant/40 uppercase">{item.range}</span>
                   </div>
                 ))}
               </div>

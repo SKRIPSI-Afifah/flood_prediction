@@ -156,7 +156,7 @@ export function ClassDistributionChart({ classCounts }: ClassDistributionChartPr
               Distribusi Prediksi
             </h3>
             <p className="text-[11px] font-semibold text-on-surface-variant/70">
-              Komposisi kelas dari data prediksi di database
+              Komposisi kelas dari data prediksi
             </p>
           </div>
           <div className="flex size-11 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/15">
@@ -266,7 +266,7 @@ export function ClassDistributionChart({ classCounts }: ClassDistributionChartPr
               Kecamatan dengan Prediksi Rawan Terbanyak
             </h3>
             <p className="text-[11px] font-semibold text-on-surface-variant/70">
-              Menampilkan wilayah dengan jumlah banjir tertinggi berdasarkan GeoJSON
+              Menampilkan wilayah dengan jumlah banjir tertinggi berdasarkan data historis
             </p>
           </div>
           <div className="flex size-11 items-center justify-center rounded-2xl bg-secondary-container text-on-secondary-container shadow-lg shadow-secondary/15">

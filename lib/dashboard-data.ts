@@ -25,7 +25,6 @@ export interface PredictionRow {
   built_area: number | null
   predicted_class: FloodRiskClass
   confidence: number | null
-  risk_score: number | null
   probability_aman: number | null
   probability_rawan: number | null
   probability_sangat_rawan: number | null
@@ -90,7 +89,6 @@ export interface PredictionInsertInput {
   lahan_terbangun: number
   predicted_class: FloodRiskClass
   confidence: number | null
-  risk_score: number | null
   probabilities: Record<FloodRiskClass, number | null>
 }
 
@@ -136,7 +134,6 @@ function normalizePredictionRow(row: Record<string, unknown>): PredictionRow {
     built_area: toNumber(row.built_area),
     predicted_class: formatClassLabel(String(row.predicted_class ?? "")),
     confidence: toProbability(row.confidence),
-    risk_score: toNumber(row.risk_score),
     probability_aman: null,
     probability_rawan: null,
     probability_sangat_rawan: null,
@@ -187,7 +184,7 @@ async function loadPredictionsForUser(supabase: SupabaseClient, userId: string, 
   let query = supabase
     .from("predictions")
     .select(
-      "id,user_id,adm3_pcode,rainfall,elevation,slope,built_area,predicted_class,confidence,risk_score,created_at"
+      "id,user_id,adm3_pcode,rainfall,elevation,slope,built_area,predicted_class,confidence,created_at"
     )
     .eq("user_id", userId)
     .order("created_at", { ascending: false })
@@ -295,7 +292,7 @@ export async function loadHistorySummary(
       let query = supabase
         .from("predictions")
         .select(
-          "id,user_id,adm3_pcode,rainfall,elevation,slope,built_area,predicted_class,confidence,risk_score,created_at",
+          "id,user_id,adm3_pcode,rainfall,elevation,slope,built_area,predicted_class,confidence,created_at",
           { count: "exact" }
         )
         .eq("user_id", userId)
@@ -375,7 +372,7 @@ export async function loadPredictionDetail(supabase: SupabaseClient, userId: str
   const { data, error } = await supabase
     .from("predictions")
     .select(
-      "id,user_id,adm3_pcode,rainfall,elevation,slope,built_area,predicted_class,confidence,risk_score,created_at"
+      "id,user_id,adm3_pcode,rainfall,elevation,slope,built_area,predicted_class,confidence,created_at"
     )
     .eq("user_id", userId)
     .eq("id", id)
@@ -421,14 +418,13 @@ export async function savePredictionHistory(
     built_area: input.lahan_terbangun,
     predicted_class: input.predicted_class,
     confidence: input.confidence,
-    risk_score: input.risk_score,
   }
 
   const { data, error } = await supabase
     .from("predictions")
     .insert(record)
     .select(
-      "id,user_id,adm3_pcode,rainfall,elevation,slope,built_area,predicted_class,confidence,risk_score,created_at"
+      "id,user_id,adm3_pcode,rainfall,elevation,slope,built_area,predicted_class,confidence,created_at"
     )
     .single()
 

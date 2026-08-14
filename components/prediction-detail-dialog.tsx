@@ -52,7 +52,6 @@ export function PredictionDetailDialog({ row, children }: PredictionDetailDialog
             <DetailItem label="Slope" value={`${formatNumber(row.slope, 2)} %`} />
             <DetailItem label="Lahan Terbangun" value={`${formatPercent(row.built_area)}`} />
             <DetailItem label="Confidence" value={formatProbability(row.confidence)} />
-            <DetailItem label="Risk Score" value={formatNumber(row.risk_score, 2)} />
           </div>
 
           <Separator />

@@ -30,7 +30,7 @@ Response sukses `200`:
 
 Tujuan:
 - Menerima input faktor banjir.
-- Menghasilkan kelas prediksi, confidence, risk score, dan probabilitas kelas.
+- Menghasilkan kelas prediksi, confidence, dan probabilitas kelas.
 
 Request body:
 ```json
@@ -55,7 +55,6 @@ Response sukses `200`:
 {
   "predicted_class": "Rawan",
   "confidence": 0.8234,
-  "risk_score": 61.2,
   "description": "Risiko banjir sedang. Perlu kewaspadaan saat curah hujan meningkat.",
   "probabilities": {
     "Aman": 0.1021,
@@ -68,7 +67,6 @@ Response sukses `200`:
 Field response:
 - `predicted_class` `string`
 - `confidence` `number`
-- `risk_score` `number`
 - `description` `string`
 - `probabilities` `object`
   - `Aman` `number`
@@ -123,7 +121,6 @@ Response sukses `200`:
     "Rawan": 0.8234,
     "Sangat Rawan": 0.0745
   },
-  "risk_score": 61.2,
   "description": "Risiko banjir sedang. Perlu kewaspadaan saat curah hujan meningkat.",
   "saved": true,
   "prediction": {
@@ -139,7 +136,6 @@ Response sukses `200`:
     "built_area": 0.327,
     "predicted_class": "Rawan",
     "confidence": 0.8234,
-    "risk_score": 61.2,
     "probability_aman": 0.1021,
     "probability_rawan": 0.8234,
     "probability_sangat_rawan": 0.0745,
@@ -154,7 +150,6 @@ Field response:
 - `prediksi` `string`
 - `confidence` `number | null`
 - `probabilities` `object`
-- `risk_score` `number | null`
 - `description` `string | null`
 - `saved` `boolean`
 - `prediction` object hasil insert ke Supabase
@@ -254,7 +249,6 @@ Field row riwayat:
 - `built_area`
 - `predicted_class`
 - `confidence`
-- `risk_score`
 - `probability_aman`
 - `probability_rawan`
 - `probability_sangat_rawan`
@@ -319,7 +313,6 @@ Kolom yang dipakai:
 - `built_area`
 - `predicted_class`
 - `confidence`
-- `risk_score`
 - `probability_aman`
 - `probability_rawan`
 - `probability_sangat_rawan`

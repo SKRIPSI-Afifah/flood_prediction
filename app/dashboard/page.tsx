@@ -35,7 +35,6 @@ type DashboardApiResponse = {
     built_area: number | null
     predicted_class: "Aman" | "Rawan" | "Sangat Rawan"
     confidence: number | null
-    risk_score: number | null
     probability_aman: number | null
     probability_rawan: number | null
     probability_sangat_rawan: number | null
@@ -55,7 +54,6 @@ type DashboardApiResponse = {
     built_area: number | null
     predicted_class: "Aman" | "Rawan" | "Sangat Rawan"
     confidence: number | null
-    risk_score: number | null
     probability_aman: number | null
     probability_rawan: number | null
     probability_sangat_rawan: number | null
@@ -99,7 +97,7 @@ export default async function Page() {
     const riskDelta = riskPriority[b.predicted_class] - riskPriority[a.predicted_class]
     if (riskDelta !== 0) return riskDelta
 
-    return (b.risk_score ?? 0) - (a.risk_score ?? 0)
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
   })[0]
 
   const cards = [

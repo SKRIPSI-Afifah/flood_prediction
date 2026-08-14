@@ -56,7 +56,6 @@ interface PredictionResult {
   built_area: number
   predicted_class: string
   confidence: number
-  risk_score: number
   description: string
   timestamp: string
   probabilities: Record<string, number>
@@ -561,8 +560,6 @@ export default function PredictionPage() {
         typeof data.confidence === "number"
           ? data.confidence
           : probabilities[predictedClass] ?? 0
-      const riskScore =
-        typeof data.risk_score === "number" ? data.risk_score : Math.round(confidence * 100)
       const description =
         data.description ||
         styles.desc ||
@@ -578,7 +575,6 @@ export default function PredictionPage() {
         built_area: selectedKecamatan.lahan_terbangun,
         predicted_class: predictedClass,
         confidence,
-        risk_score: riskScore,
         description,
         timestamp: new Date().toLocaleString("id-ID", {
           day: "2-digit",
@@ -639,7 +635,7 @@ export default function PredictionPage() {
         <DashboardHero
           eyebrow="Simulasi Prediksi"
           title="Prediksi Risiko Banjir"
-          description="Pilih wilayah, isi curah hujan, lalu jalankan simulasi untuk melihat skor risiko, confidence, dan integrasi peta spasial."
+          description="Pilih wilayah, isi curah hujan, lalu jalankan simulasi untuk melihat confidence, probabilitas kelas, dan integrasi peta spasial."
           actions={
             <div className="flex flex-wrap items-center gap-3">
               <div className="rounded-full border border-border/60 bg-surface px-4 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-on-surface-variant">
@@ -961,45 +957,23 @@ export default function PredictionPage() {
                   </p>
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-2xl border border-border/60 bg-surface-container-low p-4">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
-                      Confidence
-                    </p>
-                    <div className="mt-3 flex items-end justify-between gap-3">
-                      <span className={`text-3xl font-black ${currentStyles.text}`}>
-                        {(result.confidence * 100).toFixed(1)}%
-                      </span>
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
-                        Skor keyakinan
-                      </span>
-                    </div>
-                    <div className="mt-4 h-3 rounded-full bg-surface-container p-0.5 shadow-inner">
-                      <div
-                        className={`h-full rounded-full transition-all duration-1000 ease-out ${currentStyles.bar}`}
-                        style={{ width: `${result.confidence * 100}%` }}
-                      />
-                    </div>
+                <div className="rounded-2xl border border-border/60 bg-surface-container-low p-4">
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
+                    Confidence
+                  </p>
+                  <div className="mt-3 flex items-end justify-between gap-3">
+                    <span className={`text-3xl font-black ${currentStyles.text}`}>
+                      {(result.confidence * 100).toFixed(1)}%
+                    </span>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
+                      Skor keyakinan
+                    </span>
                   </div>
-
-                  <div className="rounded-2xl border border-border/60 bg-surface-container-low p-4">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
-                      Risk Score
-                    </p>
-                    <div className="mt-3 flex items-end justify-between gap-3">
-                      <span className={`text-3xl font-black ${currentStyles.text}`}>
-                        {result.risk_score}
-                      </span>
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant/50">
-                        Indeks risiko
-                      </span>
-                    </div>
-                    <div className="mt-4 h-3 rounded-full bg-surface-container p-0.5 shadow-inner">
-                      <div
-                        className={`h-full rounded-full transition-all duration-1000 ease-out ${currentStyles.bar}`}
-                        style={{ width: `${Math.min(result.risk_score, 100)}%` }}
-                      />
-                    </div>
+                  <div className="mt-4 h-3 rounded-full bg-surface-container p-0.5 shadow-inner">
+                    <div
+                      className={`h-full rounded-full transition-all duration-1000 ease-out ${currentStyles.bar}`}
+                      style={{ width: `${result.confidence * 100}%` }}
+                    />
                   </div>
                 </div>
 
@@ -1155,7 +1129,6 @@ export default function PredictionPage() {
                         built_area: result.built_area,
                         predicted_class: result.predicted_class,
                         confidence: result.confidence,
-                        risk_score: result.risk_score,
                         description: result.description,
                       }
                     : null

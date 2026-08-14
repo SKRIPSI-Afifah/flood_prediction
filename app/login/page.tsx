@@ -46,7 +46,7 @@ export default function LoginPage() {
               </div>
               <div className="space-y-4">
                 <h1 className="text-4xl font-black uppercase tracking-tighter text-primary sm:text-5xl">
-                  Sentinel Hydro
+                  FloodRisk Aceh
                 </h1>
                 <p className="max-w-lg text-sm font-medium leading-relaxed text-on-surface-variant sm:text-base">
                   Masuk untuk mengakses dashboard prediksi, peta risiko, dan log simulasi banjir dalam satu panel terpadu.

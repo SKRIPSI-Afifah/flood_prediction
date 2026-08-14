@@ -22,7 +22,6 @@ interface PredictionMapProps {
     built_area: number
     predicted_class: string
     confidence: number
-    risk_score: number
     description?: string
   } | null
 }
@@ -195,10 +194,6 @@ export default function PredictionMap({
                   <div className="flex justify-between">
                     <span className="opacity-50">CONFIDENCE:</span>
                     <span>{(popupInfo.confidence * 100).toFixed(1)}%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="opacity-50">RISK SCORE:</span>
-                    <span className="font-black text-primary">{popupInfo.risk_score}</span>
                   </div>
                   {popupInfo.description && (
                     <div className="pt-2 border-t mt-2 text-[11px] leading-relaxed opacity-80">

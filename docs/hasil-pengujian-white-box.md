@@ -25,7 +25,6 @@ Tabel 4.xx di bawah menunjukkan kode program yang digunakan sebagai objek *White
 | `class_probabilities = {...}` | 13 |
 | `prediction_probability = round(...)` | 14 |
 | `confidence_val = prediction_probability` | 15 |
-| `risk_score_val = build_score(class_probabilities)` | 16 |
 | `return PredictionResponse(...)` | 17 |
 | `except FileNotFoundError` / `raise HTTPException(status_code=500, ...)` | 18 |
 
@@ -50,7 +49,6 @@ Tabel 4.xx menampilkan tahapan kode program pada fitur prediksi banjir, sedangka
 | 13 | Menyusun kamus probabilitas per kelas. |
 | 14 | Mengambil probabilitas kelas hasil prediksi. |
 | 15 | Menetapkan nilai confidence. |
-| 16 | Menghitung nilai risk score. |
 | 17 | Mengembalikan respons prediksi. |
 | 18 | Menangani error jika file model tidak ditemukan. |
 
@@ -78,8 +76,7 @@ flowchart TD
     L --> M[model.predict_proba]
     M --> N[Build class_probabilities]
     N --> O[Set confidence_val]
-    O --> P[Build risk_score_val]
-    P --> Q[Return PredictionResponse]
+    O --> P[Return PredictionResponse]
     B --> R[Except FileNotFoundError]
     R --> S[Raise 500]
     Z --> T([End])
@@ -103,10 +100,10 @@ Path 4 = `Start -> Try -> Load artifacts berhasil -> Validasi slope gagal -> Ret
 
 Path 5 = `Start -> Try -> Load artifacts berhasil -> Validasi lahan_terbangun gagal -> Return 422 -> End`
 
-Path 6 = `Start -> Try -> Load artifacts berhasil -> Seluruh validasi lolos -> Proses imputasi -> Prediksi model -> Probabilitas -> Confidence -> Risk score -> Return hasil prediksi -> End`
+Path 6 = `Start -> Try -> Load artifacts berhasil -> Seluruh validasi lolos -> Proses imputasi -> Prediksi model -> Probabilitas -> Confidence -> Return hasil prediksi -> End`
 
 Path 7 = `Start -> Exception tak terduga -> Return 500 -> End`
 
 Tabel 4.xx merupakan *flowgraph* yang menggambarkan alur proses prediksi banjir pada sistem. Berdasarkan perhitungan menggunakan rumus `V(G) = E - N + 2`, diperoleh nilai *Cyclomatic Complexity* sebesar `7`, sehingga terdapat `7` jalur independen (*independent path*) yang harus diuji.
 
-Setiap jalur independen merepresentasikan kemungkinan alur eksekusi yang berbeda, mulai dari proses validasi input, pemuatan model, proses prediksi menggunakan algoritma XGBoost, perhitungan confidence dan risk score, hingga pengembalian hasil prediksi maupun penanganan kesalahan (*exception handling*). Dengan menguji seluruh jalur independen tersebut, dapat dipastikan bahwa setiap percabangan logika pada fungsi `predict()` telah berjalan sesuai dengan rancangan sistem.
+Setiap jalur independen merepresentasikan kemungkinan alur eksekusi yang berbeda, mulai dari proses validasi input, pemuatan model, proses prediksi menggunakan algoritma XGBoost, perhitungan confidence, hingga pengembalian hasil prediksi maupun penanganan kesalahan (*exception handling*). Dengan menguji seluruh jalur independen tersebut, dapat dipastikan bahwa setiap percabangan logika pada fungsi `predict()` telah berjalan sesuai dengan rancangan sistem.
